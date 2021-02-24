@@ -1,0 +1,39 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <link rel="stylesheet" href="http://formoid.com/articles/data/upload/theme/style.min.css">
+        <script src="chrome-extension://mooikfkahbdckldjjndioackbalphokd/assets/prompt.js"></script>
+    </head>
+
+    <body>
+    <header th:replace="fragments/navbar.html"/>
+        <section class="jumbotron text-center" style="background-color: cornflowerblue">
+            <div class="container">
+                <h1 class="jumbotron-heading" >ADD NEW PET</h1>
+            </div>
+        </section>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5">
+                    <form action="/cities/add" method="POST">
+                        <input id="id" type="hidden" name="id" th:value="(${pet} != null ? ${pet.getId()} : '')" >
+
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text"
+                                   class="form-control"
+                                   id="name"
+                                   name="name" required>
+                                  <!-- th:value="(${pet} != null ? ${pet.getAddress()} : '')"-->
+                        </div>
+
+
+                        <button id="submit" type="submit" class="btn btn-primary" style="background-color: cornflowerblue; border: none">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <footer th:replace="fragments/footer.html"/>
+    </body>
+</html>

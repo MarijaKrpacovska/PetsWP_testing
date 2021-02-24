@@ -1,0 +1,36 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <link rel="stylesheet" href="http://formoid.com/articles/data/upload/theme/style.min.css">
+        <script src="chrome-extension://mooikfkahbdckldjjndioackbalphokd/assets/prompt.js"></script>
+        <style>
+            td{
+                vertical-align: middle;
+            }
+        </style>
+    </head>
+    <body>
+        <header th:replace="fragments/navbar.html"/>
+        <div class="container" xmlns:th="http://www.thymeleaf.org">
+            <form class="form-signin mt-xl-5" method="post" action="/login">
+                <h2 class="form-signin-heading">Sign in</h2>
+                <p>
+                    <label for="username" class="sr-only">email</label>
+                    <input type="text" id="username" name="username" class="form-control" placeholder="username" required=""
+                           autofocus="">
+                </p>
+                <p>
+                    <label for="password" class="sr-only">Password</label>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Password"
+                           required="">
+                </p>
+
+                <div th:text="${param.error}" class="text-danger"></div>
+
+                <button id="submit" class="btn btn-lg btn-primary btn-block"type="submit">Sign in</button>
+            </form>
+            <a href="/register" class="btn btn-block btn-light">Register here</a>
+        </div>
+        <footer th:replace="fragments/footer.html"/>
+    </body>
+</html>

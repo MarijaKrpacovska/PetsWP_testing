@@ -1,0 +1,11 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<section class="features2 cid-qxWAQuan7h" id="features2-ph" data-rv-view="9966">
+    <ul th:each="petList : ${gradList}">
+        <li th:text="${petList.getIme()}"> </li>
+    </ul>
+</section>
+</body>
+</html>
