@@ -3,6 +3,7 @@ package mk.finki.ukim.milenichinja.Models;
 
 import lombok.Data;
 import mk.finki.ukim.milenichinja.Models.Enums.City;
+import mk.finki.ukim.milenichinja.Models.Enums.SocialMediaService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -24,6 +25,10 @@ public class AppUser implements UserDetails {
     private  String email;
     private String password;
     private ZonedDateTime startDate;
+    private String profilePicture;
+
+    @Enumerated(value = EnumType.STRING)
+    private SocialMediaService service;
 
     @Enumerated(value = EnumType.STRING)
     private Role role;
@@ -95,6 +100,20 @@ public class AppUser implements UserDetails {
         this.city = city;
         this.worksAt = new ArrayList<>();
         this.worksAt.addAll(worksAt);
+    }
+
+    public AppUser(String username, String name, String lastname, String email, String password, ZonedDateTime startDate, Role role, City city, List<Center> worksAt, SocialMediaService service) {
+        this.username = username;
+        this.name = name;
+        this.lastname = lastname;
+        this.email = email;
+        this.password = password;
+        this.startDate = startDate;
+        this.role = role;
+        this.city = city;
+        this.worksAt = new ArrayList<>();
+        this.worksAt.addAll(worksAt);
+        this.service = service;
     }
 
     public AppUser(String username, String name, String lastname, String email, String password, ZonedDateTime startDate, Role role, City city) {

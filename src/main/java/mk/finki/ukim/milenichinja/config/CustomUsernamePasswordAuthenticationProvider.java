@@ -31,13 +31,7 @@ public class CustomUsernamePasswordAuthenticationProvider implements Authenticat
 
         UserDetails userDetails = this.userService.loadUserByUsername(username);
 
-        //debug
-        String otherpass = userDetails.getPassword();
-        //debug
 
-        //debug
-        boolean proba=passwordEncoder.matches(password, userDetails.getPassword());
-        //debug
 
         if (!passwordEncoder.matches(password, userDetails.getPassword())) {
             throw new BadCredentialsException("Password is incorrect!");

@@ -1,8 +1,8 @@
 package mk.finki.ukim.milenichinja.config;
 
 
-import mk.finki.ukim.milenichinja.FacebookLogin.FacebookSignInAdapter;
 import mk.finki.ukim.milenichinja.Service.Impl.FacebookConnectionSignup;
+//import mk.finki.ukim.milenichinja.Service.Impl.TwitterConnectionSignup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -43,6 +43,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${spring.social.facebook.appId}")
     String appId;
 
+   /* @Autowired
+    private TwitterConnectionSignup twitterConnectionSignup;
+
+    @Value("${twitter.consumer.key}")
+    String tweeterAppSecret;
+
+    @Value("${twitter.consumer.secret}")
+    String tweeterAppId;*/
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -66,19 +75,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/login")
                 .and()
                 .exceptionHandling().accessDeniedPage("/home/access_denied");
+               // .and()
+                //.apply(new SpringSocialConfigurer());
 
     }
 
     @Bean
     public ProviderSignInController providerSignInController() {
-        ConnectionFactoryLocator connectionFactoryLocator =
-                connectionFactoryLocator();
-        UsersConnectionRepository usersConnectionRepository =
-                getUsersConnectionRepository(connectionFactoryLocator);
-        ((InMemoryUsersConnectionRepository) usersConnectionRepository)
-                .setConnectionSignUp(facebookConnectionSignup);
-        return new ProviderSignInController(connectionFactoryLocator,
+        ConnectionFactoryLocator connectionFactoryLocator = connectionFactoryLocator();
+        UsersConnectionRepository usersConnectionRepository = getUsersConnectionRepository(connectionFactoryLocator);
+        ((InMemoryUsersConnectionRepository) usersConnectionRepository).setConnectionSignUp(facebookConnectionSignup);
+        ProviderSignInController providerSignInController = new ProviderSignInController(connectionFactoryLocator,
                 usersConnectionRepository, new FacebookSignInAdapter());
+        providerSignInController.setPostSignInUrl("/petsList");
+        return providerSignInController;
     }
 
     private ConnectionFactoryLocator connectionFactoryLocator() {

@@ -36,7 +36,7 @@ public class LoginController {
             return "redirect:/petsList";
 
     }*/
-
+/*
     @PostMapping
     public String login(HttpServletRequest request, Model model) {
         AppUser user = null;
@@ -44,7 +44,7 @@ public class LoginController {
                 request.getParameter("password"));
         request.getSession().setAttribute("user", user);
         return "redirect:/petsList";
-    }
+    }*/
 
 
 }

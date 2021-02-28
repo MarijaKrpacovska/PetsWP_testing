@@ -1,4 +1,4 @@
-package mk.finki.ukim.milenichinja.FacebookLogin;
+package mk.finki.ukim.milenichinja.config;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -8,20 +8,18 @@ import org.springframework.social.connect.web.SignInAdapter;
 import org.springframework.web.context.request.NativeWebRequest;
 
 import java.util.Arrays;
-
-public class FacebookSignInAdapter implements SignInAdapter {
+/*
+public class TwitterSignInAdapter implements SignInAdapter {
 
     @Override
-    public String signIn( String localUserId,
-            Connection<?> connection,
-            NativeWebRequest request) {
+    public String signIn( String localUserId, Connection<?> connection, NativeWebRequest request) {
 
         SecurityContextHolder.getContext().setAuthentication(
-                new UsernamePasswordAuthenticationToken(
-                        connection.getDisplayName(), null,
+                new UsernamePasswordAuthenticationToken(connection.getDisplayName(), null,
                         Arrays.asList(new SimpleGrantedAuthority("FACEBOOK_USER"))));
 
         return null;
     }
 
 }
+*/

@@ -13,12 +13,15 @@
             body{
                 background-image: url(https://previews.123rf.com/images/cnuisin/cnuisin1806/cnuisin180600019/103217924-paw-seamless-pattern-dog-paw-cat-paw-bulldog-vector-isolated-background-wallpaper.jpg);
             }
-            .mb-4{
+            .classc{
                 background-color: white;
                 box-shadow: 0 0 50px rgba(0,0,0,0.8);
                 position: relative;
                 z-index: 10;
                 font-size: 30px;
+                width: 1560px;
+                margin-left: auto;
+                margin-right: auto;
             }
             .tableRow_adoptedPet_head{
                 font-size: 20px;
@@ -49,10 +52,10 @@
     <body>
         <header th:replace="fragments/navbar.html"/>
         <section class="features2 cid-qxWAQuan7h" id="features2-ph" data-rv-view="9966">
-            <div class="container mb-4">
+            <div class="classc">
                 <div class="row">
 
-                    <form id="filter-form">
+                    <form id="filter-form" style="margin-left: 40px">
 
                         <label for="petSearch">Pet</label>
                         <input id="petSearch" type="text" name="petSearch"/>
@@ -65,10 +68,19 @@
                             <table class="table table-striped">
                                 <thead>
                                 <tr class="tableRow_adoptedPet_head">
-                                    <th scope="col">PET:</th>
+                                    <th scope="col">PET ID:</th>
+                                    <th scope="col">NAME:</th>
+                                    <th scope="col">TYPE:</th>
+                                    <th scope="col">PET AGE:</th>
+                                    <th scope="col">PET GENDER:</th>
+                                    <th scope="col">PET BREED:</th>
+                                    <th scope="col">CENTER:</th>
+                                    <th scope="col">CITY:</th>
+                                    <th scope="col">ARRIVAL DATE:</th>
                                     <th scope="col">ADOPTION DATE:</th>
                                     <th scope="col">OWNER:</th>
                                     <th scope="col">CONTACT:</th>
+                                    <th scope="col">OWNER CITY:</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -79,15 +91,43 @@
                                         <strong>#</strong>
                                         <strong th:text="${pet.getId()}"></strong>
                                         <img class="petImg" th:src="${pet.getUrl()}" alt="Pet Image" title="" media-simple="true">
-                                        <strong th:text="${pet.getName()}"></strong>
-                                        <strong>(</strong>
-                                        <strong th:text="${pet.getType().name()}"></strong>
-                                        <strong>)</strong>
+                                    </td>
+
+                                    <td>
+                                        <strong  th:text="${pet.getName()}"></strong>
+                                    </td>
+
+                                    <td class="petTd">
+                                        <strong id="type" th:text="${pet.getType().name()}"></strong>
+                                    </td>
+
+                                    <td class="petId">
+                                        <strong id="age" th:text="${pet.getAge()}"></strong>
+                                    </td>
+
+                                    <td class="petId">
+                                        <strong id="gender" th:text="${pet.getGender().name()}"></strong>
+                                    </td>
+
+                                    <td class="petId">
+                                        <strong id="breed" th:text="${pet.getBreed()}"></strong>
+                                    </td>
+
+                                    <td class="petId">
+                                        <strong id="center" th:text="${pet.getCenter().getId()}"></strong>
+                                    </td>
+
+                                    <td class="petId">
+                                        <strong id="petCity" th:text="${pet.getCenter().getCity().name()}"></strong>
                                     </td>
                                     <!--Info about pet-->
 
+                                    <!--Info about date-->
+                                    <td class="petTd" id="arrivalDate" style="vertical-align: middle" th:text="${#strings.substringBefore(pet.getArivalDate(),'T')}"></td>
+                                    <td class="petTd" id="date" style="vertical-align: middle" th:text="${#strings.substringBefore(pet.getAdoptionDate(),'T')}"></td>
+                                    <!--Info about date-->
+
                                     <!--Info about owner-->
-                                    <td class="petTd" style="vertical-align: middle" th:text="${#strings.substringBefore(pet.getAdoptionDate(),'T')}"></td>
                                     <td class="petTd" style="vertical-align: middle" th:if="${pet.getOwner()} != null">
                                             <strong class="imeText" th:text="${pet.getOwner().getUsername()}"></strong>
                                         <strong>(</strong>
@@ -98,9 +138,14 @@
                                     <td class="petTd" style="vertical-align: middle" th:if="${pet.getOwner()} != null">
                                         <strong class="imeText" th:text="${pet.getOwner().getEmail()}"></strong>
                                     </td>
+
+                                    <td class="petTd" style="vertical-align: middle" th:if="${pet.getOwner()} != null">
+                                        <strong class="imeText" id="ownerCity" th:text="${pet.getOwner().getCity().name()}"></strong>
+                                    </td>
                                  <!--   <td class="petTd" style="vertical-align: middle" th:text="${pet.getOwner().getEmail()}"></td>
                                     <td class="petTd" style="vertical-align: middle" th:text="${pet.getOwner().getUsername()}"></td>-->
                                     <!--Info about owner-->
+
 
                                 </tr>
                                 </tbody>
@@ -108,8 +153,17 @@
                         </div>
                     </div>
                 </div>
+                <div style="padding-bottom: 70px">
+                    <svg class="bar-chart" style="border: solid; border-color: black; border-width: 1px ">
+
+                    </svg>
+                </div>
             </div>
+
         </section>
+
+        <script src="https://d3js.org/d3.v4.min.js"></script>
+        <script type="text/javascript" th:src="@{/index.js}"> </script>
         <footer th:replace="fragments/footer.html"/>
     </body>
 </html>

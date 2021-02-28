@@ -52,7 +52,7 @@ public class PetsController {
     }
 
     @GetMapping("/adoptedPets")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+  //  @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getVdomeniMilenichinja(@RequestParam(required = false) Integer petSearch,
                                          @RequestParam(required = false) String ownerSearch,
                                          Model model){
