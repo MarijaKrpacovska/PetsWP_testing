@@ -1,4 +1,4 @@
-package mk.finki.ukim.milenichinja.Web.NotUsed;
+package mk.finki.ukim.milenichinja.Web.NotUsed.Controllers;
 
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.facebook.api.Facebook;

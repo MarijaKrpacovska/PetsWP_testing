@@ -10,17 +10,25 @@ import java.time.ZonedDateTime;
 @Entity
 @Table(name = "donation", schema = "vdomuvanje_milenichinja_wp")
 public class Donation {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @ManyToOne
-    private AppUser donator;
+
+    private String valute;
+
     private double sum;
+
+    private Long cardNumber;
+
+    private ZonedDateTime donationTime;
+
     @Enumerated(value = EnumType.STRING)
     private PaymentMethod paymentMethod;
-    private Long cardNumber;
-    private ZonedDateTime donationTime;
-    private String valute;
+
+    @ManyToOne
+    private AppUser donator;
+
     @ManyToOne
     private DonationCause donationCause;
 

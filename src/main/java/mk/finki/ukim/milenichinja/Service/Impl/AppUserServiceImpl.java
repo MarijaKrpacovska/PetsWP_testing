@@ -34,14 +34,14 @@ public class AppUserServiceImpl implements AppUserService {
     }
 
     @Override
-    public List<AppUser> listAll() {
-        return appUserRepository.findAll();
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        AppUser user = appUserRepository.findByUsername(s).orElseThrow(() -> new  UsernameNotFoundException(s));
+        return user;
     }
 
     @Override
-    public AppUser login(String username, String password) {
-        return appUserRepository.findByUsernameAndPassword(username,
-                password).orElseThrow(InvalidUserCredentialsException::new);
+    public List<AppUser> listAll() {
+        return appUserRepository.findAll();
     }
 
     @Override
@@ -63,6 +63,7 @@ public class AppUserServiceImpl implements AppUserService {
 
     @Override
     public Optional<AppUser> addAdmin(String username, List<Integer> worksAt) {
+
         if(!username.equals("")) {
             AppUser user = this.getByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
             user.setRole(Role.ROLE_ADMIN);
@@ -82,6 +83,7 @@ public class AppUserServiceImpl implements AppUserService {
     @Override
     public Optional<AppUser> removeAdmin(String username) {
         if(!username.equals("")) {
+
             AppUser user = this.getByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
 
             user.setRole(Role.ROLE_USER);
@@ -92,7 +94,26 @@ public class AppUserServiceImpl implements AppUserService {
         else
             return Optional.empty();
     }
-/*
+
+    @Override
+    public AppUser registerUser(String username, String ime, String prezime, City city, String email, String password, String repeatPass, Role role) {
+
+        if (username==null || username.isEmpty()  || password==null || password.isEmpty())
+            throw new InvalidUsernameOrPasswordException();
+
+        if (!password.equals(repeatPass))
+            throw new PasswordsDoNotMatchException();
+
+        if(this.appUserRepository.findByUsername(username).isPresent())
+            throw new ClientAlreadyExistsException(username);
+
+        ZonedDateTime date1= ZonedDateTime.now();
+
+        AppUser user = new AppUser(username,ime,prezime,email,passwordEncoder.encode(password),date1,role,city);
+        return appUserRepository.save(user);
+    }
+
+    /*
     @Override
     public AppUser register(String username, String ime, String prezime, City city, String email, String password, String repeatPass, List<Integer> worksAt, Role role) {
         if (username==null || username.isEmpty()  || password==null || password.isEmpty())
@@ -107,22 +128,11 @@ public class AppUserServiceImpl implements AppUserService {
         return appUserRepository.save(user);
     }*/
 
-    @Override
-    public AppUser registerUser(String username, String ime, String prezime, City city, String email, String password, String repeatPass, Role role) {
-        if (username==null || username.isEmpty()  || password==null || password.isEmpty())
-            throw new InvalidUsernameOrPasswordException();
-        if (!password.equals(repeatPass))
-            throw new PasswordsDoNotMatchException();
-        if(this.appUserRepository.findByUsername(username).isPresent())
-            throw new ClientAlreadyExistsException(username);
-        ZonedDateTime date1= ZonedDateTime.now();
-        AppUser user = new AppUser(username,ime,prezime,email,passwordEncoder.encode(password),date1,role,city);
-        return appUserRepository.save(user);
-    }
+    /*@Override
+    public AppUser login(String username, String password) {
+        return appUserRepository.findByUsernameAndPassword(username,
+                password).orElseThrow(InvalidUserCredentialsException::new);
+    }*/
 
-    @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        AppUser user = appUserRepository.findByUsername(s).orElseThrow(() -> new  UsernameNotFoundException(s));
-        return user;
-    }
+
 }

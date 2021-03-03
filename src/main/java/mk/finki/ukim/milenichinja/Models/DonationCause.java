@@ -14,18 +14,23 @@ public class DonationCause {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String name;
-    private String description;
-    private String imageUrl;
-    private double goal;
-    private int importance;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinTable(name = "pets_related_to_donationCause", schema = "vdomuvanje_milenichinja_wp" )
-    private List<Pet> pets; //pets related to the cause
+    private String name;
+
+    private String description;
+
+    private String imageUrl;
+
+    private double goal;
+
+    private int importance;
 
     @Enumerated(value = EnumType.STRING)
     private Status status;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "pets_related_to_donationCause", schema = "vdomuvanje_milenichinja_wp" )
+    private List<Pet> pets;
 
     public DonationCause() {
     }

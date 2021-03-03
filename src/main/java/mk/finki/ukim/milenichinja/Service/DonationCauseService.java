@@ -12,11 +12,11 @@ public interface DonationCauseService {
 
     Optional<DonationCause> findById(int id);
 
+    Double currentState(DonationCause donationCause);
+
     Optional<DonationCause> save(String decsription, String url, List<Integer> pets, double goal, String name, int importance);
 
     Optional<DonationCause> edit(int id, String decsription, String url, List<Integer> pets, double goal, String name, int importance);
-
-    Double currentState(DonationCause donationCause);
 
     Optional<DonationCause> delete(int id);
 

@@ -19,11 +19,8 @@ public class FacebookConnectionSignup implements ConnectionSignUp {
     @Autowired
     private AppUserRepository userRepository;
 
-    private ConnectionRepository connectionRepository;
-
     @Override
     public String execute(Connection<?> connection) {
-//        Connection<Facebook> connectionNew = connectionRepository.findPrimaryConnection(Facebook.class);
 
         AppUser user = new AppUser();
 

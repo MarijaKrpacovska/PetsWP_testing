@@ -11,8 +11,11 @@ import java.util.Optional;
 
 @Repository
 public interface AppUserRepository extends JpaRepository<AppUser, String> {
+
     Optional<AppUser> findByUsername(String username);
+
     Optional<AppUser> findByUsernameAndPassword(String username, String password);
-    List<AppUser> findAllByUsernameLike(String s);
+
     List<AppUser> findAllByRole(Role role);
+
 }

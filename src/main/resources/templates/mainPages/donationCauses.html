@@ -103,7 +103,7 @@
                     <div th:each="cause : ${causesList}" class="card p-4 col-12 col-md-6 col-lg-4 edenCentar">
                         <!-------------------------------------------EDEN CENTAR------------------------------------------->
                         <div class="card-wrapper">
-                            <a th:href="@{'/donate/causeDetails/{id}' (id=${cause.getId()})}">
+                            <a th:href="@{'/causes/causeDetails/{id}' (id=${cause.getId()})}">
                                 <div class="card-img">
                                     <div class="img_wrapper">
                                         <img class="centerImg" th:src="${cause.getImageUrl()}">
@@ -118,10 +118,10 @@
                         </div>
                     </br>
                         </br>
-                        <form th:method="DELETE" th:action="@{'/donate/deleteCause/{id}' (id=${cause.getId()})}">
+                        <form th:method="DELETE" th:action="@{'/causes/deleteCause/{id}' (id=${cause.getId()})}">
                             <button class="delete_button"  type="submit" sec:authorize="hasRole('ROLE_ADMIN')">DELETE</button>
                         </form>
-                        <a th:href="@{'/donate/edit-form/{id}' (id=${cause.getId()})}" sec:authorize="hasRole('ROLE_ADMIN')">
+                        <a th:href="@{'/causes/edit-form/{id}' (id=${cause.getId()})}" sec:authorize="hasRole('ROLE_ADMIN')">
                             <i>Edit</i>
                         </a>
                         <!-------------------------------------------EDEN CENTAR------------------------------------------->

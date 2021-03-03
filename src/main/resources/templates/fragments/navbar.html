@@ -58,8 +58,9 @@
             <a href="/petsList/adoptedPets" sec:authorize="hasRole('ROLE_ADMIN')" >ALL PETS</a>
         </div>
         <div class="col-md-6" style="text-align: right">
-            <a class="active" href="/donate/causes" sec:authorize="hasRole('ROLE_ADMIN')" >MANAGE DONATION CAUSES</a>
-            <a class="active" href="/donate">DONATE</a>
+            <a class="active" href="/manage-roles" sec:authorize="hasRole('ROLE_ADMIN')" >MANAGE ROLES </a>
+            <a class="active" href="/causes" sec:authorize="hasRole('ROLE_ADMIN')" >MANAGE CAUSES</a>
+            <a class="active" href="/donate" sec:authorize="hasRole('ROLE_USER')">DONATE</a>
             <th:block sec:authorize="isAuthenticated()">
                <!-- <div class="row" style="color: white">
                     <div class="col-md-1" style="text-align: right" th:text="${session.klient.getIme()}"></div>

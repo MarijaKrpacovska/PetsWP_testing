@@ -12,10 +12,10 @@
     <body>
         <header th:replace="fragments/navbar.html"/>
         <div class="container">
-            <form class="form-signin mt-xl-5" method="post" action="/register/registerPost">
+            <form class="form-signin mt-xl-5" method="post" action="/register">
                 <h2 class="form-signin-heading">Register</h2>
                 <div  th:if="${admin} == false" class="add_center_button_div">
-                    <a class="add_center_button" href="/register/admin">
+                    <a class="add_center_button" href="/manage-roles">
                         REGISTER AS ADMIN
                     </a>
                 </div>

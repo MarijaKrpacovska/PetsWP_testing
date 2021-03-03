@@ -17,7 +17,6 @@ import java.util.Optional;
 public class CenterServiceImpl implements CenterService {
 
     private final CenterRepository centerRepository;
-    //private final CityRepository cityRepository;
     private final PetRepository petRepository;
 
     public CenterServiceImpl(CenterRepository centerRepository, PetRepository petRepository) {
@@ -26,18 +25,17 @@ public class CenterServiceImpl implements CenterService {
     }
 
     @Override
+    public Optional<Center> findById(int id) {
+        return this.centerRepository.findById(id);
+    }
+
+    @Override
     public List<Center> listAll() {
         return centerRepository.findAll();
     }
 
-    /*@Override
-    public Optional<Center> save(String address, int idCity, String url) {
-        City city = cityRepository.findById(idCity).orElseThrow( () -> new CityNotFoundException(idCity) );
-        return Optional.of(this.centerRepository.save(new Center(address,city, url)));
-    }*/
     @Override
     public Optional<Center> save(String address, City city, String url) {
-        //City city = cityRepository.findById(idCity).orElseThrow( () -> new CityNotFoundException(idCity) );
         return Optional.of(this.centerRepository.save(new Center(address,city, url)));
     }
 
@@ -45,6 +43,18 @@ public class CenterServiceImpl implements CenterService {
     public Optional<Center> delete(int id) {
         Center center = this.centerRepository.findById(id).orElseThrow( () -> new CenterNotFoundException(id) );
         this.centerRepository.delete(center);
+        return Optional.of(center);
+    }
+
+    @Override
+    public Optional<Center> edit(int id, String address, City city, String url) {
+        Center center = this.centerRepository.findById(id).orElseThrow( () -> new CenterNotFoundException(id) );
+
+        center.setAddress(address);
+        center.setCity(city);
+        center.setUrl(url);
+
+        centerRepository.save(center);
         return Optional.of(center);
     }
 
@@ -61,23 +71,10 @@ public class CenterServiceImpl implements CenterService {
         return Optional.of(center);
     }*/
 
-    @Override
-    public Optional<Center> edit(int id, String address, City city, String url) {
-        Center center = this.centerRepository.findById(id).orElseThrow( () -> new CenterNotFoundException(id) );
-        //City city = this.cityRepository.findById(idCity).orElseThrow( () -> new CityNotFoundException(idCity) );
-
-        center.setAddress(address);
-        center.setCity(city);
-        center.setUrl(url);
-
-        centerRepository.save(center);
-        return Optional.of(center);
-    }
-
-
-    @Override
-    public Optional<Center> findById(int id) {
-        return this.centerRepository.findById(id);
-    }
+    /*@Override
+    public Optional<Center> save(String address, int idCity, String url) {
+        City city = cityRepository.findById(idCity).orElseThrow( () -> new CityNotFoundException(idCity) );
+        return Optional.of(this.centerRepository.save(new Center(address,city, url)));
+    }*/
 
 }

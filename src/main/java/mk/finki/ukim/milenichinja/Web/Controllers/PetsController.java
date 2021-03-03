@@ -31,24 +31,23 @@ public class PetsController {
         this.appUserService = appUserService;
     }
 
+    //MAIN GET PAGES
     @GetMapping
-    public String getNevdomeniMilenichinja(@RequestParam(required = false) String ageSearch,
-                                           @RequestParam(required = false) String breedSearch,
-                                           @RequestParam(required = false) Gender genderSearch,
-                                           @RequestParam(required = false) Type typeSearch,
-                                            HttpServletRequest request, Model model){
-        List<Pet> milenichinja;
-        List<Center> centri = this.centerService.listAll();
+    public String getAvaliablePets(@RequestParam(required = false) String ageSearch,
+                                   @RequestParam(required = false) String breedSearch,
+                                   @RequestParam(required = false) Gender genderSearch,
+                                   @RequestParam(required = false) Type typeSearch,
+                                   HttpServletRequest request, Model model){
+        List<Pet> pets;
         request.getSession().getAttribute("klient");
         if ( ageSearch == null && breedSearch == null && genderSearch == null && typeSearch == null) {
-            milenichinja = this.petService.nevdomeniMilenichinja();
-          //  model.addAttribute("centerList", centri);
+            pets = this.petService.nevdomeniMilenichinja();
         }
         else {
-            milenichinja = this.petService.search(ageSearch, breedSearch, genderSearch, typeSearch);
+            pets = this.petService.search(ageSearch, breedSearch, genderSearch, typeSearch);
         }
-        model.addAttribute("petList", milenichinja);
-        return "mainPages/avaliablePets";
+        model.addAttribute("petList", pets);
+        return "mainPages/pets.html";
     }
 
     @GetMapping("/adoptedPets")
@@ -78,9 +77,11 @@ public class PetsController {
         model.addAttribute("petList",adoptedPets);
         model.addAttribute("notAdoptedPetList",notAdoptedPets);
 
-        return "mainPages/adoptedPets";
+        return "mainPages/allPets.html";
     }
+    //GET MAIN PAGES
 
+    //EDIT ADD DELETE ADOPT
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/edit-form/{id}")
     public String editPetPage(@PathVariable int id, Model model) {
@@ -104,7 +105,7 @@ public class PetsController {
     }
 
     @PostMapping("/add")
-    public String saveProduct(
+    public String addPet(
             @RequestParam(required = false) Integer id,
             @RequestParam String ime,
             @RequestParam Type vid,
@@ -123,6 +124,13 @@ public class PetsController {
         return "redirect:/petsList";
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping("/deletePet/{id}")
+    public String deletePet(@PathVariable int id){
+        petService.delete(id);
+        return "redirect:/petsList";
+    }
+
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/adoptPet/{id}")
     public String adoptPet(@PathVariable int id, HttpServletRequest req){
@@ -136,22 +144,18 @@ public class PetsController {
             return "redirect:/petsList?error=" + exception.getMessage();
         }
     }
+    //EDIT ADD DELETE ADOPT
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @DeleteMapping("/deletePet/{id}")
-    public String deletePet(@PathVariable int id){
-        petService.delete(id);
-        return "redirect:/petsList";
-    }
-
+    //DETAILS
     @GetMapping("/details/{id}")
     public String detailsPage(@PathVariable int id, Model model) {
         if (this.petService.findById(id).isPresent()) {
             Pet pet = this.petService.findById(id).get();
             model.addAttribute("pet", pet);
-            return "mainPages/details.html";
+            return "details/details.html";
         }
         return "redirect:/petsList?error=PetNotFound";
     }
+    //DETAILS
 
 }

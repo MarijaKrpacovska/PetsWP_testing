@@ -38,10 +38,18 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    public Optional<Pet> save(String ime, Type vid, String vozrast, String rasa, Gender pol, String opis, int id_centar, String url_slika, AppUser odgovorenVolonter) {
-        ZonedDateTime currentDateTime = ZonedDateTime.now();
-        Center center = centerRepository.findById(id_centar).orElseThrow( () -> new CenterNotFoundException(id_centar));
-        return Optional.of(this.petRepository.save(new Pet(ime, vid, vozrast, rasa, pol, opis, center, currentDateTime, url_slika, odgovorenVolonter, false)));
+    public Optional<Pet> findById(int id) {
+        return petRepository.findById(id);
+    }
+
+    @Override
+    public List<Pet> nevdomeniMilenichinja() {
+        return this.petRepository.findAllByAdopted(false);
+    }
+
+    @Override
+    public List<Pet> vdomeniMilenichinja() {
+        return this.petRepository.findAllByAdopted(true);
     }
 
     @Override
@@ -56,35 +64,17 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    public List<Pet> nevdomeniMilenichinja() {
-        /*List<Pet> allPets = petRepository.findAll();
-        List<Pet> notAdoptedPets= new ArrayList<>();
-        for (Pet pet : allPets) {
-            if(pet.getAdoptionDate() == null){
-                notAdoptedPets.add(pet);
-            }
-        }*/
-        return this.petRepository.findAllByAdopted(false);
-    }
-
-    @Override
-    public List<Pet> vdomeniMilenichinja() {
-        /*List<Pet> allPets = petRepository.findAll();
-        List<Pet> adoptedPets= new ArrayList<>();
-        for (Pet pet : allPets) {
-            if(pet.getAdoptionDate() != null){
-                adoptedPets.add(pet);
-            }
-        }
-        return adoptedPets;*/
-        return this.petRepository.findAllByAdopted(true);
-    }
-
-    @Override
     public void delete(int id) {
-        if(petRepository.findById(id) != null){
+        if(petRepository.findById(id).isPresent()){
             petRepository.deleteById(id);
         }
+    }
+
+    @Override
+    public Optional<Pet> save(String ime, Type vid, String vozrast, String rasa, Gender pol, String opis, int id_centar, String url_slika, AppUser odgovorenVolonter) {
+        ZonedDateTime currentDateTime = ZonedDateTime.now();
+        Center center = centerRepository.findById(id_centar).orElseThrow( () -> new CenterNotFoundException(id_centar));
+        return Optional.of(this.petRepository.save(new Pet(ime, vid, vozrast, rasa, pol, opis, center, currentDateTime, url_slika, odgovorenVolonter, false)));
     }
 
     @Override
@@ -168,9 +158,6 @@ public class PetServiceImpl implements PetService {
         }
     }
 
-    @Override
-    public Optional<Pet> findById(int id) {
-        return petRepository.findById(id);
-    }
+
 
 }

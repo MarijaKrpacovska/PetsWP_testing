@@ -15,21 +15,23 @@ import java.util.List;
 @Controller
 @RequestMapping("/centers")
 public class CentersController {
-    public CentersController(CenterService centerService) {
-        this.centerService = centerService;
-        //this.cityService = cityService;
-    }
 
     private final CenterService centerService;
-    //private final CityService cityService;
 
+    public CentersController(CenterService centerService) {
+        this.centerService = centerService;
+    }
+
+    //MAIN GET PAGE
     @GetMapping
     public String getCenters(Model model){
         List<Center> centri = this.centerService.listAll();
         model.addAttribute("centerList",centri);
         return "mainPages/centers";
     }
+    //MAIN GET PAGE
 
+    //ADD EDIT DELETE
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/add-form")
     public String getAddCenterPage(Model model){
@@ -39,19 +41,19 @@ public class CentersController {
         return "posts/addCenter";
     }
 
-    /*@PostMapping("/add")
-    public String addNewCenter(
-            @RequestParam(required = false) Integer id,
-            @RequestParam String address,
-            @RequestParam int id_city,
-            @RequestParam String url) {
-        if(id != null){
-            this.centerService.edit(id, address,id_city,url);
-        }else{
-            this.centerService.save(address,id_city, url);
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/edit-form/{id}")
+    public String editPetPage(@PathVariable int id, Model model) {
+        if (this.centerService.findById(id).isPresent()) {
+            Center center = this.centerService.findById(id).get();
+            //List<City> cities = this.cityService.listAll();
+            List<City> cities = Arrays.asList(City.values());
+            model.addAttribute("center", center);
+            model.addAttribute("cityList",cities);
+            return "posts/addCenter";
         }
-        return "redirect:/centers";
-    }*/
+        return "redirect:/products?error=ProductNotFound";
+    }
 
     @PostMapping("/add")
     public String addNewCenter(
@@ -73,18 +75,20 @@ public class CentersController {
         centerService.delete(id);
         return "redirect:/centers";
     }
+    //ADD EDIT DELETE
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/edit-form/{id}")
-    public String editPetPage(@PathVariable int id, Model model) {
-        if (this.centerService.findById(id).isPresent()) {
-            Center center = this.centerService.findById(id).get();
-            //List<City> cities = this.cityService.listAll();
-            List<City> cities = Arrays.asList(City.values());
-            model.addAttribute("center", center);
-            model.addAttribute("cityList",cities);
-            return "posts/addCenter";
+     /*@PostMapping("/add")
+    public String addNewCenter(
+            @RequestParam(required = false) Integer id,
+            @RequestParam String address,
+            @RequestParam int id_city,
+            @RequestParam String url) {
+        if(id != null){
+            this.centerService.edit(id, address,id_city,url);
+        }else{
+            this.centerService.save(address,id_city, url);
         }
-        return "redirect:/products?error=ProductNotFound";
-    }
+        return "redirect:/centers";
+    }*/
+
 }

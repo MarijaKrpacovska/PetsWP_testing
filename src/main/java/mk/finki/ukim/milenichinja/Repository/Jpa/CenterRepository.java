@@ -8,6 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface CenterRepository extends JpaRepository<Center,Integer> {
+
     Optional<Center> findById(Integer id);
 
 }

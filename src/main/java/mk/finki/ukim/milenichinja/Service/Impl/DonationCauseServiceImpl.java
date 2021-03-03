@@ -49,7 +49,6 @@ public class DonationCauseServiceImpl implements DonationCauseService {
     @Override
     public Optional<DonationCause> edit(int id, String decsription, String url, List<Integer> petsIds, double goal, String name, int importance) {
         DonationCause cause = this.donationCauseRepository.findById(id).orElseThrow( () -> new CenterNotFoundException(id) );
-        //City city = this.cityRepository.findById(idCity).orElseThrow( () -> new CityNotFoundException(idCity) );
 
         cause.setDescription(decsription);
         cause.setImageUrl(url);
@@ -60,7 +59,6 @@ public class DonationCauseServiceImpl implements DonationCauseService {
         List<Pet> pets = this.petRepository.findAllById(petsIds);
         cause.setPets(pets);
 
-
         donationCauseRepository.save(cause);
         return Optional.of(cause);
     }
@@ -68,10 +66,12 @@ public class DonationCauseServiceImpl implements DonationCauseService {
     @Override
     public Double currentState(DonationCause donationCause) {
         List<Donation> donations = donationRepository.findAllByDonationCause(donationCause);
+
         double sum = 0.0;
         for (Donation d : donations) {
             sum += d.getSum();
         }
+
         return sum;
     }
 
