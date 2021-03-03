@@ -92,7 +92,7 @@ public class AppUserServiceImpl implements AppUserService {
         else
             return Optional.empty();
     }
-
+/*
     @Override
     public AppUser register(String username, String ime, String prezime, City city, String email, String password, String repeatPass, List<Integer> worksAt, Role role) {
         if (username==null || username.isEmpty()  || password==null || password.isEmpty())
@@ -105,7 +105,7 @@ public class AppUserServiceImpl implements AppUserService {
         List<Center> worksAtCenters = this.centerRepository.findAllById(worksAt);
         AppUser user = new AppUser(username,ime,prezime,email,passwordEncoder.encode(password),date1,role,city,worksAtCenters);
         return appUserRepository.save(user);
-    }
+    }*/
 
     @Override
     public AppUser registerUser(String username, String ime, String prezime, City city, String email, String password, String repeatPass, Role role) {

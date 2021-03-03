@@ -31,13 +31,11 @@ public class CustomUsernamePasswordAuthenticationProvider implements Authenticat
 
         UserDetails userDetails = this.userService.loadUserByUsername(username);
 
-
-
         if (!passwordEncoder.matches(password, userDetails.getPassword())) {
             throw new BadCredentialsException("Password is incorrect!");
         }
-        return new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
 
+        return new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
     }
 
     @Override

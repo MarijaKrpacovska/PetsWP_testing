@@ -1,8 +1,6 @@
 package mk.finki.ukim.milenichinja.config;
 
-
 import mk.finki.ukim.milenichinja.Service.Impl.FacebookConnectionSignup;
-//import mk.finki.ukim.milenichinja.Service.Impl.TwitterConnectionSignup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -34,6 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         this.authenticationProvider = authenticationProvider;
     }
 
+    //for facebook sign in
     @Autowired
     private FacebookConnectionSignup facebookConnectionSignup;
 
@@ -42,15 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Value("${spring.social.facebook.appId}")
     String appId;
-
-   /* @Autowired
-    private TwitterConnectionSignup twitterConnectionSignup;
-
-    @Value("${twitter.consumer.key}")
-    String tweeterAppSecret;
-
-    @Value("${twitter.consumer.secret}")
-    String tweeterAppId;*/
+    //for facebook sign in
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -75,11 +66,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/login")
                 .and()
                 .exceptionHandling().accessDeniedPage("/home/access_denied");
-               // .and()
-                //.apply(new SpringSocialConfigurer());
 
     }
 
+    //for facebook sign in
     @Bean
     public ProviderSignInController providerSignInController() {
         ConnectionFactoryLocator connectionFactoryLocator = connectionFactoryLocator();
@@ -102,12 +92,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                                                            connectionFactoryLocator) {
         return new InMemoryUsersConnectionRepository(connectionFactoryLocator);
     }
+    //for facebook sign in
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(authenticationProvider);
     }
-
-
 
 }
