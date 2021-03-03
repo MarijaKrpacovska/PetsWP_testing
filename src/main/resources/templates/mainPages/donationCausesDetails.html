@@ -1,0 +1,135 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+    <link rel="stylesheet" href="http://formoid.com/articles/data/upload/theme/style.min.css">
+    <!-- <script src="chrome-extension://mooikfkahbdckldjjndioackbalphokd/assets/prompt.js"></script>-->
+
+    <style>
+        body{
+            background-image: url(https://previews.123rf.com/images/cnuisin/cnuisin1806/cnuisin180600019/103217924-paw-seamless-pattern-dog-paw-cat-paw-bulldog-vector-isolated-background-wallpaper.jpg);
+            /*background-image: url(https://static9.depositphotos.com/1022647/1081/v/600/depositphotos_10813712-stock-illustration-background-animal-footprints.jpg);*/
+            text-align: center;
+        }
+        .classc{
+            background-color: white;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+            position: relative;
+            z-index: 10;
+            font-size: 30px;
+            width: 1300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        footer{
+            margin-left: -40px;
+        }
+        .img_div{
+            width: 500px;
+            height: 400px;
+            overflow: hidden;
+            margin: auto;
+        }
+        .imgImg{
+            width: 600px;
+        }
+        .adopt_button{
+            background-color: cornflowerblue;
+            box-shadow: 0 0 10px rgba(0,0,0,0.8);
+            position: relative;
+            z-index: 4;
+            font-size: 26px;
+            font-weight: bold;
+            color: white;
+            border: none;
+            margin-top: -20px;
+            border-radius: 10px;
+            width: 140px;
+            height: 60px;
+            font-family: Arial;
+        }
+
+        #row1{
+            padding-top: 30px;
+        }
+
+
+    </style>
+</head>
+<body>
+    <header th:replace="fragments/navbar.html"/>
+
+        <div class="classc">
+            <div title="entirePage" style="font-family:'Times New Roman', Times, serif">
+
+                <!-----------------------ROW 1 - BASIC INFO------------------------->
+                <div class="row" id="row1" title="row1">
+
+                    <!-----------------------LEFT COL - IMAGE------------------------->
+                    <div class="col-md-6" title="row1_leftCol">
+                        <div class="row">
+                            <div class="img_div" >
+                                <img class="imgImg" th:src="${cause.getImageUrl()}" />
+                            </div>
+                        </div>
+                        </br>
+                        <div class="row">
+                            <form action="/donate">
+                                <button class="adopt_button"  type="submit">DONATE</button>
+                            </form>
+                        </div>
+                    </div>
+                    <!-------------------------LEFT COL - END-------------------------->
+                    <!-----------------------RIGHT COL - TITLE & TIME & AUTHOR------------------------->
+                    <div class="col-md-6" title="row1_rightCol" style="margin-left: -40px">
+                        <!--TITLE-->
+                        <div  th:text="${cause.getName()}"  title="title" style="text-align:left; font-size:60px; font-weight: bold">
+
+                        </div>
+
+                        <div  th:if="${cause.getImportance()} < 3" title="title" style="text-align:left; color: red">
+                            <strong style="font-size:20px;">(urgent)</strong>
+                        </div>
+
+                        <div th:text="${cause.getDescription()}" style="text-align:left; font-size:20px;">
+                        </div>
+
+                        <hr />
+                        <div class="row" style="margin-left: -80px">
+
+                            <div class="col-md-6" style="color:darkgrey; text-align:center">
+                                <div class="row" style="font-weight: bold; font-size: 20px">
+                                    Current state:
+                                </div>
+                                <div class="row" th:text="${causeSum}" style="font-size: 100px"></div>
+                            </div>
+
+                            <div class="col-md-6" style="color:darkgrey; text-align:center">
+                                <div class="row" style="font-weight: bold; font-size: 20px">
+                                    Goal:
+                                </div>
+                                <div class="row" th:text="${cause.getGoal()}" style="font-size: 100px"></div>
+                            </div>
+
+                        </div>
+                        </hr>
+                    </div>
+
+
+                    <!-----------------------RIGHT COL - END------------------------->
+
+                </div>
+                <!-----------------------ROW 1 - END------------------------->
+                <!-----------------------ROW 2 - INGREDIENTS------------------------->
+                <div class="row" title="row2_ingredients">
+                    <hr />
+                    <div>
+
+
+            </div>
+                </div>
+            </div>
+        </div>
+
+    <footer th:replace="fragments/footer.html"/>
+</body>
+</html>

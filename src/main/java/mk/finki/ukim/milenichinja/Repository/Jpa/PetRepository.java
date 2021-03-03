@@ -53,10 +53,9 @@ public interface PetRepository extends JpaRepository<Pet,Integer> {
     List<Pet> findAllByAgeLikeAndBreedLikeAndGenderAndTypeAndAdopted(String age, String breed, Gender gender, Type type, Boolean adopted);
 
 
-    List<Pet> findAllByAdoptedAndOwnerUsername(Boolean adopted,String username);
+  //  List<Pet> findAllByAdopted(Boolean adopted);
 
     List<Pet> findAllByAdoptedAndId(Boolean adopted, Integer id);
 
-    List<Pet> findAllByAdoptedAndOwnerUsernameAndId(Boolean adopted, String username, Integer id);
 
 }

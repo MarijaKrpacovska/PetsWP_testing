@@ -1,6 +1,7 @@
 package mk.finki.ukim.milenichinja.Web.Controllers;
 
 
+import mk.finki.ukim.milenichinja.Models.AppUser;
 import mk.finki.ukim.milenichinja.Models.Center;
 import mk.finki.ukim.milenichinja.Models.Enums.City;
 import mk.finki.ukim.milenichinja.Models.Exceptions.InvalidUsernameOrPasswordException;
@@ -8,6 +9,7 @@ import mk.finki.ukim.milenichinja.Models.Exceptions.PasswordsDoNotMatchException
 import mk.finki.ukim.milenichinja.Models.Role;
 import mk.finki.ukim.milenichinja.Service.AppUserService;
 import mk.finki.ukim.milenichinja.Service.CenterService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -62,36 +64,37 @@ public class RegisterController {
             return "redirect:/register?error=" + exception.getMessage();
         }
     }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/admin")
-    public String getRegisterAsAdminPage(@RequestParam(required = false) String error, Model model) {
+    public String getManageRolesPage(@RequestParam(required = false) String error, Model model) {
         if(error != null && !error.isEmpty()) {
             model.addAttribute("hasError", true);
             model.addAttribute("error", error);
         }
         List<Center> worksAtList = centerService.listAll();
-        List<City> cityList = Arrays.asList(City.values());
-        model.addAttribute("cityList",cityList);
+        List<AppUser> users = appUserService.getAllUsers();
+        List<AppUser> admins = appUserService.getAllAdmins();
+
         model.addAttribute("worksAtList",worksAtList);
-        model.addAttribute("admin",true);
+        model.addAttribute("allUsers",users);
+        model.addAttribute("allAdmins",admins);
         return "posts/registerA.html";
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/registerAsAdminPost")
-    public String registerAsAdmin(@RequestParam String username,
-                           @RequestParam String ime,
-                           @RequestParam String prezime,
-                           @RequestParam City city,
-                           @RequestParam String email,
-                           @RequestParam String password,
-                           @RequestParam String repeatPass,
-                           //added
-                           @RequestParam List<Integer> worksAtList) {
+    public String manageRoles(@RequestParam(required = false) String allUsers,
+                                  @RequestParam(required = false) String allAdmins,
+                           @RequestParam(required = false) List<Integer> worksAtList) {
         try{
+            if(!allUsers.equals(""))
+                this.appUserService.addAdmin(allUsers, worksAtList);
 
-            //this.appUserService.register(username,ime,prezime,city,email,password,repeatPass);
-            Role role = Role.ROLE_ADMIN;
-            this.appUserService.register(username,ime,prezime,city,email,password,repeatPass, worksAtList, role);
-            return "redirect:/petsList";
+            if(!allAdmins.equals(""))
+                this.appUserService.removeAdmin(allAdmins);
+
+            return "redirect:/register/registerAsAdminPost";
         } catch (InvalidUsernameOrPasswordException | PasswordsDoNotMatchException exception) {
             return "redirect:/register?error=" + exception.getMessage();
         }

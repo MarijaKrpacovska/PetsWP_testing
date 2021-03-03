@@ -11,11 +11,12 @@
                 text-align: center;
             }
             .container{
+                /* background-color: #ede3cf;*/
                 background-color: white;
-                box-shadow: 0 0 50px rgba(0,0,0,0.8);
                 position: relative;
-                z-index: 10;
                 padding-bottom: 49px;
+                margin-left: auto;
+                margin-right: auto;
             }
             .media-container-row{
                 border: none;
@@ -78,6 +79,18 @@
                 margin-right: auto;
                 font-size: 21px;
             }
+            .cid-qxWAQuan7h{
+                background-color: white;
+                text-align: center;
+                width: max-content;
+                margin-left: auto;
+                margin-right: auto;
+                box-shadow: 0 0 50px rgba(0,0,0,0.8);
+                position: relative;
+                z-index: 10;
+                padding-bottom: 37px;
+            }
+
         </style>
     </head>
     <body>
@@ -90,23 +103,35 @@
                     <div th:each="cause : ${causesList}" class="card p-4 col-12 col-md-6 col-lg-4 edenCentar">
                         <!-------------------------------------------EDEN CENTAR------------------------------------------->
                         <div class="card-wrapper">
-                            <div class="card-img">
-                                <div class="img_wrapper">
-                                    <img class="centerImg" th:src="${cause.getImageUrl()}">
+                            <a th:href="@{'/donate/causeDetails/{id}' (id=${cause.getId()})}">
+                                <div class="card-img">
+                                    <div class="img_wrapper">
+                                        <img class="centerImg" th:src="${cause.getImageUrl()}">
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
                             <div class="centerInfoDiv">
                                 <h4 class="card-title pb-3 mbr-fonts-style display-7">
                                     <p class="imeGradP" th:text="${cause.getName()}"></p>
                                 </h4>
                             </div>
                         </div>
+                    </br>
+                        </br>
+                        <form th:method="DELETE" th:action="@{'/donate/deleteCause/{id}' (id=${cause.getId()})}">
+                            <button class="delete_button"  type="submit" sec:authorize="hasRole('ROLE_ADMIN')">DELETE</button>
+                        </form>
+                        <a th:href="@{'/donate/edit-form/{id}' (id=${cause.getId()})}" sec:authorize="hasRole('ROLE_ADMIN')">
+                            <i>Edit</i>
+                        </a>
                         <!-------------------------------------------EDEN CENTAR------------------------------------------->
                     </div>
                 </div>
                 <!-------------------------------------------RED OD 4 CENTRI------------------------------------------->
+
+
             </div>
-            <div class="add_center_button_div" sec:authorize="hasRole('ROLE_ADMIN')">
+            <div class="add_center_button_div" sec:authorize="hasRole('ROLE_ADMIN')" >
                 <a class="add_center_button" href="/donate/addDonationCause">
                     ADD CAUSE
                 </a>
@@ -116,7 +141,11 @@
                     VIEW DONATIONS
                 </a>
             </div>
+
         </section>
+        <div style="height: 40px">
+
+        </div>
         <footer th:replace="fragments/footer.html"/>
     </body>
 </html>

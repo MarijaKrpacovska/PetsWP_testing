@@ -6,7 +6,9 @@ import mk.finki.ukim.milenichinja.Models.Role;
 import mk.finki.ukim.milenichinja.Repository.Jpa.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.Connection;
+import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.connect.ConnectionSignUp;
+import org.springframework.social.facebook.api.Facebook;
 import org.springframework.stereotype.Service;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
@@ -17,8 +19,12 @@ public class FacebookConnectionSignup implements ConnectionSignUp {
     @Autowired
     private AppUserRepository userRepository;
 
+    private ConnectionRepository connectionRepository;
+
     @Override
     public String execute(Connection<?> connection) {
+//        Connection<Facebook> connectionNew = connectionRepository.findPrimaryConnection(Facebook.class);
+
         AppUser user = new AppUser();
 
         user.setUsername(connection.getDisplayName());

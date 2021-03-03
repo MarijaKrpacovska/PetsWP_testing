@@ -1,4 +1,4 @@
-package mk.finki.ukim.milenichinja.Models;
+package mk.finki.ukim.milenichinja.Models.NotUsed;
 
 
 import lombok.Data;

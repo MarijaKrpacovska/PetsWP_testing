@@ -1,4 +1,4 @@
-package mk.finki.ukim.milenichinja.Service.Impl;
+package mk.finki.ukim.milenichinja.Service.NotUsed;
 
 import mk.finki.ukim.milenichinja.Models.AppUser;
 import mk.finki.ukim.milenichinja.Repository.Jpa.AppUserRepository;

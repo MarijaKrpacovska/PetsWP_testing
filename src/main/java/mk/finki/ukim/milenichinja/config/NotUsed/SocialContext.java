@@ -1,4 +1,4 @@
-package mk.finki.ukim.milenichinja.config;
+package mk.finki.ukim.milenichinja.config.NotUsed;
 
 import mk.finki.ukim.milenichinja.Service.Impl.FacebookConnectionSignup;
 import org.springframework.beans.factory.annotation.Autowired;

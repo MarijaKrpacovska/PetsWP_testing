@@ -55,7 +55,7 @@
         <div class="col-md-6">
             <a class="active" href="/petsList">PETS</a>
             <a href="/centers">CENTERS</a> <!--sec:authorize="hasRole('ROLE_ADMIN')"-->
-            <a href="/petsList/adoptedPets"  >ADOPTED PETS</a>
+            <a href="/petsList/adoptedPets" sec:authorize="hasRole('ROLE_ADMIN')" >ALL PETS</a>
         </div>
         <div class="col-md-6" style="text-align: right">
             <a class="active" href="/donate/causes" sec:authorize="hasRole('ROLE_ADMIN')" >MANAGE DONATION CAUSES</a>
@@ -65,14 +65,14 @@
                     <div class="col-md-1" style="text-align: right" th:text="${session.klient.getIme()}"></div>
                     <div class="col-md-11" style="margin-left: -17px" th:text="${session.klient.getPrezime()}"></div>
                 </div>-->
-                <div class="korisnik1">
+                <div class="korisnik1" style="margin-left: -40px">
                <!--     <span sec:authentication="principal.lastname"></span>-->
                 <!--   <img class="petImg" th:src="${principal.profile_picture}" alt="Pet Image" title="" media-simple="true">-->
                 <strong class="korisnik" th:if="${#request.getRemoteUser() != null}"
                         th:text="${#request.getRemoteUser()}"></strong>
                <!-- <strong class="korisnik" th:text="${session.user.getLastname()}"></strong>-->
-                    <a class="btn btn-light btn-sm ml-3" href="/logout">
-                        <i class="fa fa-shopping-cart"></i> Logout
+                    <a class="active" style="margin-top: -14px" href="/logout">
+                        <i></i>LOGOUT
                     </a>
                 </div>
             </th:block>

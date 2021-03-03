@@ -12,78 +12,53 @@
     <body>
         <header th:replace="fragments/navbar.html"/>
         <div class="container">
+            <br>
+            <h1 class="form-signin-heading">Manage Rols</h1>
             <form class="form-signin mt-xl-5" method="post" action="/register/registerAsAdminPost">
-                <h2 class="form-signin-heading">Register</h2>
-                <div  th:if="${admin} == false" class="add_center_button_div">
-                    <a class="add_center_button" href="/register/admin">
-                        REGISTER AS ADMIN
-                    </a>
-                </div>
-                <div  th:if="${admin} == true" class="add_center_button_div">
-                    <a class="add_center_button" href="/register">
-                        REGISTER AS USER
-                    </a>
-                </div>
-                <p>
-                    <label for="username" class="sr-only">username</label>
-                    <input type="text" id="username" name="username" class="form-control" placeholder="username" required=""
-                           autofocus="">
-                </p>
-                <p>
-                    <label for="ime" class="sr-only">ime</label>
-                    <input type="text" id="ime" name="ime" class="form-control" placeholder="ime" required=""
-                           autofocus="">
-                </p>
-                <p>
-                    <label for="prezime" class="sr-only">prezime</label>
-                    <input type="text" id="prezime" name="prezime" class="form-control" placeholder="prezime" required=""
-                           autofocus="">
-                </p>
-                <!--<p>
-                    <label for="id_grad" class="sr-only">id_grad</label>
-                    <input type="text" id="id_grad" name="id_grad" class="form-control" placeholder="id_grad" required=""
-                           autofocus="">
-                </p>-->
-                <div class="form-group">
-                    <label>City</label>
-                    <select name="city" class="form-control">
-                        <option th:each="city : ${cityList}"
-                                th:value="${city.name()}"
-                                th:text="${city.name()}">
-                        </option>
+            <div class="row">
+                <div class="col-md-6" style="border-right: solid darkgray 0.3px">
+                    <h2 class="form-signin-heading">Add admin:</h2>
+                    <div class="form-group">
+                        <label>Pick user:</label>
+                        <select name="allUsers" class="form-control">
+                            <option value="">All</option>
+                            <option th:each="user : ${allUsers}"
+                                    th:value="${user.getUsername()}"
+                                    th:text="${user.getUsername()}">
+                            </option>
+                        </select>
+                    </div>
 
-                    </select>
+                    <div class="form-group">
+                        <label>Work places:</label><br/>
+                        <select id="worksAtList" name="worksAtList" multiple="multiple" size="5">
+                            <option value="">All</option>
+                            <option th:each="item : ${worksAtList}" th:text="${item.getAddress()}" th:value="${item.getId()}"> [menuItem.name]</option>
+                        </select>
+                    </div>
                 </div>
-                <p>
-                    <label for="email" class="sr-only">email</label>
-                    <input type="text" id="email" name="email" class="form-control" placeholder="email" required=""
-                           autofocus="">
-                </p>
-                <p>
-                    <label for="password" class="sr-only">password</label>
-                    <input type="password"  id="password" name="password" class="form-control" placeholder="password" required=""
-                           autofocus="">
-                </p>
-                <p>
-                    <label for="repeatPass" class="sr-only">repeatPass</label>
-                    <input type="password" id="repeatPass" name="repeatPass" class="form-control" placeholder="repeatPass" required=""
-                           autofocus="">
-                </p>
-                <div th:if="${admin} == true">
-                    <label>Work places:</label><br/>
-                    <select id="worksAtList" name="worksAtList" multiple="multiple" size="5">
-                        <option th:each="item : ${worksAtList}" th:text="${item.getAddress()}" th:value="${item.getId()}"> [menuItem.name]</option>
-                    </select>
-                </div>
-          <!--      <p>
-                    <label for="id_centar" class="sr-only">id_centar</label>
-                    <input type="text" id="id_centar" name="id_centar" class="form-control" placeholder="id_centar" required=""
-                           autofocus="">
-                </p>-->
 
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+                <div class="col-md-6">
+                    <h2 class="form-signin-heading">Remove admin:</h2>
+                    <div class="form-group">
+                        <label>Pick user:</label>
+                        <select name="allAdmins" class="form-control">
+                            <option value="">All</option>
+                            <option th:each="admin : ${allAdmins}"
+                                    th:value="${admin.getUsername()}"
+                                    th:text="${admin.getUsername()}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+                <hr />
+                <br />
+                <br />
+                <button style="width: 100px; margin: auto" class="btn btn-lg btn-primary btn-block" type="submit">Done</button>
             </form>
-            <a href="/login" class="btn btn-block btn-light">Already have an account? Login here!</a>
+
         </div>
         <footer th:replace="fragments/footer.html"/>
     </body>

@@ -10,6 +10,7 @@ import java.util.List;
 @Entity
 @Table(name = "donation_cause", schema = "vdomuvanje_milenichinja_wp")
 public class DonationCause {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -17,11 +18,14 @@ public class DonationCause {
     private String description;
     private String imageUrl;
     private double goal;
-    @ManyToMany
-    private List<Pet> pets;
+    private int importance;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "pets_related_to_donationCause", schema = "vdomuvanje_milenichinja_wp" )
+    private List<Pet> pets; //pets related to the cause
+
     @Enumerated(value = EnumType.STRING)
     private Status status;
-    private int importance;
 
     public DonationCause() {
     }

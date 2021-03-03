@@ -18,4 +18,8 @@ public interface AppUserService extends UserDetailsService {
     AppUser registerUser(String username, String ime, String prezime, City city, String email, String password, String repeatPass, Role role);
     AppUser login(String username, String password);
     Optional<AppUser> getByUsername(String username);
+    List<AppUser> getAllUsers();
+    List<AppUser> getAllAdmins();
+    Optional<AppUser> addAdmin(String username, List<Integer> worksAt);
+    Optional<AppUser> removeAdmin(String username);
 }

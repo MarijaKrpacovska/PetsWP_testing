@@ -1,18 +1,11 @@
 
-//GET DATA FOR ADOPTED PETS:
-
-//get pet types:
-
-    //get array of pet types
-    d3.selectAll('#type')
-    var typesList = d3.selectAll('#type')['_groups'][0]
+  /*   d3.selectAll('#type')
+    var typesList = d3.selectAll('#type')["_groups"]["0"]
     var types = []
     for (i = 0; i < typesList.length; i++) {
         types.push(typesList.item(i).textContent);
     }
-    //get array of pet types
 
-    //get number of dogs and cats
     var catsNum = 0;
     var dogsNum = 0;
     for (i = 0; i < types.length; i++) {
@@ -26,130 +19,101 @@
 
     var typesDataset = [];
     typesDataset.push(dogsNum);
-    typesDataset.push(catsNum);
-    console.log(typesDataset)
-    //get number of dogs and cats
+    typesDataset.push(catsNum);*/
 
+  //ADOPTED VS NOT ADOPTED
 
-    var svgWidth = 400, svgHeight = 400, barPadding = 20;
+  var adopted = d3.selectAll('#type')["_groups"]["0"].length
+  var nAdopted = d3.selectAll('#typeNA')["_groups"]["0"].length
+
+  var typesDataset = []
+
+  typesDataset.push(adopted);
+  typesDataset.push(nAdopted);
+
+    var svgWidth = 340, svgHeight = 340, barPadding = 20;
     var barWidth = (svgWidth / typesDataset.length);
 
 
-    var svg = d3.select('svg')
+    var svg = d3.select('.adoptedTypes')
       .attr("width", svgWidth)
         .attr("height", svgHeight);
 
-    /*var xScale = d3.scaleLinear()
-        .domain([0, d3.max(typesDataset)])
-        .range([0, svgWidth]);*/
-
-  /*  var yScale = d3.scaleLinear()
-        .domain([-1.2, d3.max(typesDataset)])
-        .range([ svgHeight, 0]);*/
 
     var yScaleNew = d3.scaleLinear()
         .domain([0, d3.max(typesDataset)])
         .range([ 0, svgHeight*0.9]);
 
-    /*  var x_axis = d3.axisBottom()
-          .scale(xScale);*/
 
-   /* var y_axis = d3.axisLeft()
-        .scale(yScale)
+    var barChart = svg.selectAll("rect")
+        .data(typesDataset)
+        .enter()
+        .append("rect")
+        .attr("id", "typeRect")
+        .attr("y", function(d){
+            return svgHeight - yScaleNew(d);
+        })
+        .attr("height", function(d){
+            return yScaleNew (d);
+        })
+        .attr("width", barWidth - barPadding)
+        .attr("transform", function (d, i){
+            var translate = [barWidth * i + 20, -3]; //menuva od kaj pochnuvaat barovite
+            return "translate(" + translate +")";
+        });
 
-    svg.append("g")
-        .attr("transform", "translate(20, 10)")
-        .call(y_axis);
-
-    var xAxisTranslate = svgHeight - 30;*/
-
-    // svg.append("g")
-    //   .attr("transform", "translate(50, " + xAxisTranslate +")")
-    // .call(x_axis);
-
+    d3.selectAll("rect")
+        .style('fill', function(d) {
+            if(d >= 17) {
+                return '#709acd';
+            } else {
+                return '#fd7e14';
+            }
+        });
 
 
-
-   /* var text = svg.selectAll("text")
+    var first = false;
+    var text = svg.selectAll("text")
         .data(typesDataset)
         .enter()
         .append("text")
         .text(function(d) {
-            return d;
+            if(first == false){
+                first = true;
+                return "ADOPTED";
+            }
+            else {
+                return "NOT ADOPTED";
+            }
         })
         .attr("y", function(d, i) {
-            return svgHeight - d - 2;
+            return svgHeight - d -20; //spushta so + labels kreva so -
         })
         .attr("x", function(d, i) {
-            return barWidth * i;
+            return barWidth * i + 30;
         })
-        .attr("fill", "#A64C38");*/
-
-var barChart = svg.selectAll("rect")
-    .data(typesDataset)
-    .enter()
-    .append("rect")
-    .attr("id", "typeRect")
-    .attr("y", function(d){
-        return svgHeight - yScaleNew(d)
-    })
-    .attr("height", function(d){
-        return yScaleNew (d);
-    })
-    .attr("width", barWidth - barPadding)
-    .attr("transform", function (d, i){
-        var translate = [barWidth * i + 20, -30];
-        return "translate(" + translate +")";
-    });
-
-var first = false;
-var text = svg.selectAll("text")
-    .data(typesDataset)
-    .enter()
-    .append("text")
-    .text(function(d) {
-        if(first == false){
-            first = true;
-            return "DOGS";
-        }
-        else {
-            return "CATS";
-        }
-    })
-    .attr("y", function(d, i) {
-        return svgHeight - d + 4;
-    })
-    .attr("x", function(d, i) {
-        return barWidth * i + 70;
-    })
-    .attr("fill", "#A64C38")
-    .attr("z-index", 100);
+        .attr("fill", "white")
+        .attr("z-index", 100)
+        .attr("font-size",12);
 
 
 
-    var yScale = d3.scaleLinear()
-          .domain([-1.2, d3.max(typesDataset)])
-          .range([ svgHeight, 0]);
-      var y_axis = d3.axisLeft()
-          .scale(yScale)
+        var yScale = d3.scaleLinear()
+              .domain([-2.1, d3.max(typesDataset)])
+              .range([ svgHeight, 0]);
+          var y_axis = d3.axisLeft()
+              .scale(yScale)
 
-      svg.append("g")
-          .attr("transform", "translate(20, 10)")
-          .call(y_axis);
-
-      var xAxisTranslate = svgHeight - 30;
+          svg.append("g")
+              .attr("transform", "translate(20, 10)")
+              .call(y_axis);
 
 
 
-//ADOPTION DATES
 
-//get adoption dates:
-d3.selectAll('#date')
-var datesList = d3.selectAll('#date')['_groups'][0]
-var dates = []
-for (i = 0; i < datesList.length; i++) {
-    dates.push(datesList.item(i).textContent);
-}
+
+
+
 
 
 

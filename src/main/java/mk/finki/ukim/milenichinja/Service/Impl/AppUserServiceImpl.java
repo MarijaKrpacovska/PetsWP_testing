@@ -49,48 +49,49 @@ public class AppUserServiceImpl implements AppUserService {
         return this.appUserRepository.findByUsername(username);
     }
 
-    /*@Override
-    public AppUser register(String username, String ime, String prezime, int id_grad, String email, String password, String repeatPass) {
-        if (username==null || username.isEmpty()  || password==null || password.isEmpty())
-            throw new InvalidUsernameOrPasswordException();
-        if (!password.equals(repeatPass))
-            throw new PasswordsDoNotMatchException();
-        if(this.appUserRepository.findByUsername(username).isPresent())
-            throw new ClientAlreadyExistsException(username);
-       // City city = cityRepository.findById(id_grad).orElseThrow(InvalidUserCredentialsException::new);
-        City city = City.Bitola;
-       // Center center = centerRepository.findById(centar_id).orElseThrow(InvalidUserCredentialsException::new);
-        //(String username, String name, String lastname, City city, String email, String password, ZonedDateTime
-        //startDate, ZonedDateTime endDate, Role role)
-        //AppUser user = new AppUser(username,ime,prezime, city, email, password);
-        ZonedDateTime date1= ZonedDateTime.now();
-        ZonedDateTime date2= ZonedDateTime.now();
-        Role role = Role.ROLE_USER;
-        AppUser user = new AppUser(username,ime,prezime, city, email,passwordEncoder.encode(password) , date1, date2,role);
-        return appUserRepository.save(user);
+    @Override
+    public List<AppUser> getAllUsers() {
+        List<AppUser> users = this.appUserRepository.findAllByRole(Role.ROLE_USER);
+        return users;
+    }
 
-    }*/
+    @Override
+    public List<AppUser> getAllAdmins() {
+        List<AppUser> admins = this.appUserRepository.findAllByRole(Role.ROLE_ADMIN);
+        return admins;
+    }
 
-    /*@Override
-    public AppUser register(String username, String ime, String prezime, City city, String email, String password, String repeatPass) {
-        if (username==null || username.isEmpty()  || password==null || password.isEmpty())
-            throw new InvalidUsernameOrPasswordException();
-        if (!password.equals(repeatPass))
-            throw new PasswordsDoNotMatchException();
-        if(this.appUserRepository.findByUsername(username).isPresent())
-            throw new ClientAlreadyExistsException(username);
-        // City city = cityRepository.findById(id_grad).orElseThrow(InvalidUserCredentialsException::new);
-       // City city = City.Bitola;
-        // Center center = centerRepository.findById(centar_id).orElseThrow(InvalidUserCredentialsException::new);
-        //(String username, String name, String lastname, City city, String email, String password, ZonedDateTime
-        //startDate, ZonedDateTime endDate, Role role)
-        //AppUser user = new AppUser(username,ime,prezime, city, email, password);
-        ZonedDateTime date1= ZonedDateTime.now();
-        ZonedDateTime date2= ZonedDateTime.now();
-        Role role = Role.ROLE_USER;
-        AppUser user = new AppUser(username,ime,prezime, city, email,passwordEncoder.encode(password) , date1, date2,role);
-        return appUserRepository.save(user);
-    }*/
+    @Override
+    public Optional<AppUser> addAdmin(String username, List<Integer> worksAt) {
+        if(!username.equals("")) {
+            AppUser user = this.getByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
+            user.setRole(Role.ROLE_ADMIN);
+
+            if(!worksAt.isEmpty()) {
+                List<Center> worksAtCenters = this.centerRepository.findAllById(worksAt);
+                user.setWorksAt(worksAtCenters);
+            }
+
+            this.appUserRepository.save(user);
+            return Optional.of(user);
+        }
+        else
+            return Optional.empty();
+    }
+
+    @Override
+    public Optional<AppUser> removeAdmin(String username) {
+        if(!username.equals("")) {
+            AppUser user = this.getByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
+
+            user.setRole(Role.ROLE_USER);
+
+            this.appUserRepository.save(user);
+            return Optional.of(user);
+        }
+        else
+            return Optional.empty();
+    }
 
     @Override
     public AppUser register(String username, String ime, String prezime, City city, String email, String password, String repeatPass, List<Integer> worksAt, Role role) {

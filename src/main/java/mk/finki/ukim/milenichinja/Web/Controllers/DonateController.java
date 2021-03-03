@@ -2,21 +2,21 @@ package mk.finki.ukim.milenichinja.Web.Controllers;
 
 
 import mk.finki.ukim.milenichinja.Models.*;
+import mk.finki.ukim.milenichinja.Models.Enums.City;
 import mk.finki.ukim.milenichinja.Models.Enums.PaymentMethod;
 import mk.finki.ukim.milenichinja.Models.Exceptions.InvalidUserCredentialsException;
 import mk.finki.ukim.milenichinja.Models.Exceptions.InvalidUsernameOrPasswordException;
 import mk.finki.ukim.milenichinja.Service.AppUserService;
 import mk.finki.ukim.milenichinja.Service.DonationCauseService;
 import mk.finki.ukim.milenichinja.Service.DonationService;
+import mk.finki.ukim.milenichinja.Service.PetService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -25,11 +25,13 @@ public class DonateController {
     private final DonationService donationService;
     private final DonationCauseService donationCauseService;
     private final AppUserService appUserService;
+    private final PetService petService;
 
-    public DonateController(DonationService donationService, DonationCauseService donationCauseService, AppUserService appUserService) {
+    public DonateController(DonationService donationService, DonationCauseService donationCauseService, AppUserService appUserService, PetService petService) {
         this.donationService = donationService;
         this.donationCauseService = donationCauseService;
         this.appUserService = appUserService;
+        this.petService = petService;
     }
 
     @GetMapping("/causes")
@@ -37,6 +39,17 @@ public class DonateController {
         List<DonationCause> donationCauses = this.donationCauseService.listAll();
         model.addAttribute("causesList",donationCauses);
         return "mainPages/donationCauses";
+    }
+
+    @GetMapping("/causeDetails/{id}")
+    public String getAllCausesInfoPage(@PathVariable int id,
+                                       Model model) {
+        DonationCause cause = donationCauseService.findById(id).orElseThrow();
+        double sum = donationCauseService.currentState(cause);
+
+        model.addAttribute("cause",cause);
+        model.addAttribute("causeSum",sum);
+        return "mainPages/donationCausesDetails";
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -53,7 +66,7 @@ public class DonateController {
     }
 
     @PostMapping("/donatePost")
-    public String register(@RequestParam double sum,
+    public String donate(@RequestParam double sum,
                            @RequestParam Long cardNumber,
                            @RequestParam String valute,
                            @RequestParam Integer donationCauseId,
@@ -83,6 +96,8 @@ public class DonateController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/addDonationCause")
     public String getAddCausePage(@RequestParam(required = false) String error, Model model) {
+        List<Pet> allPets = petService.listAll();
+        model.addAttribute("allPets", allPets);
         if(error != null && !error.isEmpty()) {
             model.addAttribute("hasError", true);
             model.addAttribute("error", error);
@@ -92,14 +107,44 @@ public class DonateController {
     }
 
     @PostMapping("/causePost")
-    public String addCausePost(@RequestParam String name,
+    public String addCausePost(@RequestParam(required = false) Integer id,
+                               @RequestParam String name,
                                @RequestParam String url,
-                                @RequestParam String description,
-                                @RequestParam double goal,
-                                @RequestParam int importance,
-                                HttpServletRequest req) {
-            donationCauseService.save(description,url,null,goal,name,importance);
+                               @RequestParam String description,
+                               @RequestParam double goal,
+                               @RequestParam int importance,
+                               @RequestParam(required = false) List<Integer> petsIds,
+                               HttpServletRequest req) {
+        if(id != null){
+            this.donationCauseService.edit(id,description,url,petsIds,goal,name,importance);
+        }else{
+            this.donationCauseService.save(description,url,petsIds,goal,name,importance);
+        }
+
             return "redirect:/donate/causes";
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/edit-form/{id}")
+    public String editPetPage(@PathVariable int id, Model model) {
+        if (this.donationCauseService.findById(id).isPresent()) {
+            DonationCause cause = this.donationCauseService.findById(id).get();
+            //List<City> cities = this.cityService.listAll();
+
+            List<Pet> allPets = petService.listAll();
+            model.addAttribute("allPets", allPets);
+
+            model.addAttribute("cause", cause);
+            return "posts/addDonationCause";
+        }
+        return "redirect:/products?error=ProductNotFound";
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping("/deleteCause/{id}")
+    public String deleteCause(@PathVariable int id){
+        donationCauseService.delete(id);
+        return "redirect:/donate/causes";
     }
 
 }

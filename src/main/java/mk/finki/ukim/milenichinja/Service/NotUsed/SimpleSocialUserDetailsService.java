@@ -1,4 +1,4 @@
-package mk.finki.ukim.milenichinja.Service.Impl;
+package mk.finki.ukim.milenichinja.Service.NotUsed;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.userdetails.UserDetails;

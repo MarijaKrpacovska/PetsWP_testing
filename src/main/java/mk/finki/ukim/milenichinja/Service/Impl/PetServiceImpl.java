@@ -158,15 +158,9 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    public List<Pet> searchAdopted(Integer id, String username) {
-       // AppUser user = appUserRepository.findByUsername(username).orElseThrow();
-        if(id != null && !username.equals("")) {
-            return this.petRepository.findAllByAdoptedAndOwnerUsernameAndId(true,"%"+username+"%",id);
-        }
-        else if(id == null && !username.equals("")){
-            return this.petRepository.findAllByAdoptedAndOwnerUsername(true,"%"+username+"%");
-        }
-        else if(id != null && username .equals("")){
+    public List<Pet> searchAdopted(Integer id) {
+
+        if(id != null) {
             return this.petRepository.findAllByAdoptedAndId(true,id);
         }
         else{

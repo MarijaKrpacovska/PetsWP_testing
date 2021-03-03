@@ -1,4 +1,4 @@
-package mk.finki.ukim.milenichinja.config;
+package mk.finki.ukim.milenichinja.config.NotUsed;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

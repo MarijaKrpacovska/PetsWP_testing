@@ -52,19 +52,32 @@ public class PetsController {
     }
 
     @GetMapping("/adoptedPets")
-  //  @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String getVdomeniMilenichinja(@RequestParam(required = false) Integer petSearch,
-                                         @RequestParam(required = false) String ownerSearch,
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String getAllPets(@RequestParam(required = false) Integer petSearch,
+                             @RequestParam(required = false) String ageSearch,
+                             @RequestParam(required = false) String breedSearch,
+                             @RequestParam(required = false) Gender genderSearch,
+                             @RequestParam(required = false) Type typeSearch,
                                          Model model){
-        List<Pet> milenichinja;
-        if (petSearch == null && ownerSearch == null) {
-            milenichinja = this.petService.vdomeniMilenichinja();
-            //  model.addAttribute("centerList", centri);
+        List<Pet> adoptedPets;
+        List<Pet> notAdoptedPets;
+
+        if ( petSearch != null ) {
+            adoptedPets = this.petService.searchAdopted(petSearch);
+            notAdoptedPets = this.petService.nevdomeniMilenichinja();
         }
-        else {
-            milenichinja = this.petService.searchAdopted(petSearch, ownerSearch);
+        else if ( ageSearch != null || breedSearch != null || genderSearch != null || typeSearch != null ) {
+            adoptedPets = this.petService.vdomeniMilenichinja();
+            notAdoptedPets = this.petService.search(ageSearch,breedSearch,genderSearch,typeSearch);
         }
-        model.addAttribute("petList",milenichinja);
+        else{
+            adoptedPets = this.petService.vdomeniMilenichinja();
+            notAdoptedPets = this.petService.nevdomeniMilenichinja();
+        }
+
+        model.addAttribute("petList",adoptedPets);
+        model.addAttribute("notAdoptedPetList",notAdoptedPets);
+
         return "mainPages/adoptedPets";
     }
 
