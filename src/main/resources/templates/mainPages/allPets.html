@@ -1,7 +1,6 @@
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <!--<link rel="stylesheet" href="http://formoid.com/articles/data/upload/theme/style.min.css">
-        <script src="chrome-extension://mooikfkahbdckldjjndioackbalphokd/assets/prompt.js"></script>-->
         <meta charset="UTF-8"/>
         <title>Adopted pets</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -9,107 +8,66 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/dc/1.7.5/dc.css"/>
-        <style>
-            body{
-                background-image: url(https://previews.123rf.com/images/cnuisin/cnuisin1806/cnuisin180600019/103217924-paw-seamless-pattern-dog-paw-cat-paw-bulldog-vector-isolated-background-wallpaper.jpg);
-            }
-            .classc{
-                background-color: white;
-                box-shadow: 0 0 50px rgba(0,0,0,0.8);
-                position: relative;
-                z-index: 10;
-                font-size: 30px;
-                width: 1560px;
-                margin-left: auto;
-                margin-right: auto;
-                padding: 20px;
-            }
-            .tableRow_adoptedPet_head{
-                font-size: 20px;
-                text-align: center;
-            }
-            .tableRow_adoptedPet_body{
-                font-size: 16px;
-                font-weight: normal;
-            }
-            .petImg{
-                width: 36px;
-                height: 36px;
-                border-radius: 24px;
-            }
-            .petTd{
-                vertical-align: middle;
-            }
-            .imeText{
-                font-weight: normal;
-            }
-            .slogan{
-                color: white;
-                margin-left: auto;
-                margin-right: auto;
-                font-size: 21px;
-            }
-            td{
-                vertical-align: middle;
-                text-align: center;
-            }
-            p{
-                height: min-content;
-            }
-            .col-12{
-                border: solid black 1.6px;
-            }
-            th{
-                vertical-align: middle;
-            }
-            input{
-                height: 20px
-            }
-            label{
-                font-size: 16px
-            }
-            ._0{
-                color: black;
-            }
-            rect{
-                background-color: red;
-            }
-        </style>
+        <link rel="stylesheet" th:href="@{/css/mainPages/allPets.css}"> </link>
     </head>
-    <div>
+
+    <body>
+    <!-------------------------------------HEADER------------------------------------->
         <header th:replace="fragments/navbar.html"/>
-        <div class="classc">
-            <section class="features2 cid-qxWAQuan7h" id="features2-ph" data-rv-view="9966">
+    <!-------------------------------------HEADER------------------------------------->
 
-                <h1 style="text-align: center; font-weight: bold">ALL PETS</h1>
+    <!-------------------------------------BODY------------------------------------->
+        <div class="bodyContent">
+            <!-------------------------------------WHITE BACKGROUND------------------------------------->
+            <div class="whiteBackground">
+                <section class="features2 cid-qxWAQuan7h" id="features2-ph" data-rv-view="9966">
 
-                    <div class="row">
-                        <!--   TABELA VDOMENI MILENICHINJA -->
-                        <div class="col-12" th:if="${petList.size() > 0}">
+                    <!-------------------------------------TITLE------------------------------------->
+                    <h1 style="text-align: center; font-weight: bold">ALL PETS</h1>
+                    <!-------------------------------------TITLE------------------------------------->
+
+
+                    <!-------------------------------------TABLE ADOPTED PETS------------------------------------->
+                    <div class="row adoptedPetsMainDiv">
+                        <!--CHECK IF TABLE IS EMPTY-->
+                        <div class="col-12 tableCheckIfPetlistNull" th:if="${petList.size() > 0}">
                             <div class="table-responsive">
+                                <!--TABLE-->
                                 <table class="table table-striped">
-                                    <tr style="text-align: center">
-                                        <div class="row">
-                                            <div class="col-md-9">
-                                                ADOPTED PETS:
-                                            </div>
-                                            <div style="font-size: 18px" class="col-md-3">
-                                                <label style="font-weight: bold">
-                                                    Search:
-                                                </label>
-                                                <form id="filter-form" style="font-size: 12px">
-                                                    <label style="font-size: 16px" for="petSearch">Pet ID:</label>
-                                                    <input style="height: 20px" id="petSearch" type="text" name="petSearch"/>
 
-                                                    </br>
-                                                    <button style="height: 26px; font-size: 16px"  id="filter" type="submit">Filter</button>
-                                                    </br>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </tr>
                                     <thead>
-                                        <tr class="tableRow_adoptedPet_head">
+                                        <!--TABLE TITLE AND SEARCH-->
+                                        <tr class="adoptedPetsTableTitleRow">
+                                            <div class="row">
+                                                <!--title-->
+                                                <div class="col-md-9 adoptedPetsTableTitle">
+                                                    ADOPTED PETS:
+                                                </div>
+                                                <!--title-->
+
+                                                <!--search-->
+                                                <div class="col-md-3 adoptedPetsTableSearch">
+                                                    <label class="tableSearchTitle adoptedPetsTableSearchTitle">
+                                                        Search:
+                                                    </label>
+                                                    <form class="adoptedPetsTableSearchForm" id="filter-form">
+
+                                                        <label class="adoptedPetsTableSearchIdLabel" for="petSearch">Pet ID:</label>
+                                                        <input class="adoptedPetsTableSearchIdInput" id="petSearch" type="text" name="petSearch"/>
+
+                                                        </br>
+                                                        <button class="adoptedPetsTableSearchButton" id="filter" type="submit">Filter</button>
+                                                        </br>
+
+                                                    </form>
+                                                </div>
+                                                <!--search-->
+                                            </div>
+                                        </tr>
+                                        <!--TABLE TITLE AND SEARCH-->
+
+                                        <!--TABLE COLUMNS-->
+                                        <tr class="petsTableColumns adoptedPetsTableColumns">
                                             <th scope="col"></th>
                                             <th scope="col">ID:</th>
                                             <th scope="col">NAME:</th>
@@ -125,109 +83,155 @@
                                             <th scope="col">CONTACT:</th>
                                             <th scope="col">OWNER CITY:</th>
                                         </tr>
+                                        <!--TABLE COLUMNS-->
                                     </thead>
+
                                     <tbody>
-                                            <tr th:each="pet : ${petList}" class="tableRow_adoptedPet_body">
+                                        <!--SINGLE PET ROW-->
+                                        <tr th:each="pet : ${petList}" class="adoptedPetsTablePetRow">
 
-                                                <!--Info about pet-->
-                                                <td>
-                                                    <img class="petImg" th:src="${pet.getUrl()}" alt="Pet Image" title="" media-simple="true">
-                                                </td>
-                                                <td class="petTd" style="vertical-align: middle">
-                                                    <strong>#</strong>
-                                                    <strong th:text="${pet.getId()}"></strong>
-                                                </td>
+                                            <!--INFO ABOUT PET-->
+                                            <td class="petsTableBodyTd adoptedPetsTableBodyTd">
+                                                <img class="petImg" th:src="${pet.getUrl()}" alt="Pet Image" title="" media-simple="true">
+                                            </td>
 
-                                                <td style="vertical-align: middle" th:text="${pet.getName()}">
-                                                </td>
+                                            <td class="petsTableBodyTd adoptedPetsTableBodyTd">
+                                                <strong>#</strong>
+                                                <strong th:text="${pet.getId()}"></strong>
+                                            </td>
 
-                                                <td class="petTd" style="vertical-align: middle" id="type" th:text="${pet.getType().name()}">
-                                                </td>
+                                            <td class="petsTableBodyTd adoptedPetsTableBodyTd" th:text="${pet.getName()}">
+                                            </td>
 
-                                                <td class="petId" style="vertical-align: middle" id="age" th:text="${pet.getAge()}">
-                                                </td>
+                                            <td class="petsTableBodyTd adoptedPetsTableBodyTd" id="type" th:text="${pet.getType().name()}">
+                                            </td>
 
-                                                <td class="petId" style="vertical-align: middle" id="gender" th:text="${pet.getGender().name()}">
-                                                </td>
+                                            <td class="petsTableBodyTd adoptedPetsTableBodyTd" id="age" th:text="${pet.getAge()}">
+                                            </td>
 
-                                                <td class="petId" style="vertical-align: middle" id="breed" th:text="${pet.getBreed()}">
-                                                </td>
+                                            <td class="petsTableBodyTd adoptedPetsTableBodyTd" id="gender" th:text="${pet.getGender().name()}">
+                                            </td>
 
-                                                <td style="vertical-align: middle" id="center" th:text="${pet.getCenter().getId()}">
-                                                </td>
+                                            <td class="petsTableBodyTd adoptedPetsTableBodyTd" id="breed" th:text="${pet.getBreed()}">
+                                            </td>
 
-                                                <td class="petId" style="vertical-align: middle" id="petCity" th:text="${pet.getCenter().getCity().name()}">
-                                                </td>
-                                                <!--Info about pet-->
+                                            <td class="petsTableBodyTd adoptedPetsTableBodyTd" id="center" th:text="${pet.getCenter().getId()}">
+                                            </td>
 
-                                                <!--Info about date-->
-                                                <td class="petTd" id="arrivalDate" style="vertical-align: middle" th:text="${#strings.substringBefore(pet.getArivalDate(),'T')}"></td>
-                                                <td class="petTd" id="date" style="vertical-align: middle" th:text="${#strings.substringBefore(pet.getAdoptionDate(),'T')}"></td>
-                                                <!--Info about date-->
+                                            <td class="petsTableBodyTd adoptedPetsTableBodyTd" id="petCity" th:text="${pet.getCenter().getCity().name()}">
+                                            </td>
+                                            <!--INFO ABOUT PET-->
 
-                                                <!--Info about owner-->
-                                                <td class="petTd" style="vertical-align: middle" th:if="${pet.getOwner()} != null">
-                                                        <strong class="imeText" th:text="${pet.getOwner().getUsername()}"></strong>
-                                                    <strong>(</strong>
-                                                        <strong class="imeText" th:text="${pet.getOwner().getName()}"></strong>
-                                                        <strong class="imeText" th:text="${pet.getOwner().getLastname()}"></strong>
-                                                    <strong>)</strong>
-                                                </td>
-                                                <td class="petTd" style="vertical-align: middle" th:if="${pet.getOwner()} != null">
-                                                    <strong class="imeText" th:text="${pet.getOwner().getEmail()}"></strong>
-                                                </td>
+                                            <!--INFO ABOUT ADOPTION-->
+                                            <td class="petsTableBodyTd adoptedPetsTableBodyTd" id="arrivalDate" th:text="${#strings.substringBefore(pet.getArivalDate(),'T')}"></td>
 
-                                                <td class="petTd" style="vertical-align: middle" th:if="${pet.getOwner()} != null">
-                                                    <strong class="imeText" id="ownerCity" th:text="${pet.getOwner().getCity().name()}"></strong>
-                                                </td>
-                                            </tr>
+                                            <td class="petsTableBodyTd adoptedPetsTableBodyTd" id="date"  th:text="${#strings.substringBefore(pet.getAdoptionDate(),'T')}"></td>
+                                            <!--INFO ABOUT ADOPTION-->
+
+                                            <!--INFO ABOUT OWNER-->
+                                            <td class="petsTableBodyTd adoptedPetsTableBodyTd" th:if="${pet.getOwner()} != null">
+                                                <strong class="nameText" th:text="${pet.getOwner().getUsername()}"></strong>
+                                               (<strong class="nameText" th:text="${pet.getOwner().getName()}"></strong>
+                                                <strong class="nameText" th:text="${pet.getOwner().getLastname()}"></strong>)
+                                            </td>
+
+                                            <td class="petsTableBodyTd adoptedPetsTableBodyTd" th:if="${pet.getOwner()} != null">
+                                                <strong class="nameText" th:text="${pet.getOwner().getEmail()}"></strong>
+                                            </td>
+
+                                            <td class="petsTableBodyTd adoptedPetsTableBodyTd" th:if="${pet.getOwner()} != null">
+                                                <strong class="nameText" id="ownerCity" th:text="${pet.getOwner().getCity().name()}"></strong>
+                                            </td>
+                                        </tr>
+                                        <!--SINGLE PET ROW-->
                                     </tbody>
+
                                 </table>
+                                <!--TABLE-->
                             </div>
                         </div>
-                        <!--   TABELA VDOMENI MILENICHINJA -->
+                        <!--CHECK IF TABLE IS EMPTY-->
                     </div>
-                        </br>
-                        </br>
-                    <div class="row">
-                            <!--TABELA NEVDOMENI MILENICHINJA-->
-                            <div class="col-12" th:if="${petList.size() > 0}">
-                                <div class="table-responsive">
-                                    <table class="table table-striped">
-                                        <thead>
-                                        <div class="row">
-                                            <div class="col-md-9">
-                                                AVALIABLE PETS:
-                                            </div>
-                                            <div style="font-size: 18px" class="col-md-3">
-                                                <label style="font-weight: bold">
-                                                    Search:
-                                                </label>
-                                                <form id="filter-form1">
+                    <!-------------------------------------TABLE ADOPTED PETS------------------------------------->
 
-                                                    <label for="ageSearch">Age</label>
-                                                    <input id="ageSearch" type="text" name="ageSearch"/>
-                                                    </br>
-                                                    <label for="breedSearch">Breed</label>
-                                                    <input id="breedSearch" type="text" name="breedSearch"/>
-                                                    </br>
-                                                    <select id="genderSearch" name="genderSearch">
-                                                        <option value="">All</option>
-                                                        <option value="FEMALE">FEMALE</option>
-                                                        <option value="MALE">MALE</option>
-                                                    </select>
 
-                                                    <select id="typeSearch" name="typeSearch">
-                                                        <option value="">All</option>
-                                                        <option value="DOG">DOG</option>
-                                                        <option value="CAT">CAT</option>
-                                                    </select>
-                                                    </br>
-                                                    <button id="filter1" type="submit">Filter</button>
-                                                </form>
+                    <!-------------------------------------TABLE AVALIABLE PETS------------------------------------->
+                    </br>
+                    </br>
+                    <div class="row avaliablePetsMainDiv">
+                        <!--CHECK IF TABLE IS EMPTY-->
+                        <div class="col-12 tableCheckIfPetlistNull" th:if="${petList.size() > 0}">
+                            <div class="table-responsive">
+                                <!--TABLE-->
+                                <table class="table table-striped">
+
+                                    <thead>
+                                        <!--TABLE TITLE AND SEARCH-->
+                                        <tr class="avaliablePetsTableTitleRow">
+                                            <div class="row">
+                                                <!--title-->
+                                                <div class="col-md-9 avaliablePetsTableTitle">
+                                                    AVALIABLE PETS:
+                                                </div>
+                                                <!--title-->
+
+                                                <!--search-->
+                                                <div style="font-size: 18px" class="col-md-3 avaliablePetsTableSearch">
+                                                    <label class="tableSearchTitle avaliablePetsTableSearchTitle">
+                                                        Search:
+                                                    </label>
+
+                                                    <form id="filter-form1">
+
+                                                        <!--breed-->
+                                                        <div class="avaliablePetsTableSearchBreed">
+                                                            <label class="avaliablePetsTableSearchBreedLabel" for="breedSearch">Breed</label>
+                                                            <input class="avaliablePetsTableSearchBreedInput" id="breedSearch" type="text" name="breedSearch"/>
+                                                        </div>
+                                                        <!--breed-->
+
+                                                        </br>
+
+                                                        <!--age-->
+                                                        <select class="avaliablePetsTableSearchAge" id="ageSearch" name="ageSearch">
+                                                            <option value="">Age</option>
+                                                            <option value="lessThanYear"> less than 1 year </option>
+                                                            <option value="oneToTwoYears"> 1-2 years </option>
+                                                            <option value="threeToFiveYears"> 3-5 years </option>
+                                                            <option value="sixToNineYears"> 6-9 years </option>
+                                                            <option value="tenYearsOrOlder"> over 9 years </option>
+                                                        </select>
+                                                        <!--age-->
+
+                                                        <!--gender-->
+                                                        <select class="avaliablePetsTableSearchGender" id="genderSearch" name="genderSearch">
+                                                            <option value="">All</option>
+                                                            <option value="FEMALE">FEMALE</option>
+                                                            <option value="MALE">MALE</option>
+                                                        </select>
+                                                        <!--gender-->
+
+                                                        <!--type-->
+                                                        <select class="avaliablePetsTableSearchType" id="typeSearch" name="typeSearch">
+                                                            <option value="">All</option>
+                                                            <option value="DOG">DOG</option>
+                                                            <option value="CAT">CAT</option>
+                                                        </select>
+                                                        <!--type-->
+
+                                                        </br>
+
+                                                        <button  class="avaliablePetsTableSearchButton" id="filterAvaliable" type="submit">Filter</button>
+
+                                                    </form>
+                                                </div>
+                                                <!--search-->
                                             </div>
-                                        </div>
-                                        <tr class="tableRow_adoptedPet_head">
+                                        </tr>
+                                        <!--TABLE TITLE AND SEARCH-->
+
+                                        <!--TABLE COLUMNS-->
+                                        <tr class="petsTableColumns">
                                             <th></th>
                                             <th scope="col">PET ID:</th>
                                             <th scope="col">NAME:</th>
@@ -239,255 +243,330 @@
                                             <th scope="col">CITY:</th>
                                             <th scope="col">ARRIVAL DATE:</th>
                                         </tr>
-                                        </thead>
-                                        <tbody>
+                                        <!--TABLE COLUMNS-->
+                                    </thead>
+
+                                    <tbody>
+                                        <!--SINGLE PET ROW-->
                                         <tr th:each="petNA : ${notAdoptedPetList}" class="tableRow_adoptedPet_body">
 
                                             <!--Info about pet-->
-                                            <td>
+                                            <td class="petsTableBodyTd">
                                                 <img class="petImg" th:src="${petNA.getUrl()}" alt="Pet Image" title="" media-simple="true">
                                             </td>
-                                            <td class="petTd" style="vertical-align: middle">
+                                            <td class="petsTableBodyTd" >
                                                 <strong>#</strong>
                                                 <strong th:text="${petNA.getId()}"></strong>
                                             </td>
 
-                                            <td style="vertical-align: middle" th:text="${petNA.getName()}">
+                                            <td class="petsTableBodyTd" th:text="${petNA.getName()}">
                                             </td>
 
-                                            <td class="petTd" style="vertical-align: middle" id="typeNA" th:text="${petNA.getType().name()}">
+                                            <td class="petsTableBodyTd" id="typeNA" th:text="${petNA.getType().name()}">
                                             </td>
 
-                                            <td class="petId" style="vertical-align: middle" id="ageNA" th:text="${petNA.getAge()}">
+                                            <td class="petsTableBodyTd" id="ageNA" th:text="${petNA.getAge()}">
                                             </td>
 
-                                            <td class="petId" style="vertical-align: middle" id="genderNA" th:text="${petNA.getGender().name()}">
+                                            <td class="petsTableBodyTd" id="genderNA" th:text="${petNA.getGender().name()}">
                                             </td>
 
-                                            <td class="petId" style="vertical-align: middle" id="breedNA" th:text="${petNA.getBreed()}">
+                                            <td class="petsTableBodyTd" id="breedNA" th:text="${petNA.getBreed()}">
                                             </td>
 
-                                            <td style="vertical-align: middle" id="centerNA" th:text="${petNA.getCenter().getId()}">
+                                            <td class="petsTableBodyTd" id="centerNA" th:text="${petNA.getCenter().getId()}">
                                             </td>
 
-                                            <td class="petId" style="vertical-align: middle" id="petCityNA" th:text="${petNA.getCenter().getCity().name()}">
+                                            <td class="petsTableBodyTd" id="petCityNA" th:text="${petNA.getCenter().getCity().name()}">
                                             </td>
                                             <!--Info about pet-->
 
-                                            <!--Info about date-->
-                                            <td class="petTd" id="arrivalDateNA" style="vertical-align: middle" th:text="${#strings.substringBefore(petNA.getArivalDate(),'T')}"></td>
-                                            <td class="petTd" id="dateNA" style="vertical-align: middle" th:text="${#strings.substringBefore(petNA.getAdoptionDate(),'T')}"></td>
-                                            <!--Info about date-->
+                                            <!--Info about adoption-->
+                                            <td class="petsTableBodyTd" id="arrivalDateNA" th:text="${#strings.substringBefore(petNA.getArivalDate(),'T')}"></td>
+
+                                            <td class="petsTableBodyTd" id="dateNA" th:text="${#strings.substringBefore(petNA.getAdoptionDate(),'T')}"></td>
+                                            <!--Info about adoption-->
 
                                         </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <!--TABELA NEVDOMENI MILENICHINJA-->
-                    </div>
+                                        <!--SINGLE PET ROW-->
+                                    </tbody>
 
-
-                </br>
-                </br>
-
-                <hr/>
-                <h2 style="font-weight: bold">VISUALISATIONS:</h2>
-                <hr/>
-                <div class="row" style="padding-bottom: 70px">
-                    <div class="col-md-4">
-                        <div style="border: solid; border-color: gray; border-width: 1px; width: 440px; padding-left: 10px ">
-                            <div class="row" style="text-align: center">
-                                <svg style=" margin: auto" class="adoptedTypes" ></svg>
-                            </div>
-                            <div class="row" >
-                                <p style="text-align: center; margin: auto; font-size: 16px">
-                                    Number of adopted vs not adopted animals (d3.js)
-                                </p>
+                                </table>
+                                <!--TABLE-->
                             </div>
                         </div>
+                        <!--CHECK IF TABLE IS EMPTY-->
                     </div>
-                    <div class="row" style="padding-bottom: 70px">
-                        <div class="col-md-3">
-                            <div style="border: solid; border-color: gray; border-width: 1px; width: 440px; padding-left: 10px ">
-                                <div class="row" style="text-align: center">
-                                    <div id="adoptedVisu" style="color: black; margin: auto">
-                                        <div id="fluctuation-chart">
-                                            <span class="reset" style="display: none;">Selected: <span class="filter"></span></span>
-                                            <a class="reset" href="javascript:adoptedChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+                    <!-------------------------------------TABLE AVALIABLE PETS------------------------------------->
 
-                                            <div class="clearfix"></div>
+
+                    <!-------------------------------------VISUALISATIONS------------------------------------->
+                    <div class="visualisations">
+                        </br>
+                        </br>
+
+                        <!--TITLE-->
+                        <hr/>
+                            <h2 class="visuTitle">VISUALISATIONS:</h2>
+                        <hr/>
+                        <!--TITLE-->
+
+                        <!--ADOPTED VS NOT-->
+                        <div class="row visuAdoptedVsNot">
+                            <!--D3.JS-->
+                            <div class="col-md-4">
+                                <div class="entireGraphDiv">
+                                    <!--graph-->
+                                    <div class="row svgGraphDiv">
+                                        <svg class="adoptedTypes"></svg>
+                                    </div>
+                                    <!--graph-->
+
+                                    <!--label-->
+                                    <div class="row">
+                                        <p class="graphLabel">
+                                            Number of adopted vs not adopted animals (d3.js)
+                                        </p>
+                                    </div>
+                                    <!--label-->
+                                </div>
+                            </div>
+                            <!--D3.JS-->
+
+                            <!--DC.JS-->
+                            <div class="col-md-3">
+                                <div class="entireGraphDiv">
+                                    <!--graph-->
+                                    <div class="row svgGraphDiv">
+                                        <div class="dcGraphDiv" id="adoptedVisu">
+                                            <div id="fluctuation-chart">
+                                                <span class="reset spanStyle">
+                                                    Selected:
+                                                    <span class="filter"></span>
+                                                </span>
+
+                                                <a class="reset spanStyle" href="javascript:adoptedChart.filterAll();dc.redrawAll();">
+                                                    reset
+                                                </a>
+
+                                                <div class="clearfix"></div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row" style="text-align: center; margin: auto; font-size: 16px">
-                                    <p style="text-align: center; margin: auto; font-size: 16px">
-                                        Number of adopted vs not adopted animals (dc.js)
-                                    </p>
+                                    <!--graph-->
+
+                                    <!--label-->
+                                    <div class="row" style="text-align: center; margin: auto; font-size: 16px">
+                                        <p class="graphLabel">
+                                            Number of adopted vs not adopted animals (dc.js)
+                                        </p>
+                                    </div>
+                                    <!--label-->
                                 </div>
                             </div>
+                            <!--DC.JS-->
                         </div>
-                    </div>
-                </div>
-                <hr/>
-                    <div class="row" style="padding-bottom: 70px">
-                        <div class="col-md-3">
-                            <div style=" width: 440px; padding-left: 10px ">
-                                <div class="row" style="text-align: center">
-                                    <div id="aTypeVisu" style="color: black; margin: auto">
-                                        <div >
-                                            <span class="reset" style="display: none;">Selected: <span class="filter"></span></span>
-                                            <a class="reset" href="javascript:typeChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+                        <!--ADOPTED VS NOT-->
 
-                                            <div class="clearfix"></div>
+                        <hr/>
+                        <!--TYPE AGE BREED GENDER-->
+                        <div class="row" style="padding-bottom: 70px">
+
+                            <!--TYPE-->
+                            <div class="col-md-3">
+                                <div class="row2graphDiv">
+                                    <div class="row svgGraphDiv" >
+                                        <div id="aTypeVisu" class="dcGraphDiv">
+                                            <div>
+                                                <span class="reset spanStyle" >
+                                                    Selected:
+                                                    <span class="filter"></span>
+                                                </span>
+                                                <a class="reset spanStyle" href="javascript:typeChart.filterAll();dc.redrawAll();" >reset</a>
+                                                <div class="clearfix"></div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row" style="text-align: center; margin: auto; font-size: 16px">
-                                    <p style="text-align: center; margin: auto; font-size: 16px">
-                                    Number of dogs vs cats
-                                    </p>
+                                    <div class="row">
+                                        <p class="graphLabel">
+                                            Number of dogs vs cats
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div style=" width: 440px; padding-left: 10px ">
-                                <div class="row" style="text-align: center">
-                                    <div id="aGenderVisu" style="color: black; margin: auto">
-                                        <div >
-                                            <span class="reset" style="display: none;">Selected: <span class="filter"></span></span>
-                                            <a class="reset" href="javascript:genderChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+                            <!--TYPE-->
 
-                                            <div class="clearfix"></div>
+                            <!--GENDER-->
+                            <div class="col-md-3">
+                                <div class="row2graphDiv">
+                                    <div class="row svgGraphDiv" >
+                                        <div id="aGenderVisu" class="dcGraphDiv">
+                                            <div >
+                                                <span class="reset spanStyle" >
+                                                    Selected:
+                                                    <span class="filter"></span>
+                                                </span>
+                                                <a class="reset spanStyle" href="javascript:genderChart.filterAll();dc.redrawAll();">
+                                                    reset
+                                                </a>
+
+                                                <div class="clearfix"></div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row" style="text-align: center; margin: auto; font-size: 16px">
-                                    <p style="text-align: center; margin: auto; font-size: 16px">
-                                        Number of female vs male animals
-                                    </p>
+                                    <div class="row">
+                                        <p class="graphLabel">
+                                            Number of female vs male animals
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div style=" width: 440px; padding-left: 10px ">
-                                <div class="row" style="text-align: center">
-                                    <div id="aAgeVisu" style="color: black; margin: auto">
-                                        <div >
-                                            <span class="reset" style="display: none;">Selected: <span class="filter"></span></span>
-                                            <a class="reset" href="javascript:ageChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+                            <!--GENDER-->
 
-                                            <div class="clearfix"></div>
+                            <!--AGE-->
+                            <div class="col-md-3">
+                                <div class="row2graphDiv">
+                                    <div class="row svgGraphDiv" >
+                                        <div id="aAgeVisu" class="dcGraphDiv">
+                                            <div>
+                                                <span class="reset spanStyle" >
+                                                    Selected:
+                                                    <span class="filter"></span>
+                                                </span>
+                                                <a class="reset spanStyle" href="javascript:ageChart.filterAll();dc.redrawAll();" >
+                                                    reset
+                                                </a>
+
+                                                <div class="clearfix"></div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row" style="text-align: center; margin: auto; font-size: 16px">
-                                    <p style="text-align: center; margin: auto; font-size: 16px">
-                                        Number of animals per age
-                                    </p>
+                                    <div class="row">
+                                        <p class="graphLabel">
+                                            Number of animals per age
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div style=" width: 440px; padding-left: 10px ">
-                                <div class="row" style="text-align: center">
-                                    <div id="aBreedVisu" style="color: black; margin: auto">
-                                        <div >
-                                            <span class="reset" style="display: none;">Selected: <span class="filter"></span></span>
-                                            <a class="reset" href="javascript:breedChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+                            <!--AGE-->
 
-                                            <div class="clearfix"></div>
+                            <!--BREED-->
+                            <div class="col-md-3">
+                                <div class="row2graphDiv">
+                                    <div class="row svgGraphDiv" >
+                                        <div id="aBreedVisu" sclass="dcGraphDiv">
+                                            <div >
+                                                <span class="reset spanStyle" >
+                                                    Selected:
+                                                    <span class="filter"></span>
+                                                </span>
+                                                <a class="reset spanStyle" href="javascript:breedChart.filterAll();dc.redrawAll();" >
+                                                    reset
+                                                </a>
+                                                <div class="clearfix"></div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row" style="text-align: center; margin: auto; font-size: 16px">
-                                    <p style="text-align: center; margin: auto; font-size: 16px">
-                                        Number of animals per breed
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                <div class="row" style="padding-bottom: 70px">
-
-                    <div class="col-md-4">
-                        <div style="border: solid; border-color: gray; border-width: 1px; width: 440px; padding-left: 10px ">
-                            <div class="row" style="text-align: center">
-                                <div id="aCityVisu" style="color: black; margin: auto">
-                                    <div >
-                                        <span class="reset" style="display: none;">Selected: <span class="filter"></span></span>
-                                        <a class="reset" href="javascript:cityChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
-
-                                        <div class="clearfix"></div>
+                                    <div class="row">
+                                        <p class="graphLabel">
+                                            Number of animals per breed
+                                        </p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" style="text-align: center; margin: auto; font-size: 16px">
-                                <p style="text-align: center; margin: auto; font-size: 16px">
-                                    Number of animals per city
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- <div class="col-md-4">
-                       <div style="border: solid; border-color: gray; border-width: 1px; width: 440px; padding-left: 10px ">
-                            <div class="row" style="text-align: center">
-                                <div id="aCityUserVisu" style="color: black; margin: auto">
-                                    <div >
-                                        <span class="reset" style="display: none;">Selected: <span class="filter"></span></span>
-                                        <a class="reset" href="javascript:cityUserChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+                            <!--BREED-->
 
-                                        <div class="clearfix"></div>
+                        </div>
+                        <!--TYPE AGE BREED GENDER-->
+
+                        <!--CITIES AND CENTERS-->
+                        <div class="row" style="padding-bottom: 70px">
+
+                            <!--CITIES-->
+                            <div class="col-md-4">
+                                <div class="row3graphDiv" >
+                                    <div class="row svgGraphDiv" >
+                                        <div class="dcGraphDiv" id="aCityVisu">
+                                            <div>
+                                                <span class="reset spanStyle">
+                                                    Selected:
+                                                    <span class="filter"></span>
+                                                </span>
+                                                <a class="reset spanStyle" href="javascript:cityChart.filterAll();dc.redrawAll();" >
+                                                    reset
+                                                </a>
+
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" >
+                                        <p class="graphLabel">
+                                            Number of animals per city
+                                        </p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" style="text-align: center; margin: auto; font-size: 16px">
-                                <p style="text-align: center; margin: auto; font-size: 16px">
-                                    Number of animals adopted in a city
-                                </p>
-                            </div>
-                        </div>
-                    </div>-->
-                    <div class="col-md-4">
-                        <div style="border: solid; border-color: gray; border-width: 1px; width: 440px; padding-left: 10px ">
-                            <div class="row" style="text-align: center">
-                                <div id="aCenterVisu" style="color: black; margin: auto">
-                                    <div >
-                                        <span class="reset" style="display: none;">Selected: <span class="filter"></span></span>
-                                        <a class="reset" href="javascript:centerChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+                            <!--CITIES-->
 
-                                        <div class="clearfix"></div>
+                            <!--CENTERS-->
+                            <div class="col-md-4">
+                                <div class="row3graphDiv" >
+                                    <div class="row svgGraphDiv" >
+                                        <div class="dcGraphDiv" id="aCenterVisu">
+                                            <div>
+                                                <span class="reset spanStyle" >
+                                                    Selected:
+                                                    <span class="filter"></span>
+                                                </span>
+                                                <a class="reset spanStyle" href="javascript:centerChart.filterAll();dc.redrawAll();" >
+                                                    reset
+                                                </a>
+
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <p class="graphLabel">
+                                            Number of animals per center
+                                        </p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" style="text-align: center; margin: auto; font-size: 16px">
-                                <p style="text-align: center; margin: auto; font-size: 16px">
-                                    Number of animals per center
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="dc-data-count">
-                            <span class="filter-count"></span> selected out of <span class="total-count"></span> records | <a
-                                href="javascript:dc.filterAll(); dc.renderAll();">Reset All</a>
-                        </div>
-                    </div>
-                    <table class="table table-hover dc-data-table">
-                    </table>
-                </div>
+                            <!--CENTERS-->
 
-            </section>
+                            <!--RESETALL-->
+                            <div>
+                                <div class="dc-data-count">
+                                    <span class="filter-count"></span> selected out of <span class="total-count"></span> records | <a
+                                        href="javascript:dc.filterAll(); dc.renderAll();">Reset All</a>
+                                </div>
+                            </div>
+                            <!--RESETALL-->
+
+                        </div>
+                        <!--CITIES AND CENTERS-->
+                    </div>
+                    <!-------------------------------------VISUALISATIONS------------------------------------->
+
+                </section>
+            </div>
+            <!-------------------------------------WHITE BACKGROUND------------------------------------->
         </div>
+    <!-------------------------------------BODY------------------------------------->
+
+    <!-------------------------------------FOOTER------------------------------------->
+        <footer th:replace="fragments/footer.html"/>
+    <!-------------------------------------FOOTER------------------------------------->
+
+    <!-------------------------------------SCRIPTS------------------------------------->
         <script src="https://d3js.org/d3.v4.min.js"></script>
         <script type="text/javascript" th:src="@{/js/index.js}"> </script>
         <script type="text/javascript" src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dc/1.7.5/dc.js"></script>
         <script type="text/javascript" th:src="@{/js/indexDC.js}"> </script>
-
-
-    </div>
-        <footer th:replace="fragments/footer.html"/>
+    <!-------------------------------------SCRIPTS------------------------------------->
     </body>
 </html>

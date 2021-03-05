@@ -1,5 +1,6 @@
 package mk.finki.ukim.milenichinja.Repository.Jpa;
 
+import mk.finki.ukim.milenichinja.Models.Enums.AgeGroup;
 import mk.finki.ukim.milenichinja.Models.Enums.Gender;
 import mk.finki.ukim.milenichinja.Models.Enums.Type;
 import mk.finki.ukim.milenichinja.Models.Pet;
@@ -19,7 +20,7 @@ public interface PetRepository extends JpaRepository<Pet,Integer> {
     List<Pet> findAllByAdopted(Boolean adopted);
 
 
-    List<Pet> findAllByAgeLikeAndAdopted(String age, Boolean adopted);
+    List<Pet> findAllByAgeGroupAndAdopted(AgeGroup age, Boolean adopted);
 
     List<Pet> findAllByBreedLikeAndAdopted(String breed, Boolean adopted);
 
@@ -28,11 +29,11 @@ public interface PetRepository extends JpaRepository<Pet,Integer> {
     List<Pet> findAllByTypeAndAdopted(Type type, Boolean adopted);
 
 
-    List<Pet> findAllByAgeLikeAndBreedLikeAndAdopted(String age,String breed, Boolean adopted);
+    List<Pet> findAllByAgeGroupAndBreedLikeAndAdopted(AgeGroup age,String breed, Boolean adopted);
 
-    List<Pet> findAllByAgeLikeAndGenderAndAdopted(String age,Gender gender, Boolean adopted);
+    List<Pet> findAllByAgeGroupAndGenderAndAdopted(AgeGroup age,Gender gender, Boolean adopted);
 
-    List<Pet> findAllByAgeLikeAndTypeAndAdopted(String age,Type type, Boolean adopted);
+    List<Pet> findAllByAgeGroupAndTypeAndAdopted(AgeGroup age,Type type, Boolean adopted);
 
 
     List<Pet> findAllByBreedLikeAndGenderAndAdopted(String breed,Gender gender, Boolean adopted);
@@ -41,16 +42,16 @@ public interface PetRepository extends JpaRepository<Pet,Integer> {
 
     List<Pet> findAllByGenderAndTypeAndAdopted(Gender gender,Type type, Boolean adopted);
 
-    List<Pet> findAllByAgeLikeAndBreedLikeAndGenderAndAdopted(String age, String breed, Gender gender, Boolean adopted);
+    List<Pet> findAllByAgeGroupAndBreedLikeAndGenderAndAdopted(AgeGroup age, String breed, Gender gender, Boolean adopted);
 
 
-    List<Pet> findAllByAgeLikeAndBreedLikeAndTypeAndAdopted(String age, String breed, Type type, Boolean adopted);
+    List<Pet> findAllByAgeGroupAndBreedLikeAndTypeAndAdopted(AgeGroup age, String breed, Type type, Boolean adopted);
 
-    List<Pet> findAllByAgeLikeAndGenderAndTypeAndAdopted(String age, Gender gender, Type type, Boolean adopted);
+    List<Pet> findAllByAgeGroupAndGenderAndTypeAndAdopted(AgeGroup age, Gender gender, Type type, Boolean adopted);
 
     List<Pet> findAllByBreedLikeAndGenderAndTypeAndAdopted(String breed, Gender gender, Type type, Boolean adopted);
 
-    List<Pet> findAllByAgeLikeAndBreedLikeAndGenderAndTypeAndAdopted(String age, String breed, Gender gender, Type type, Boolean adopted);
+    List<Pet> findAllByAgeGroupAndBreedLikeAndGenderAndTypeAndAdopted(AgeGroup age, String breed, Gender gender, Type type, Boolean adopted);
 
 
     List<Pet> findAllByAdoptedAndId(Boolean adopted, Integer id);

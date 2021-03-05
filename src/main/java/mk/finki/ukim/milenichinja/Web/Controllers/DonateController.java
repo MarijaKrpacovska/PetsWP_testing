@@ -5,16 +5,15 @@ import mk.finki.ukim.milenichinja.Models.*;
 import mk.finki.ukim.milenichinja.Models.Enums.PaymentMethod;
 import mk.finki.ukim.milenichinja.Models.Exceptions.InvalidUserCredentialsException;
 import mk.finki.ukim.milenichinja.Models.Exceptions.InvalidUsernameOrPasswordException;
-import mk.finki.ukim.milenichinja.Service.AppUserService;
-import mk.finki.ukim.milenichinja.Service.DonationCauseService;
-import mk.finki.ukim.milenichinja.Service.DonationService;
-import mk.finki.ukim.milenichinja.Service.PetService;
+import mk.finki.ukim.milenichinja.Models.Exceptions.ValuteNotFoundException;
+import mk.finki.ukim.milenichinja.Service.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -29,11 +28,14 @@ public class DonateController {
 
     private final PetService petService;
 
-    public DonateController(DonationService donationService, DonationCauseService donationCauseService, AppUserService appUserService, PetService petService) {
+    private final ValuteService valuteService;
+
+    public DonateController(DonationService donationService, DonationCauseService donationCauseService, AppUserService appUserService, PetService petService, ValuteService valuteService) {
         this.donationService = donationService;
         this.donationCauseService = donationCauseService;
         this.appUserService = appUserService;
         this.petService = petService;
+        this.valuteService = valuteService;
     }
 
     //DONATE
@@ -42,8 +44,12 @@ public class DonateController {
     public String getDonatePage(@RequestParam(required = false) String error, Model model) {
 
         List<DonationCause> donationCauses = this.donationCauseService.listAll();
+        List<Valute> valutes = this.valuteService.listAll();
+        List<PaymentMethod> paymentMethods = Arrays.asList(PaymentMethod.values());
 
         model.addAttribute("causesList",donationCauses);
+        model.addAttribute("paymentMethods",paymentMethods);
+        model.addAttribute("valutes",valutes);
 
         if(error != null && !error.isEmpty()) {
             model.addAttribute("hasError", true);
@@ -54,17 +60,19 @@ public class DonateController {
 
     @PostMapping("/donate")
     public String donate(@RequestParam double sum,
-                           @RequestParam Long cardNumber,
-                           @RequestParam String valute,
-                           @RequestParam Integer donationCauseId,
-                           HttpServletRequest req) {
+                         @RequestParam Long cardNumber,
+                         @RequestParam String valute,
+                         @RequestParam Integer donationCauseId,
+                         @RequestParam PaymentMethod paymentMethod,
+                         HttpServletRequest req
+    ) {
         try{
-            PaymentMethod paymentMethod = PaymentMethod.CREDITCARD;
-
             String username = req.getRemoteUser();
             AppUser user = appUserService.getByUsername(username).orElseThrow(InvalidUserCredentialsException::new);
             DonationCause donationCause=this.donationCauseService.findById(donationCauseId).orElseThrow();
-            this.donationService.save(user, sum, paymentMethod, cardNumber, valute, donationCause);
+            Valute val = this.valuteService.findByShortName(valute).orElseThrow( () -> new ValuteNotFoundException(valute));
+
+            this.donationService.save(user, sum, paymentMethod, cardNumber, val, donationCause);
             return "redirect:/petsList";
         } catch (InvalidUsernameOrPasswordException exception) {
             return "redirect:/register?error=" + exception.getMessage();
@@ -78,7 +86,7 @@ public class DonateController {
     public String getAllDonationsPage(Model model) {
         List<Donation> donations = this.donationService.listAll();
         model.addAttribute("donationsList",donations);
-        return "mainPages/allDonations";
+        return "mainPages/donations";
     }
     //VIEW ALL DONATIONS
 

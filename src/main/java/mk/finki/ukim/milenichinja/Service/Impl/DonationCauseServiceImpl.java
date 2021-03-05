@@ -1,6 +1,5 @@
 package mk.finki.ukim.milenichinja.Service.Impl;
 
-import mk.finki.ukim.milenichinja.Models.Center;
 import mk.finki.ukim.milenichinja.Models.Donation;
 import mk.finki.ukim.milenichinja.Models.DonationCause;
 import mk.finki.ukim.milenichinja.Models.Exceptions.CenterNotFoundException;
@@ -10,8 +9,10 @@ import mk.finki.ukim.milenichinja.Repository.Jpa.DonationCauseRepository;
 import mk.finki.ukim.milenichinja.Repository.Jpa.DonationRepository;
 import mk.finki.ukim.milenichinja.Repository.Jpa.PetRepository;
 import mk.finki.ukim.milenichinja.Service.DonationCauseService;
+import mk.finki.ukim.milenichinja.Service.ValuteService;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,11 +22,13 @@ public class DonationCauseServiceImpl implements DonationCauseService {
     private final DonationCauseRepository donationCauseRepository;
     private final PetRepository petRepository;
     private final DonationRepository donationRepository;
+    private final ValuteService valuteService;
 
-    public DonationCauseServiceImpl(DonationCauseRepository donationCauseRepository, PetRepository petRepository, DonationRepository donationRepository) {
+    public DonationCauseServiceImpl(DonationCauseRepository donationCauseRepository, PetRepository petRepository, DonationRepository donationRepository, ValuteService valuteService) {
         this.donationCauseRepository = donationCauseRepository;
         this.petRepository = petRepository;
         this.donationRepository = donationRepository;
+        this.valuteService = valuteService;
     }
 
     @Override
@@ -64,15 +67,20 @@ public class DonationCauseServiceImpl implements DonationCauseService {
     }
 
     @Override
-    public Double currentState(DonationCause donationCause) {
+    public String currentState(DonationCause donationCause) {
         List<Donation> donations = donationRepository.findAllByDonationCause(donationCause);
 
         double sum = 0.0;
         for (Donation d : donations) {
-            sum += d.getSum();
+            if(d.getValute().getShortName().equals("MKD")) {
+                sum += d.getSum();
+            }
+            else {
+                sum += valuteService.ConvertToMKD(d.getSum(), d.getValute());
+            }
         }
-
-        return sum;
+        DecimalFormat df = new DecimalFormat("#.##");
+        return df.format(sum);
     }
 
     @Override

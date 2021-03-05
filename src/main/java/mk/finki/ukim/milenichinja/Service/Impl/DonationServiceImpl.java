@@ -25,7 +25,7 @@ public class DonationServiceImpl implements DonationService {
     }
 
     @Override
-    public Optional<Donation> save(AppUser donator, double sum, PaymentMethod paymentMethod, Long cardNumber, String valute, DonationCause donationCause) {
+    public Optional<Donation> save(AppUser donator, double sum, PaymentMethod paymentMethod, Long cardNumber, Valute valute, DonationCause donationCause) {
         ZonedDateTime donationTime = ZonedDateTime.now();
         Donation donation = new Donation(donator,sum,paymentMethod,cardNumber,donationTime,valute,donationCause);
         return Optional.of( this.donationRepository.save(donation) );

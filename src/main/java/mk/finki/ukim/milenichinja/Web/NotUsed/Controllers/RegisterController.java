@@ -22,14 +22,13 @@ import java.util.List;
 @Controller
 @RequestMapping
 public class RegisterController {
+
     private final AppUserService appUserService;
+
     private final CenterService centerService;
 
     public RegisterController(AppUserService appUserService, CenterService centerService) {
         this.appUserService = appUserService;
         this.centerService = centerService;
     }
-
-
-
 }

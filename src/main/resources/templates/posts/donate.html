@@ -29,11 +29,29 @@
                     <input type="text" id="cardNumber" name="cardNumber" class="form-control" placeholder="cardNumber" required=""
                            autofocus="">
                 </p>
-                <p>
+                <div class="form-group">
+                    <label>Cause</label>
+                    <select name="valute" class="form-control">
+                        <option th:each="val : ${valutes}"
+                                th:value="${val.getShortName()}"
+                                th:text="${val.getShortName()}"
+                                required>
+                        </option>
+
+                    </select>
+                </div>
+                <!--<p>
                     <label for="valute" class="sr-only">prezime</label>
                     <input type="text" id="valute" name="valute" class="form-control" placeholder="valute" required=""
                            autofocus="">
-                </p>
+                </p>-->
+                <select name="paymentMethod" class="form-control">
+                    <option th:each="pm : ${paymentMethods}"
+                            th:value="${pm.name()}"
+                            th:text="${pm.name()}">
+                    </option>
+
+                </select>
                 <div class="form-group">
                     <label>Cause</label>
                     <select name="donationCauseId" class="form-control">
@@ -45,7 +63,6 @@
 
                     </select>
                 </div>
-
 
                 <button class="btn btn-lg btn-primary btn-block" style="width: 120px" type="submit">DONATE</button>
             </form>

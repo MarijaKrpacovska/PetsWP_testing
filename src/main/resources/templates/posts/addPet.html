@@ -50,7 +50,14 @@
                             <label class="form-check-label" for="DOG">DOG</label>
                         </div>
 
-                        <div class="form-group">
+                        <div th:if="${pet} == null" class="form-check form-check-inline">
+
+                            <label class="form-check-label" for="DoB">Date of birth</label>
+                            <input class="form-check-input" name="DoB" type="date" id="DoB" value="DoB" required>
+
+                        </div>
+
+                       <!-- <div class="form-group">
                             <label for="vozrast">Age</label>
                             <input type="text"
                                    class="form-control"
@@ -58,7 +65,8 @@
                                    name="vozrast"
                                    th:value="(${pet} != null ? ${pet.getAge()} : '')"
                                    required>
-                        </div>
+                        </div>-->
+
                         <div class="form-group">
                             <label for="rasa">Breed</label>
                             <input type="text"

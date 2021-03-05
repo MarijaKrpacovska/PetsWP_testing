@@ -1,6 +1,8 @@
 package mk.finki.ukim.milenichinja.Web.Controllers;
 
+import mk.finki.ukim.milenichinja.Models.Center;
 import mk.finki.ukim.milenichinja.Models.DonationCause;
+import mk.finki.ukim.milenichinja.Models.Enums.City;
 import mk.finki.ukim.milenichinja.Models.Pet;
 import mk.finki.ukim.milenichinja.Service.AppUserService;
 import mk.finki.ukim.milenichinja.Service.DonationCauseService;
@@ -12,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -98,5 +101,18 @@ public class DonationCausesController {
         return "redirect:/causes";
     }
     //ADD EDIT DELETE
+
+    @GetMapping("/details/{id}")
+    public String detailsPage(@PathVariable int id, Model model) {
+        if (this.donationCauseService.findById(id).isPresent()) {
+            DonationCause cause = this.donationCauseService.findById(id).get();
+            String causeSum = donationCauseService.currentState(cause);
+
+            model.addAttribute("cause", cause);
+            model.addAttribute("causeSum", causeSum);
+            return "details/donationCausesDetails.html";
+        }
+        return "redirect:/products?error=ProductNotFound";
+    }
 
 }

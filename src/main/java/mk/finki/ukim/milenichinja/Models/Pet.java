@@ -1,11 +1,13 @@
 package mk.finki.ukim.milenichinja.Models;
 
 import lombok.Data;
+import mk.finki.ukim.milenichinja.Models.Enums.AgeGroup;
 import mk.finki.ukim.milenichinja.Models.Enums.Gender;
 import mk.finki.ukim.milenichinja.Models.Enums.Type;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
+import java.util.Date;
 
 @Data
 @Entity
@@ -29,7 +31,12 @@ public class Pet {
 
     private ZonedDateTime adoptionDate;
 
+    private ZonedDateTime dateOfBirth;
+
     private boolean adopted;
+
+    @Enumerated(value = EnumType.STRING)
+    private AgeGroup ageGroup;
 
     @Enumerated(value = EnumType.STRING)
     private Type type;
@@ -49,10 +56,9 @@ public class Pet {
     public Pet() {
     }
 
-    public Pet(String name, Type type, String age, String breed, Gender gender, String description, Center center, ZonedDateTime arivalDate, String url, AppUser volunteer, boolean adopted) {
+    public Pet(String name, Type type, String breed, Gender gender, String description, Center center, ZonedDateTime arivalDate, String url, AppUser volunteer, boolean adopted, ZonedDateTime dateOfBirth) {
         this.name = name;
         this.type = type;
-        this.age = age;
         this.breed = breed;
         this.gender = gender;
         this.description = description;
@@ -61,6 +67,7 @@ public class Pet {
         this.url = url;
         this.savedBy = volunteer;
         this.adopted = adopted;
+        this.dateOfBirth = dateOfBirth;
     }
 
 }

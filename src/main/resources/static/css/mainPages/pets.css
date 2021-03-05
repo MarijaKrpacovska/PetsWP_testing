@@ -1,0 +1,144 @@
+body{
+    background-image: url(https://previews.123rf.com/images/cnuisin/cnuisin1806/cnuisin180600019/103217924-paw-seamless-pattern-dog-paw-cat-paw-bulldog-vector-isolated-background-wallpaper.jpg);
+    /*background-image: url(https://static9.depositphotos.com/1022647/1081/v/600/depositphotos_10813712-stock-illustration-background-animal-footprints.jpg);*/
+    text-align: center;
+}
+.cid-qxWAQuan7h{
+    background-color: white;
+    text-align: center;
+    width: max-content;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 0 50px rgba(0,0,0,0.8);
+    position: relative;
+    z-index: 10;
+    padding-bottom: 37px;
+}
+.container{
+    /* background-color: #ede3cf;*/
+    background-color: white;
+    position: relative;
+    padding-bottom: 49px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.media-container-row{
+    margin-left: 20px;
+    width: available;
+}
+.pet{
+    margin-top: 0px;
+    padding-top: 40px;
+    background-color: transparent;
+    text-align: center;
+    border: none;
+}
+.card-wrapper{
+    border: none;
+    background-color: white;
+    text-align: center;
+    margin-left: 17px;
+}
+.card-img{
+    border: none;
+    text-align: center;
+    margin-left: 10px;
+}
+.pet_img_div{
+    width: 300px;
+    height: 300px;
+    overflow: hidden;
+}
+.pet_img{
+    width: 300px;
+}
+.pet_info_div{
+    background-color: darkgray;
+    width: 200px;
+    border-right: darkgray;
+    border-bottom: darkgray;
+    padding-top: 4.5px;
+    margin-top: -93px;
+    height: 49px;
+    width: 300px;
+    margin-left: 10.5px;
+    position: absolute;
+    background-color: rgba(168,168,168,0.6);
+    color: black;
+}
+.pet_info_div_strong{
+    color: white;
+    font-size: 20px;
+}
+.pet_info_div_female_img{
+    width: 16px;
+    height: 26px;
+}
+.pet_info_div_male_img{
+    width: 26px;
+    height: 26px;
+}
+.adopt_button{
+    background-color: cornflowerblue;
+    box-shadow: 0 0 10px rgba(0,0,0,0.8);
+    text-shadow:4px;
+    position: relative;
+    z-index: 4;
+    width: max-content;
+    font-size: 26px;
+    font-weight: bold;
+    color: white;
+    border: none;
+    margin-top: -20px;
+    border-radius: 10px;
+    width: 140px;
+    height: 60px;
+}
+.add_pet_button_div{
+    background-color: lightcoral;
+    font-weight: bold;
+    color: white;
+    font-size: 30px;
+    width: 200px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.8);
+    position: relative;
+    z-index: 9;
+    border-radius: 10px;
+    margin-right: auto;
+    margin-left: auto;
+}
+.add_pet_button{
+    text-align: center;
+    color: white;
+}
+.slogan{
+    color: white;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 21px;
+}
+.delete_button{
+    background-color: transparent;
+    border: transparent;
+}
+.copyFilter{
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    font-size: 100%;
+    vertical-align: baseline;
+    margin-bottom: 25px;
+    display: block;
+    font-family: 'Assistant',Helvetica,Arial,Lucida,sans-serif;
+    line-height: 2em;
+    color: #202020;
+}
+.searchPets{
+    text-align: right;
+    padding-right: 60px;
+}
+.searchTitle{
+    padding-top: 40px;
+}

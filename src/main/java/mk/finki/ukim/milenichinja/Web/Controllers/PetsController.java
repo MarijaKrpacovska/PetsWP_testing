@@ -2,6 +2,7 @@ package mk.finki.ukim.milenichinja.Web.Controllers;
 
 import mk.finki.ukim.milenichinja.Models.AppUser;
 import mk.finki.ukim.milenichinja.Models.Center;
+import mk.finki.ukim.milenichinja.Models.Enums.AgeGroup;
 import mk.finki.ukim.milenichinja.Models.Enums.Gender;
 import mk.finki.ukim.milenichinja.Models.Exceptions.InvalidUserCredentialsException;
 import mk.finki.ukim.milenichinja.Models.Pet;
@@ -15,6 +16,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -33,7 +37,7 @@ public class PetsController {
 
     //MAIN GET PAGES
     @GetMapping
-    public String getAvaliablePets(@RequestParam(required = false) String ageSearch,
+    public String getAvaliablePets(@RequestParam(required = false) AgeGroup ageSearch,
                                    @RequestParam(required = false) String breedSearch,
                                    @RequestParam(required = false) Gender genderSearch,
                                    @RequestParam(required = false) Type typeSearch,
@@ -53,7 +57,7 @@ public class PetsController {
     @GetMapping("/adoptedPets")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getAllPets(@RequestParam(required = false) Integer petSearch,
-                             @RequestParam(required = false) String ageSearch,
+                             @RequestParam(required = false) AgeGroup ageSearch,
                              @RequestParam(required = false) String breedSearch,
                              @RequestParam(required = false) Gender genderSearch,
                              @RequestParam(required = false) Type typeSearch,
@@ -109,17 +113,20 @@ public class PetsController {
             @RequestParam(required = false) Integer id,
             @RequestParam String ime,
             @RequestParam Type vid,
-            @RequestParam String vozrast,
             @RequestParam String rasa,
             @RequestParam Gender pol,
             @RequestParam String opis,
             @RequestParam int id_centar,
-            @RequestParam String url_slika) {
+            @RequestParam String DoB,
+            @RequestParam String url_slika,
+            HttpServletRequest req) {
         // this.milenicheService.save(ime, vid, vozrast, rasa, pol, opis, embg_volonter, id_centar, url_slika);
         if(id != null){
-            this.petService.edit(id, ime, vid, vozrast, rasa, pol, opis, id_centar, url_slika);
+            this.petService.edit(id, ime, vid, rasa, pol, opis, id_centar, url_slika, DoB );
         }else{
-            this.petService.save(ime, vid, vozrast, rasa, pol, opis, id_centar, url_slika, null);
+            String username = req.getRemoteUser();
+            AppUser user = appUserService.getByUsername(username).orElseThrow(InvalidUserCredentialsException::new);
+            this.petService.save(ime, vid, rasa, pol, opis, id_centar, url_slika, user, DoB);
         }
         return "redirect:/petsList";
     }

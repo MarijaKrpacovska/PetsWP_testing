@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface DonationService {
 
-    Optional<Donation> save(AppUser donator, double sum, PaymentMethod paymentMethod, Long cardNumber, String valute, DonationCause donationCause);
+    Optional<Donation> save(AppUser donator, double sum, PaymentMethod paymentMethod, Long cardNumber, Valute valute, DonationCause donationCause);
 
     List<Donation> listAll();
 

@@ -11,7 +11,7 @@ var typeChart =  dc.pieChart('#aTypeVisu');
 var centerChart = dc.rowChart("#aCenterVisu");
 var adoptedChart =  dc.pieChart('#adoptedVisu');
 var visCount = dc.dataCount(".dc-data-count")
-var visTable = dc.dataTable(".dc-data-table")
+//var visTable = dc.dataTable(".dc-data-table")
 
     var citiesList = d3.selectAll('#petCity')[0]
     var centerList = d3.selectAll('#center')[0]
@@ -165,6 +165,7 @@ visCount
     .dimension(ndx)
     .group(all);
 
+/*
 visTable
     .dimension(dateDim)
    // .group(dateGroup)
@@ -176,7 +177,7 @@ visTable
         "Timestamp",
         "center",
         "adopted"
-    ]);
+    ]);*/
 
     dc.renderAll();
 

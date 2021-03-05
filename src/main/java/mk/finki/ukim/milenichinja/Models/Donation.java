@@ -15,8 +15,6 @@ public class Donation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String valute;
-
     private double sum;
 
     private Long cardNumber;
@@ -32,10 +30,13 @@ public class Donation {
     @ManyToOne
     private DonationCause donationCause;
 
+    @ManyToOne
+    private Valute valute;
+
     public Donation() {
     }
 
-    public Donation(AppUser donator, double sum, PaymentMethod paymentMethod, Long cardNumber, ZonedDateTime donationTime, String valute, DonationCause donationCause) {
+    public Donation(AppUser donator, double sum, PaymentMethod paymentMethod, Long cardNumber, ZonedDateTime donationTime, Valute valute, DonationCause donationCause) {
         this.donator = donator;
         this.sum = sum;
         this.paymentMethod = paymentMethod;
