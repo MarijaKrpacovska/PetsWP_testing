@@ -102,17 +102,70 @@ public class DonationCausesController {
     }
     //ADD EDIT DELETE
 
+    //DETAILS
     @GetMapping("/details/{id}")
     public String detailsPage(@PathVariable int id, Model model) {
         if (this.donationCauseService.findById(id).isPresent()) {
             DonationCause cause = this.donationCauseService.findById(id).get();
-            String causeSum = donationCauseService.currentState(cause);
+            //String causeSum = donationCauseService.currentState(cause);
 
             model.addAttribute("cause", cause);
-            model.addAttribute("causeSum", causeSum);
-            return "details/donationCausesDetails.html";
+            //model.addAttribute("causeSum", causeSum);
+            return "details/donationCause.html";
         }
         return "redirect:/products?error=ProductNotFound";
     }
+    //DETAILS
+
+    //CANCEL, COMPLETE DONATION CAUSE, TRANSFER MONEY
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/cancel/{id}")
+    public String cancelDonationCause(@PathVariable int id, Model model) {
+        if (this.donationCauseService.findById(id).isPresent()) {
+            DonationCause cause = this.donationCauseService.findById(id).get();
+            List<DonationCause> causesList = this.donationCauseService.listAll();
+            model.addAttribute("causes", causesList);
+            model.addAttribute("cause", cause);
+            return "posts/cancelCause";
+        }
+        return "redirect:/products?error=ProductNotFound";
+    }
+
+    @PostMapping("/cancel")
+    public String cancelDonationCause(@RequestParam int id,
+                                      @RequestParam int idTransfer,
+                                      Model model,
+                                      HttpServletRequest req) {
+        DonationCause cause = this.donationCauseService.findById(id).get();
+
+        model.addAttribute("cause", cause);
+        this.donationCauseService.cancelCause(id, idTransfer);
+
+        return "redirect:/causes";
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("/complete/{id}")
+    public String completeDonationCause(@PathVariable int id) {
+        this.donationCauseService.finishCause(id);
+        return "redirect:/causes";
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/transfer-sum")
+    public String transferMoneyPage(Model model) {
+        List<DonationCause> causesList = this.donationCauseService.listAll();
+        model.addAttribute("causes", causesList);
+        return "posts/transferMoney";
+    }
+
+    @PostMapping("/transfer-sum")
+    public String transferMoney(@RequestParam int idFrom,
+                                @RequestParam int idTo,
+                                @RequestParam double sum) {
+        this.donationCauseService.transferSumMoney(idFrom, idTo, sum);
+        return "redirect:/causes";
+    }
+    //CANCEL, COMPLETE DONATION CAUSE, TRANSFER MONEY
 
 }

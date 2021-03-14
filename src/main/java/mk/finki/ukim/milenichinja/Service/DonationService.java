@@ -10,6 +10,8 @@ public interface DonationService {
 
     Optional<Donation> save(AppUser donator, double sum, PaymentMethod paymentMethod, Long cardNumber, Valute valute, DonationCause donationCause);
 
+    Optional<DonationCause> updateDCCurrentSum(DonationCause donationCause, double sum);
+
     List<Donation> listAll();
 
 }

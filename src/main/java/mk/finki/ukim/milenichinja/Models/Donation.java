@@ -31,6 +31,9 @@ public class Donation {
     private DonationCause donationCause;
 
     @ManyToOne
+    private DonationCause initialCause;
+
+    @ManyToOne
     private Valute valute;
 
     public Donation() {
@@ -44,5 +47,16 @@ public class Donation {
         this.donationTime = donationTime;
         this.valute = valute;
         this.donationCause = donationCause;
+    }
+
+    public Donation(double sum, Long cardNumber, ZonedDateTime donationTime, PaymentMethod paymentMethod, AppUser donator, DonationCause donationCause, DonationCause initialCause, Valute valute) {
+        this.sum = sum;
+        this.cardNumber = cardNumber;
+        this.donationTime = donationTime;
+        this.paymentMethod = paymentMethod;
+        this.donator = donator;
+        this.donationCause = donationCause;
+        this.initialCause = initialCause;
+        this.valute = valute;
     }
 }

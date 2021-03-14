@@ -3,6 +3,8 @@ package mk.finki.ukim.milenichinja.Service.Impl;
 import mk.finki.ukim.milenichinja.Models.Donation;
 import mk.finki.ukim.milenichinja.Models.DonationCause;
 import mk.finki.ukim.milenichinja.Models.Exceptions.CenterNotFoundException;
+import mk.finki.ukim.milenichinja.Models.Exceptions.DonationCauseNotFoundException;
+import mk.finki.ukim.milenichinja.Models.Exceptions.DonationCreationException;
 import mk.finki.ukim.milenichinja.Models.Pet;
 import mk.finki.ukim.milenichinja.Models.Enums.Status;
 import mk.finki.ukim.milenichinja.Repository.Jpa.DonationCauseRepository;
@@ -33,6 +35,7 @@ public class DonationCauseServiceImpl implements DonationCauseService {
 
     @Override
     public List<DonationCause> listAll() {
+
         return donationCauseRepository.findAll();
     }
 
@@ -67,7 +70,7 @@ public class DonationCauseServiceImpl implements DonationCauseService {
     }
 
     @Override
-    public String currentState(DonationCause donationCause) {
+    public double currentState(DonationCause donationCause) {
         List<Donation> donations = donationRepository.findAllByDonationCause(donationCause);
 
         double sum = 0.0;
@@ -79,14 +82,75 @@ public class DonationCauseServiceImpl implements DonationCauseService {
                 sum += valuteService.ConvertToMKD(d.getSum(), d.getValute());
             }
         }
-        DecimalFormat df = new DecimalFormat("#.##");
-        return df.format(sum);
+        //DecimalFormat df = new DecimalFormat("#.##");
+        return sum;
     }
 
     @Override
     public Optional<DonationCause> delete(int id) {
         DonationCause cause = this.donationCauseRepository.findById(id).orElseThrow( () -> new CenterNotFoundException(id) );
         this.donationCauseRepository.delete(cause);
+        return Optional.of(cause);
+    }
+
+    @Override
+    public Optional<DonationCause> transferAllMoney(int transferFromId, int transferToId) {
+        DonationCause transferFrom = this.findById(transferFromId).orElseThrow( () -> new DonationCauseNotFoundException(transferFromId) );
+        DonationCause transferTo = this.findById(transferToId).orElseThrow( () -> new DonationCauseNotFoundException(transferToId) );
+
+        double transferFromCurrentSum = transferFrom.getCurrentSum();
+        double transferToCurrentSum = transferTo.getCurrentSum();
+
+        transferToCurrentSum += transferFromCurrentSum;
+        transferFromCurrentSum = 0;
+
+        transferFrom.setCurrentSum(transferFromCurrentSum);
+        transferTo.setCurrentSum(transferToCurrentSum);
+
+        this.donationCauseRepository.save(transferFrom);
+        this.donationCauseRepository.save(transferTo);
+
+        return Optional.of(transferTo);
+    }
+
+    @Override
+    public Optional<DonationCause> transferSumMoney(int transferFromId, int transferToId, double sum) {
+        DonationCause transferFrom = this.findById(transferFromId).orElseThrow( () -> new DonationCauseNotFoundException(transferFromId) );
+        DonationCause transferTo = this.findById(transferToId).orElseThrow( () -> new DonationCauseNotFoundException(transferToId) );
+
+        double transferFromCurrentSum = transferFrom.getCurrentSum();
+        double transferToCurrentSum = transferTo.getCurrentSum();
+
+        /*
+        TO DO: EXCEPTION NOT ENOUGH MONEY
+         */
+
+        transferToCurrentSum += sum;
+        transferFromCurrentSum -= sum;
+
+        transferFrom.setCurrentSum(transferFromCurrentSum);
+        transferTo.setCurrentSum(transferToCurrentSum);
+
+        this.donationCauseRepository.save(transferFrom);
+        this.donationCauseRepository.save(transferTo);
+
+        return Optional.of(transferTo);
+    }
+
+    @Override
+    public Optional<DonationCause> cancelCause(int id, int idTransfer) {
+        DonationCause cause = this.findById(id).orElseThrow( () -> new DonationCauseNotFoundException(id) );
+        cause.setStatus(Status.CLOSED);
+        this.transferAllMoney(id, idTransfer);
+        this.donationCauseRepository.save(cause);
+        return Optional.of(cause);
+    }
+
+    @Override
+    public Optional<DonationCause> finishCause(int id) {
+        DonationCause cause = this.findById(id).orElseThrow( () -> new DonationCauseNotFoundException(id) );
+        cause.setStatus(Status.COMPLETED);
+        this.donationCauseRepository.save(cause);
         return Optional.of(cause);
     }
 }

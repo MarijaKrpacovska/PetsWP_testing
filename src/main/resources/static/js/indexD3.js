@@ -23,13 +23,29 @@
 
   //ADOPTED VS NOT ADOPTED
 
-  var adopted = d3.selectAll('#type')["_groups"]["0"].length
-  var nAdopted = d3.selectAll('#typeNA')["_groups"]["0"].length
+  var adopted = d3.selectAll('#adopted')["_groups"]["0"]
+  //var nAdopted = d3.selectAll('#typeNA')["_groups"]["0"].length
+
+  var types = [];
+  for (i = 0; i < adopted.length; i++) {
+      types.push(adopted.item(i).textContent);
+  }
+
+  var trueNum = 0;
+  var falseNum = 0;
+  for (i = 0; i < types.length; i++) {
+      if(types[i].toString().localeCompare('true') == 0){
+          trueNum++;
+      }
+      else if(types[i].toString().localeCompare('false') == 0){
+          falseNum++;
+      }
+  }
 
   var typesDataset = []
 
-  typesDataset.push(adopted);
-  typesDataset.push(nAdopted);
+  typesDataset.push(trueNum);
+  typesDataset.push(falseNum);
 
     var svgWidth = 340, svgHeight = 340, barPadding = 20;
     var barWidth = (svgWidth / typesDataset.length);
@@ -90,7 +106,7 @@
             return svgHeight - d -20; //spushta so + labels kreva so -
         })
         .attr("x", function(d, i) {
-            return barWidth * i + 30;
+            return barWidth * i + 60;
         })
         .attr("fill", "white")
         .attr("z-index", 100)

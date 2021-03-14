@@ -11,6 +11,7 @@ import mk.finki.ukim.milenichinja.Models.Enums.Type;
 import mk.finki.ukim.milenichinja.Repository.Jpa.AppUserRepository;
 import mk.finki.ukim.milenichinja.Repository.Jpa.CenterRepository;
 import mk.finki.ukim.milenichinja.Repository.Jpa.PetRepository;
+import mk.finki.ukim.milenichinja.Service.AdoptionService;
 import mk.finki.ukim.milenichinja.Service.PetService;
 import org.springframework.stereotype.Service;
 
@@ -27,11 +28,13 @@ public class PetServiceImpl implements PetService {
     private final PetRepository petRepository;
     private final CenterRepository centerRepository;
     private final AppUserRepository appUserRepository;
+    private final AdoptionService adoptionService;
 
-    public PetServiceImpl(PetRepository petRepository, CenterRepository centerRepository, AppUserRepository appUserRepository) {
+    public PetServiceImpl(PetRepository petRepository, CenterRepository centerRepository, AppUserRepository appUserRepository, AdoptionService adoptionService) {
         this.petRepository = petRepository;
         this.centerRepository = centerRepository;
         this.appUserRepository = appUserRepository;
+        this.adoptionService = adoptionService;
     }
 
     @Override
@@ -46,6 +49,7 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public List<Pet> nevdomeniMilenichinja() {
+        //this.adoptionService.updateAdoptions();
         this.updateAllAges();
         return this.petRepository.findAllByAdopted(false);
     }
@@ -62,8 +66,8 @@ public class PetServiceImpl implements PetService {
         ZonedDateTime currentDateTime = ZonedDateTime.now();
         Pet pet = petRepository.findById(id).orElseThrow( () -> new PetNotFoundException(id) );
         pet.setAdopted(true);
-        pet.setOwner(user);
-        pet.setAdoptionDate(currentDateTime);
+       // pet.setOwner(user);
+       // pet.setAdoptionDate(currentDateTime);
         petRepository.save(pet);
     }
 
@@ -215,6 +219,63 @@ public class PetServiceImpl implements PetService {
         }
         else if(age != null && breed.equals("") && gender == null && type == null){
             return this.petRepository.findAllByAgeGroupAndAdopted(age, false);
+        }
+        else{
+            return nevdomeniMilenichinja();
+        }
+    }
+
+    @Override
+    public List<Pet> searchAll(AgeGroup age, String  adopted, Gender gender, Type type) {
+        boolean adoptedBoolean = true;
+
+        if(!adopted.equals(""))
+            adoptedBoolean = Boolean.parseBoolean(adopted);
+
+        if(age != null  && !adopted.equals("") && gender != null && type != null) {
+            return this.petRepository.findAllByAgeGroupAndBreedLikeAndGenderAndTypeAndAdopted(age,"%"+""+"%",gender,type, adoptedBoolean);
+        }
+        else if(age == null && !adopted.equals("") && gender != null && type != null){
+            return this.petRepository.findAllByBreedLikeAndGenderAndTypeAndAdopted("%"+""+"%",gender,type, adoptedBoolean);
+        }
+        else if(age != null && adopted.equals("") && gender != null && type != null){
+            return this.petRepository.findAllByAgeGroupAndGenderAndType(age,gender,type);
+        }
+        else if(age != null&& !adopted.equals("") && gender == null && type != null){
+            return this.petRepository.findAllByAgeGroupAndBreedLikeAndTypeAndAdopted(age,"%"+""+"%",type, adoptedBoolean);
+        }
+        else if(age != null && !adopted.equals("") && gender != null && type == null){
+            return this.petRepository.findAllByAgeGroupAndBreedLikeAndGenderAndAdopted(age,"%"+""+"%",gender, adoptedBoolean);
+        }
+        else if(age == null && adopted.equals("") && gender != null && type != null){
+            return this.petRepository.findAllByGenderAndType(gender, type);
+        }
+        else if(age == null && !adopted.equals("") && gender == null && type != null){
+            return this.petRepository.findAllByBreedLikeAndTypeAndAdopted("%"+""+"%", type, adoptedBoolean);
+        }
+        else if(age == null && !adopted.equals("") && gender != null && type == null){
+            return this.petRepository.findAllByBreedLikeAndGenderAndAdopted("%"+""+"%", gender, adoptedBoolean);
+        }
+        else if(age != null && adopted.equals("") && gender == null && type != null){
+            return this.petRepository.findAllByAgeGroupAndType(age, type);
+        }
+        else if(age != null && adopted.equals("") && gender != null && type == null){
+            return this.petRepository.findAllByAgeGroupAndGender(age, gender);
+        }
+        else if(age != null && !adopted.equals("") && gender == null && type == null){
+            return this.petRepository.findAllByAgeGroupAndBreedLikeAndAdopted(age,"%"+""+"%", adoptedBoolean);
+        }
+        else if(age == null && adopted.equals("") && gender == null && type != null){
+            return this.petRepository.findAllByType(type);
+        }
+        else if(age == null && adopted.equals("") && gender != null && type == null){
+            return this.petRepository.findAllByGender(gender);
+        }
+        else if(age == null && !adopted.equals("") && gender == null && type == null){
+            return this.petRepository.findAllByBreedLikeAndAdopted("%"+""+"%", adoptedBoolean);
+        }
+        else if(age != null && adopted.equals("") && gender == null && type == null){
+            return this.petRepository.findAllByAgeGroup(age);
         }
         else{
             return nevdomeniMilenichinja();

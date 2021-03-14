@@ -9,19 +9,9 @@ var breedChart = dc.rowChart("#aBreedVisu")
 var genderChart =  dc.pieChart('#aGenderVisu');
 var typeChart =  dc.pieChart('#aTypeVisu');
 var centerChart = dc.rowChart("#aCenterVisu");
-var adoptedChart =  dc.pieChart('#adoptedVisu');
+//var adoptedChart =  dc.pieChart('#adoptedVisu');
 var visCount = dc.dataCount(".dc-data-count")
 //var visTable = dc.dataTable(".dc-data-table")
-
-    /*var citiesList = d3.selectAll('#petCity')[0]
-    var centerList = d3.selectAll('#center')[0]
-    var breedList = d3.selectAll('#breed')[0]
-    var genderList = d3.selectAll('#gender')[0]
-    var ageList = d3.selectAll('#age')[0]
-    var typeList = d3.selectAll('#type')[0]
-    var arrivalList = d3.selectAll('#arrivalDate')[0]
-    var dateList = d3.selectAll('#date')[0]
-    var ownerCityList = d3.selectAll('#ownerCity')[0]*/
 
     var citiesListNA = d3.selectAll('#petCity')[0]
     var centerListNA = d3.selectAll('#center')[0]
@@ -31,25 +21,8 @@ var visCount = dc.dataCount(".dc-data-count")
     var typeListNA = d3.selectAll('#type')[0]
     var arrivalListNA = d3.selectAll('#arrivalDate')[0]
     var adoptedListNA = d3.selectAll('#adopted')[0]
-  //  var dateListNA = d3.selectAll('#arrivalDateNA')[0]
-  //  var ownerCityListNA = d3.selectAll('#ownerCityNA')[0]
 
     var objects = [];
-    /*for (i = 0; i < citiesList.length; i++) {
-        var obj = {
-            city: citiesList[i].textContent,
-            center: centerList[i].textContent,
-            breed: breedList[i].textContent,
-            gender: genderList[i].textContent,
-            age: ageList[i].textContent,
-            type: typeList[i].textContent,
-            arrivalDate: arrivalList[i].textContent,
-            date: dateList[i].textContent,
-            ownerCity: ownerCityList[i].textContent,
-            adopted: true
-        }
-        objects.push(obj);
-    }*/
 
     for (i = 0; i < citiesListNA.length; i++) {
         var obj = {
@@ -60,14 +33,11 @@ var visCount = dc.dataCount(".dc-data-count")
             age: ageListNA[i].textContent,
             type: typeListNA[i].textContent,
             arrivalDate: arrivalListNA[i].textContent,
-       //     date: dateListNA[i].textContent,
-            adopted: adoptedListNA[i].textContent
+            adopted: true
         }
         objects.push(obj);
     }
     console.log(objects);
-
-
 
     var ndx= crossfilter(objects);
     var all = ndx.groupAll();
@@ -95,9 +65,9 @@ var visCount = dc.dataCount(".dc-data-count")
     var breedDim = ndx.dimension(function (d){
         return d["breed"];
     })
-    var adoptedDim = ndx.dimension(function (d){
-        return d["adopted"];
-    })
+  //  var adoptedDim = ndx.dimension(function (d){
+    //    return d["adopted"];
+   // })
     var dateDim = ndx.dimension(function (d){
         return d["arrivalDate"];
     })
@@ -109,8 +79,8 @@ var visCount = dc.dataCount(".dc-data-count")
     var centerGroup = centerDim.group();
     var ageGroup = ageDim.group();
     var breedGroup = breedDim.group();
-    var adoptedGroup = adoptedDim.group();
-    var dateGroup = adoptedDim.group();
+//    var adoptedGroup = adoptedDim.group();
+   // var dateGroup = adoptedDim.group();
 
     cityChart
         .dimension(cityDim)
@@ -124,70 +94,36 @@ var visCount = dc.dataCount(".dc-data-count")
         .height(340)
         .width(300);
 
-typeChart
-    .dimension(typeDim)
-    .group(typeGroup)
-    .height(340)
-    .width(300);
+    typeChart
+        .dimension(typeDim)
+        .group(typeGroup)
+        .height(340)
+        .width(300);
 
-/*
-cityUserChart
-    .dimension(cityOwnerDim)
-    .group(cityOwnerGroup)
-    .height(340)
-    .width(400);
-*/
+    centerChart
+        .dimension(centerDim)
+        .group(centerGroup)
+        .height(340)
+        .width(400);
 
-centerChart
-    .dimension(centerDim)
-    .group(centerGroup)
-    .height(340)
-    .width(400);
+    ageChart
+        .dimension(ageDim)
+        .group(ageGroup)
+        .height(340)
+        .width(300);
 
-ageChart
-    .dimension(ageDim)
-    .group(ageGroup)
-    .height(340)
-    .width(300);
+    breedChart
+        .dimension(breedDim)
+        .group(breedGroup)
+        .height(340)
+        .width(300);
 
-breedChart
-    .dimension(breedDim)
-    .group(breedGroup)
-    .height(340)
-    .width(300);
 
-adoptedChart
-    .dimension(adoptedDim)
-    .group(adoptedGroup)
-    .height(340)
-    .width(300);
-
-visCount
-    .dimension(ndx)
-    .group(all);
-
-/*
-visTable
-    .dimension(dateDim)
-   // .group(dateGroup)
-    .group(function(d){
-        var format = d3.format('02d');
-        return d.dd.getFullYear() + '/' + format((d.dd.getMonth() + 1))
-    })
-    .columns([
-        "Timestamp",
-        "center",
-        "adopted"
-    ]);*/
+    visCount
+        .dimension(ndx)
+        .group(all);
 
     dc.renderAll();
-
-
-
-
-
-
-
 
 
 

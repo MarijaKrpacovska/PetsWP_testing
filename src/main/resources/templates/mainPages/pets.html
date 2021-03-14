@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 
     <head>
+        <title>Pets</title>
         <link rel="stylesheet" href="http://formoid.com/articles/data/upload/theme/style.min.css">
         <link rel="stylesheet" th:href="@{/css/mainPages/pets.css}"> </link>
     </head>
@@ -77,9 +78,11 @@
                             <div class="card-wrapper">
                                 <!--PET PICTURE-->
                                 <div class="card-img">
-                                    <div class="pet_img_div">
-                                        <img class="pet_img" th:src="${petList.getUrl()}" alt="Pet image" media-simple="true">
-                                    </div>
+                                    <a th:href="@{'/petsList/details/{id}' (id=${petList.getId()})}">
+                                        <div class="pet_img_div">
+                                            <img class="pet_img" th:src="${petList.getUrl()}" alt="Pet image" media-simple="true">
+                                        </div>
+                                    </a>
                                 </div>
                                 <!--PET PICTURE-->
 
@@ -105,9 +108,9 @@
                             <!--PET POST ACTIONS-->
                             <div class="petPostActions">
                                 <!--ADOPT PET-->
-                                <form th:method="POST" th:action="@{'/petsList/adoptPet/{id}' (id=${petList.getId()})}">
+                                <!--<form th:method="POST" th:action="@{'/adopt/adoptedPett/{id}' (id=${petList.getId()})}">
                                     <button class="adopt_button"  type="submit">ADOPT</button>
-                                </form>
+                                </form>-->
                                 <!--ADOPT PET-->
 
                                 <!--DELETE PET-->

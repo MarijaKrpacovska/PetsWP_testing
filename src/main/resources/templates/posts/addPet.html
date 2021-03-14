@@ -1,6 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
     <head>
+        <title>Add pet</title>
         <link rel="stylesheet" href="http://formoid.com/articles/data/upload/theme/style.min.css">
         <script src="chrome-extension://mooikfkahbdckldjjndioackbalphokd/assets/prompt.js"></script>
     </head>
@@ -50,11 +51,25 @@
                             <label class="form-check-label" for="DOG">DOG</label>
                         </div>
 
-                        <div th:if="${pet} == null" class="form-check form-check-inline">
-
+                        <div th:if="${pet} != null" class="form-check form-check-inline">
                             <label class="form-check-label" for="DoB">Date of birth</label>
-                            <input class="form-check-input" name="DoB" type="date" id="DoB" value="DoB" required>
-
+                            <input class="form-check-input"
+                                   name="DoB"
+                                   type="date"
+                                   id="DoB"
+                                   th:value="${dateOfBirth}"
+                                   th:max="${today}"
+                                   required>
+                        </div>
+                        <div th:if="${pet} == null" class="form-check form-check-inline">
+                            <label class="form-check-label" for="DoB">Date of birth</label>
+                            <input class="form-check-input"
+                                   name="DoB"
+                                   type="date"
+                                   id="DoB"
+                                   value="DoB"
+                                   th:max="${today}"
+                                   required>
                         </div>
 
                        <!-- <div class="form-group">

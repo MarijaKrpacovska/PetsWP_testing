@@ -3,6 +3,7 @@ package mk.finki.ukim.milenichinja.Web.Controllers;
 
 import mk.finki.ukim.milenichinja.Models.Center;
 import mk.finki.ukim.milenichinja.Models.Enums.City;
+import mk.finki.ukim.milenichinja.Models.Pet;
 import mk.finki.ukim.milenichinja.Service.CenterService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -76,6 +77,18 @@ public class CentersController {
         return "redirect:/centers";
     }
     //ADD EDIT DELETE
+
+    //DETAILS
+    @GetMapping("/details/{id}")
+    public String detailsPage(@PathVariable int id, Model model) {
+        if (this.centerService.findById(id).isPresent()) {
+            Center center = this.centerService.findById(id).get();
+            model.addAttribute("center", center);
+            return "details/center.html";
+        }
+        return "redirect:/petsList?error=PetNotFound";
+    }
+    //DETAILS
 
      /*@PostMapping("/add")
     public String addNewCenter(

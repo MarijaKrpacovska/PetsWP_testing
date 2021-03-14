@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" >
     <head>
         <meta charset="UTF-8"/>
-        <title>Adopted pets</title>
+        <title>All pets</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
@@ -22,145 +22,30 @@
             <div class="whiteBackground">
                 <section class="features2 cid-qxWAQuan7h" id="features2-ph" data-rv-view="9966">
 
+                    <!-------------------------------------SMALL NAVBAR------------------------------------->
+                    <ul class="smallNavBarUl">
+                        <li class="smallNavBarLi">
+                            <a class="active" href="/petsList/pets-info/all">All Pets</a>
+                        </li>
+                        <li class="smallNavBarLi">
+                            <a href="/petsList/pets-info/adopted">Adopted pets</a>
+                        </li>
+                        <li class="smallNavBarLi">
+                            <a href="/petsList/pets-info/avaliable">Avaliable Pets</a>
+                        </li>
+                    </ul>
+                    <!-------------------------------------SMALL NAVBAR------------------------------------->
+
+
                     <!-------------------------------------TITLE------------------------------------->
                     <h1 style="text-align: center; font-weight: bold">ALL PETS</h1>
                     <!-------------------------------------TITLE------------------------------------->
 
 
-                    <!-------------------------------------TABLE ADOPTED PETS------------------------------------->
-                    <div class="row adoptedPetsMainDiv">
-                        <!--CHECK IF TABLE IS EMPTY-->
-                        <div class="col-12 tableCheckIfPetlistNull" th:if="${petList.size() > 0}">
-                            <div class="table-responsive">
-                                <!--TABLE-->
-                                <table class="table table-striped">
-
-                                    <thead>
-                                        <!--TABLE TITLE AND SEARCH-->
-                                        <tr class="adoptedPetsTableTitleRow">
-                                            <div class="row">
-                                                <!--title-->
-                                                <div class="col-md-9 adoptedPetsTableTitle">
-                                                    ADOPTED PETS:
-                                                </div>
-                                                <!--title-->
-
-                                                <!--search-->
-                                                <div class="col-md-3 adoptedPetsTableSearch">
-                                                    <label class="tableSearchTitle adoptedPetsTableSearchTitle">
-                                                        Search:
-                                                    </label>
-                                                    <form class="adoptedPetsTableSearchForm" id="filter-form">
-
-                                                        <label class="adoptedPetsTableSearchIdLabel" for="petSearch">Pet ID:</label>
-                                                        <input class="adoptedPetsTableSearchIdInput" id="petSearch" type="text" name="petSearch"/>
-
-                                                        </br>
-                                                        <button class="adoptedPetsTableSearchButton" id="filter" type="submit">Filter</button>
-                                                        </br>
-
-                                                    </form>
-                                                </div>
-                                                <!--search-->
-                                            </div>
-                                        </tr>
-                                        <!--TABLE TITLE AND SEARCH-->
-
-                                        <!--TABLE COLUMNS-->
-                                        <tr class="petsTableColumns adoptedPetsTableColumns">
-                                            <th scope="col"></th>
-                                            <th scope="col">ID:</th>
-                                            <th scope="col">NAME:</th>
-                                            <th scope="col">TYPE:</th>
-                                            <th scope="col">PET AGE:</th>
-                                            <th scope="col">PET GENDER:</th>
-                                            <th scope="col">PET BREED:</th>
-                                            <th scope="col">C#:</th>
-                                            <th scope="col">CITY:</th>
-                                            <th scope="col">ARRIVAL DATE:</th>
-                                            <th scope="col">ADOPTION DATE:</th>
-                                            <th scope="col">OWNER:</th>
-                                            <th scope="col">CONTACT:</th>
-                                            <th scope="col">OWNER CITY:</th>
-                                        </tr>
-                                        <!--TABLE COLUMNS-->
-                                    </thead>
-
-                                    <tbody>
-                                        <!--SINGLE PET ROW-->
-                                        <tr th:each="pet : ${petList}" class="adoptedPetsTablePetRow">
-
-                                            <!--INFO ABOUT PET-->
-                                            <td class="petsTableBodyTd adoptedPetsTableBodyTd">
-                                                <img class="petImg" th:src="${pet.getUrl()}" alt="Pet Image" title="" media-simple="true">
-                                            </td>
-
-                                            <td class="petsTableBodyTd adoptedPetsTableBodyTd">
-                                                <strong>#</strong>
-                                                <strong th:text="${pet.getId()}"></strong>
-                                            </td>
-
-                                            <td class="petsTableBodyTd adoptedPetsTableBodyTd" th:text="${pet.getName()}">
-                                            </td>
-
-                                            <td class="petsTableBodyTd adoptedPetsTableBodyTd" id="type" th:text="${pet.getType().name()}">
-                                            </td>
-
-                                            <td class="petsTableBodyTd adoptedPetsTableBodyTd" id="age" th:text="${pet.getAge()}">
-                                            </td>
-
-                                            <td class="petsTableBodyTd adoptedPetsTableBodyTd" id="gender" th:text="${pet.getGender().name()}">
-                                            </td>
-
-                                            <td class="petsTableBodyTd adoptedPetsTableBodyTd" id="breed" th:text="${pet.getBreed()}">
-                                            </td>
-
-                                            <td class="petsTableBodyTd adoptedPetsTableBodyTd" id="center" th:text="${pet.getCenter().getId()}">
-                                            </td>
-
-                                            <td class="petsTableBodyTd adoptedPetsTableBodyTd" id="petCity" th:text="${pet.getCenter().getCity().name()}">
-                                            </td>
-                                            <!--INFO ABOUT PET-->
-
-                                            <!--INFO ABOUT ADOPTION-->
-                                            <td class="petsTableBodyTd adoptedPetsTableBodyTd" id="arrivalDate" th:text="${#strings.substringBefore(pet.getArivalDate(),'T')}"></td>
-
-                                            <td class="petsTableBodyTd adoptedPetsTableBodyTd" id="date"  th:text="${#strings.substringBefore(pet.getAdoptionDate(),'T')}"></td>
-                                            <!--INFO ABOUT ADOPTION-->
-
-                                            <!--INFO ABOUT OWNER-->
-                                            <td class="petsTableBodyTd adoptedPetsTableBodyTd" th:if="${pet.getOwner()} != null">
-                                                <strong class="nameText" th:text="${pet.getOwner().getUsername()}"></strong>
-                                               (<strong class="nameText" th:text="${pet.getOwner().getName()}"></strong>
-                                                <strong class="nameText" th:text="${pet.getOwner().getLastname()}"></strong>)
-                                            </td>
-
-                                            <td class="petsTableBodyTd adoptedPetsTableBodyTd" th:if="${pet.getOwner()} != null">
-                                                <strong class="nameText" th:text="${pet.getOwner().getEmail()}"></strong>
-                                            </td>
-
-                                            <td class="petsTableBodyTd adoptedPetsTableBodyTd" th:if="${pet.getOwner()} != null">
-                                                <strong class="nameText" id="ownerCity" th:text="${pet.getOwner().getCity().name()}"></strong>
-                                            </td>
-                                        </tr>
-                                        <!--SINGLE PET ROW-->
-                                    </tbody>
-
-                                </table>
-                                <!--TABLE-->
-                            </div>
-                        </div>
-                        <!--CHECK IF TABLE IS EMPTY-->
-                    </div>
-                    <!-------------------------------------TABLE ADOPTED PETS------------------------------------->
-
-
                     <!-------------------------------------TABLE AVALIABLE PETS------------------------------------->
-                    </br>
-                    </br>
                     <div class="row avaliablePetsMainDiv">
                         <!--CHECK IF TABLE IS EMPTY-->
-                        <div class="col-12 tableCheckIfPetlistNull" th:if="${petList.size() > 0}">
+                        <div class="col-12 tableCheckIfPetlistNull" th:if="${notAdoptedPetList.size() > 0}">
                             <div class="table-responsive">
                                 <!--TABLE-->
                                 <table class="table table-striped">
@@ -183,14 +68,6 @@
 
                                                     <form id="filter-form1">
 
-                                                        <!--breed-->
-                                                        <div class="avaliablePetsTableSearchBreed">
-                                                            <label class="avaliablePetsTableSearchBreedLabel" for="breedSearch">Breed</label>
-                                                            <input class="avaliablePetsTableSearchBreedInput" id="breedSearch" type="text" name="breedSearch"/>
-                                                        </div>
-                                                        <!--breed-->
-
-                                                        </br>
 
                                                         <!--age-->
                                                         <select class="avaliablePetsTableSearchAge" id="ageSearch" name="ageSearch">
@@ -200,6 +77,14 @@
                                                             <option value="threeToFiveYears"> 3-5 years </option>
                                                             <option value="sixToNineYears"> 6-9 years </option>
                                                             <option value="tenYearsOrOlder"> over 9 years </option>
+                                                        </select>
+                                                        <!--age-->
+
+                                                        <!--age-->
+                                                        <select class="avaliablePetsTableSearchAge" id="adoptedSearch" name="adoptedSearch">
+                                                            <option value="">Adopted</option>
+                                                            <option value="true"> true </option>
+                                                            <option value="false"> false </option>
                                                         </select>
                                                         <!--age-->
 
@@ -242,50 +127,56 @@
                                             <th scope="col">CENTER:</th>
                                             <th scope="col">CITY:</th>
                                             <th scope="col">ARRIVAL DATE:</th>
+                                            <th scope="col">ADOPTED:</th>
                                         </tr>
                                         <!--TABLE COLUMNS-->
                                     </thead>
 
                                     <tbody>
                                         <!--SINGLE PET ROW-->
-                                        <tr th:each="petNA : ${notAdoptedPetList}" class="tableRow_adoptedPet_body">
+                                        <tr th:each="pet : ${notAdoptedPetList}" class="tableRow_adoptedPet_body">
 
                                             <!--Info about pet-->
                                             <td class="petsTableBodyTd">
-                                                <img class="petImg" th:src="${petNA.getUrl()}" alt="Pet Image" title="" media-simple="true">
+                                                <img class="petImg" th:src="${pet.getUrl()}" alt="Pet Image" title="" media-simple="true">
                                             </td>
                                             <td class="petsTableBodyTd" >
                                                 <strong>#</strong>
-                                                <strong th:text="${petNA.getId()}"></strong>
+                                                <strong th:text="${pet.getId()}"></strong>
                                             </td>
 
-                                            <td class="petsTableBodyTd" th:text="${petNA.getName()}">
+                                            <td class="petsTableBodyTd" th:text="${pet.getName()}">
                                             </td>
 
-                                            <td class="petsTableBodyTd" id="typeNA" th:text="${petNA.getType().name()}">
+                                            <td class="petsTableBodyTd" id="type" th:text="${pet.getType().name()}">
                                             </td>
 
-                                            <td class="petsTableBodyTd" id="ageNA" th:text="${petNA.getAge()}">
+                                            <td class="petsTableBodyTd" id="age" th:text="${pet.getAge()}">
                                             </td>
 
-                                            <td class="petsTableBodyTd" id="genderNA" th:text="${petNA.getGender().name()}">
+                                            <td class="petsTableBodyTd" id="gender" th:text="${pet.getGender().name()}">
                                             </td>
 
-                                            <td class="petsTableBodyTd" id="breedNA" th:text="${petNA.getBreed()}">
+                                            <td class="petsTableBodyTd" id="breed" th:if="${pet.getBreed() != ''}" th:text="${pet.getBreed()} ">
                                             </td>
 
-                                            <td class="petsTableBodyTd" id="centerNA" th:text="${petNA.getCenter().getId()}">
+                                            <td class="petsTableBodyTd" id="breed" th:if="${pet.getBreed() == ''}">
+                                                /
                                             </td>
 
-                                            <td class="petsTableBodyTd" id="petCityNA" th:text="${petNA.getCenter().getCity().name()}">
+                                            <td class="petsTableBodyTd" id="center" th:text="${pet.getCenter().getId()}">
+                                            </td>
+
+                                            <td class="petsTableBodyTd" id="petCity" th:text="${pet.getCenter().getCity().name()}">
                                             </td>
                                             <!--Info about pet-->
 
                                             <!--Info about adoption-->
-                                            <td class="petsTableBodyTd" id="arrivalDateNA" th:text="${#strings.substringBefore(petNA.getArivalDate(),'T')}"></td>
-
-                                            <td class="petsTableBodyTd" id="dateNA" th:text="${#strings.substringBefore(petNA.getAdoptionDate(),'T')}"></td>
+                                            <td class="petsTableBodyTd" id="arrivalDate" th:text="${#strings.substringBefore(pet.getArivalDate(),'T')}"></td>
                                             <!--Info about adoption-->
+
+                                            <td class="petsTableBodyTd" id="adopted" th:text="${pet.isAdopted()}">
+                                            </td>
 
                                         </tr>
                                         <!--SINGLE PET ROW-->
@@ -562,7 +453,7 @@
 
     <!-------------------------------------SCRIPTS------------------------------------->
         <script src="https://d3js.org/d3.v4.min.js"></script>
-        <script type="text/javascript" th:src="@{/js/index.js}"> </script>
+        <script type="text/javascript" th:src="@{/js/indexD3.js}"> </script>
         <script type="text/javascript" src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dc/1.7.5/dc.js"></script>

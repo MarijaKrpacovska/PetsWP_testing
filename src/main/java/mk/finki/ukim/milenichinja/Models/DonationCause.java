@@ -23,6 +23,9 @@ public class DonationCause {
 
     private double goal;
 
+    @Column(nullable = true)
+    private double currentSum;
+
     private int importance;
 
     @Enumerated(value = EnumType.STRING)

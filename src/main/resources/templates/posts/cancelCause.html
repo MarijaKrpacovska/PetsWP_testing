@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>Manage user roles</title>
+        <title>Cancel cause</title>
         <meta charset="UTF-8"/>
         <title>Register</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -15,43 +15,25 @@
         <div class="container">
             <br>
             <h1 class="form-signin-heading">Manage Rols</h1>
-            <form class="form-signin mt-xl-5" method="post" action="/manage-roles">
+
+            <form class="form-signin mt-xl-5" method="post" action="/causes/cancel">
+                <input id="id" type="hidden" name="id" th:value="(${cause} != null ? ${cause.getId()} : '')" >
             <div class="row">
                 <div class="col-md-6" style="border-right: solid darkgray 0.3px">
                     <h2 class="form-signin-heading">Add admin:</h2>
                     <div class="form-group">
                         <label>Pick user:</label>
-                        <select name="allUsers" class="form-control">
+                        <select name="idTransfer" class="form-control">
                             <option value="">All</option>
-                            <option th:each="user : ${allUsers}"
-                                    th:value="${user.getUsername()}"
-                                    th:text="${user.getUsername()}">
+                            <option th:each="c : ${causes}"
+                                    th:value="${c.getId()}"
+                                    th:text="${c.getName()}">
                             </option>
                         </select>
                     </div>
 
-                    <div class="form-group">
-                        <label>Work places:</label><br/>
-                        <select id="worksAtList" name="worksAtList" multiple="multiple" size="5">
-                            <option value="">All</option>
-                            <option th:each="item : ${worksAtList}" th:text="${item.getAddress()}" th:value="${item.getId()}"> [menuItem.name]</option>
-                        </select>
-                    </div>
                 </div>
 
-                <div class="col-md-6">
-                    <h2 class="form-signin-heading">Remove admin:</h2>
-                    <div class="form-group">
-                        <label>Pick user:</label>
-                        <select name="allAdmins" class="form-control">
-                            <option value="">All</option>
-                            <option th:each="admin : ${allAdmins}"
-                                    th:value="${admin.getUsername()}"
-                                    th:text="${admin.getUsername()}">
-                            </option>
-                        </select>
-                    </div>
-                </div>
 
             </div>
                 <hr />

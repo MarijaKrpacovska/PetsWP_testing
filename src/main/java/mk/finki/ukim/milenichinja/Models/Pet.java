@@ -29,8 +29,6 @@ public class Pet {
 
     private ZonedDateTime arivalDate;
 
-    private ZonedDateTime adoptionDate;
-
     private ZonedDateTime dateOfBirth;
 
     private boolean adopted;
@@ -46,9 +44,6 @@ public class Pet {
 
     @ManyToOne
     private AppUser savedBy;
-
-    @ManyToOne
-    private AppUser owner;
 
     @ManyToOne
     private Center center;

@@ -1,0 +1,78 @@
+body{
+    background-image: url(https://previews.123rf.com/images/cnuisin/cnuisin1806/cnuisin180600019/103217924-paw-seamless-pattern-dog-paw-cat-paw-bulldog-vector-isolated-background-wallpaper.jpg);
+    /*background-image: url(https://static9.depositphotos.com/1022647/1081/v/600/depositphotos_10813712-stock-illustration-background-animal-footprints.jpg);*/
+    text-align: center;
+}
+.classc{
+    background-color: white;
+    position: relative;
+    z-index: 10;
+    font-size: 30px;
+    width: 1600px!important;
+    margin-left: auto;
+    margin-right: auto;
+}
+footer{
+    margin-left: -40px;
+}
+.img_div{
+    width: 660px;
+    height: 660px;
+    overflow: hidden;
+    margin: auto;
+    border-radius: 20px;
+}
+.imgImg{
+    width: 660px;
+}
+.adopt_button{
+    background-color: cornflowerblue;
+    box-shadow: 0 0 10px rgba(0,0,0,0.8);
+    position: relative;
+    z-index: 4;
+    font-size: 26px;
+    font-weight: bold;
+    color: white;
+    border: none;
+    margin-top: -20px;
+    border-radius: 10px;
+    width: 140px;
+    height: 60px;
+    font-family: Arial;
+}
+
+#row1{
+    padding-top: 30px;
+}
+
+.nameDiv{
+    text-align:left;
+    font-size:60px;
+    font-weight: bold;
+}
+.descrDiv{
+    text-align:left;
+    font-size:20px;
+}
+
+.infoLabelDiv{
+    text-align:left;
+    font-size:26px;
+    font-weight: bold;
+}
+
+.infoDiv{
+    text-align:left;
+    font-size:26px;
+}
+
+.labelsCol{
+    text-align:left!important;
+}
+
+.infoCol{
+    line-height: 1.6;
+}
+.moreLocationInfoA{
+    margin-left: -30px;
+}

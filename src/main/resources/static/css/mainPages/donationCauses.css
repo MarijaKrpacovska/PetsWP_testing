@@ -45,7 +45,7 @@ body{
 .centerImg{
     height: 260px;
 }
-.centerInfoDiv{
+.activeDCInfoDiv{
     background-color: cornflowerblue;
     border-right: darkgray;
     border-bottom: darkgray;
@@ -56,6 +56,37 @@ body{
     padding-left: -30px;
     position: absolute;
     width: 160px;
+}
+.closedDCInfoDiv{
+    background-color: crimson;
+    border-right: darkgray;
+    border-bottom: darkgray;
+    padding-top: 4.5px;
+    margin-top: -40px;
+    margin-left: 60px;
+    height: 62px;
+    padding-left: -30px;
+    position: absolute;
+    width: 160px;
+}
+.closedImg{
+    border: solid 6px;
+    border-color: crimson;
+}
+.completedDCInfoDiv{
+    background-color: #44d16d;
+    border-right: darkgray;
+    border-bottom: darkgray;
+    padding-top: 4.5px;
+    margin-top: -40px;
+    margin-left: 60px;
+    height: 62px;
+    padding-left: -30px;
+    position: absolute;
+    width: 160px;
+}
+.completedImg{
+    border: solid 6px #44d16d;
 }
 .imeGradP{
     color: white;

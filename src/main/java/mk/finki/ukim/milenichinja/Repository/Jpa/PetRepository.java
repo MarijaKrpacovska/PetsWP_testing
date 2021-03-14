@@ -21,19 +21,24 @@ public interface PetRepository extends JpaRepository<Pet,Integer> {
 
 
     List<Pet> findAllByAgeGroupAndAdopted(AgeGroup age, Boolean adopted);
+    List<Pet> findAllByAgeGroup(AgeGroup age);
 
     List<Pet> findAllByBreedLikeAndAdopted(String breed, Boolean adopted);
 
     List<Pet> findAllByGenderAndAdopted(Gender gender, Boolean adopted);
+    List<Pet> findAllByGender(Gender gender);
 
     List<Pet> findAllByTypeAndAdopted(Type type, Boolean adopted);
+    List<Pet> findAllByType(Type type);
 
 
     List<Pet> findAllByAgeGroupAndBreedLikeAndAdopted(AgeGroup age,String breed, Boolean adopted);
 
     List<Pet> findAllByAgeGroupAndGenderAndAdopted(AgeGroup age,Gender gender, Boolean adopted);
+    List<Pet> findAllByAgeGroupAndGender(AgeGroup age,Gender gender);
 
     List<Pet> findAllByAgeGroupAndTypeAndAdopted(AgeGroup age,Type type, Boolean adopted);
+    List<Pet> findAllByAgeGroupAndType(AgeGroup age,Type type);
 
 
     List<Pet> findAllByBreedLikeAndGenderAndAdopted(String breed,Gender gender, Boolean adopted);
@@ -41,6 +46,11 @@ public interface PetRepository extends JpaRepository<Pet,Integer> {
     List<Pet> findAllByBreedLikeAndTypeAndAdopted(String breed,Type type, Boolean adopted);
 
     List<Pet> findAllByGenderAndTypeAndAdopted(Gender gender,Type type, Boolean adopted);
+    List<Pet> findAllByBreedLikeAndGender(String breed,Gender gender);
+    List<Pet> findAllByBreedLikeAndType(String breed,Type type);
+    List<Pet> findAllByGenderAndType(Gender gender,Type type);
+
+
 
     List<Pet> findAllByAgeGroupAndBreedLikeAndGenderAndAdopted(AgeGroup age, String breed, Gender gender, Boolean adopted);
 
@@ -48,6 +58,7 @@ public interface PetRepository extends JpaRepository<Pet,Integer> {
     List<Pet> findAllByAgeGroupAndBreedLikeAndTypeAndAdopted(AgeGroup age, String breed, Type type, Boolean adopted);
 
     List<Pet> findAllByAgeGroupAndGenderAndTypeAndAdopted(AgeGroup age, Gender gender, Type type, Boolean adopted);
+    List<Pet> findAllByAgeGroupAndGenderAndType(AgeGroup age, Gender gender, Type type);
 
     List<Pet> findAllByBreedLikeAndGenderAndTypeAndAdopted(String breed, Gender gender, Type type, Boolean adopted);
 

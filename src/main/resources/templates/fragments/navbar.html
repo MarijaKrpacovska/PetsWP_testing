@@ -11,7 +11,7 @@
         <div class="col-md-6">
             <a class="active" href="/petsList">PETS</a>
             <a href="/centers">CENTERS</a> <!--sec:authorize="hasRole('ROLE_ADMIN')"-->
-            <a href="/petsList/adoptedPets" sec:authorize="hasRole('ROLE_ADMIN')" >ALL PETS</a>
+            <a href="/petsList/pets-info/all" sec:authorize="hasRole('ROLE_ADMIN')" >ALL PETS</a>
         </div>
         <div class="col-md-6" style="text-align: right">
             <a class="active" href="/manage-roles" sec:authorize="hasRole('ROLE_ADMIN')" >MANAGE ROLES </a>
