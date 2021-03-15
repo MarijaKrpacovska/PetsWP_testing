@@ -3,11 +3,13 @@ package mk.finki.ukim.milenichinja.Service.Impl;
 import mk.finki.ukim.milenichinja.Models.Center;
 import mk.finki.ukim.milenichinja.Models.Enums.City;
 import mk.finki.ukim.milenichinja.Models.Exceptions.CenterNotFoundException;
-import mk.finki.ukim.milenichinja.Models.Exceptions.CityNotFoundException;
+import mk.finki.ukim.milenichinja.Models.Exceptions.DeleteConstraintViolationException;
 import mk.finki.ukim.milenichinja.Repository.Jpa.CenterRepository;
 //import mk.finki.ukim.milenichinja.Repository.Jpa.CityRepository;
 import mk.finki.ukim.milenichinja.Repository.Jpa.PetRepository;
 import mk.finki.ukim.milenichinja.Service.CenterService;
+import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,7 +44,11 @@ public class CenterServiceImpl implements CenterService {
     @Override
     public Optional<Center> delete(int id) {
         Center center = this.centerRepository.findById(id).orElseThrow( () -> new CenterNotFoundException(id) );
-        this.centerRepository.delete(center);
+        if(!petRepository.findAllByCenter(center).isEmpty()){
+            throw new DeleteConstraintViolationException(id);
+        }
+        else
+            this.centerRepository.delete(center);
         return Optional.of(center);
     }
 

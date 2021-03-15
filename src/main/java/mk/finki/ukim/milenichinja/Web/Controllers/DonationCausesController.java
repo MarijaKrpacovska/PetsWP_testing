@@ -73,7 +73,7 @@ public class DonationCausesController {
             model.addAttribute("cause", cause);
             return "posts/addDonationCause";
         }
-        return "redirect:/products?error=ProductNotFound";
+        return "redirect:/causes?error=DonationCauseNotFound";
     }
 
     @PostMapping("/causePost")

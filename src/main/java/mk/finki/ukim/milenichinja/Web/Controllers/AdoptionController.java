@@ -3,7 +3,7 @@ package mk.finki.ukim.milenichinja.Web.Controllers;
 import mk.finki.ukim.milenichinja.Models.AppUser;
 import mk.finki.ukim.milenichinja.Models.Center;
 import mk.finki.ukim.milenichinja.Models.Enums.City;
-import mk.finki.ukim.milenichinja.Models.Exceptions.InvalidUserCredentialsException;
+import mk.finki.ukim.milenichinja.Models.Exceptions.*;
 import mk.finki.ukim.milenichinja.Models.Pet;
 import mk.finki.ukim.milenichinja.Service.AdoptionService;
 import mk.finki.ukim.milenichinja.Service.AppUserService;
@@ -12,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.ZonedDateTime;
@@ -34,9 +35,15 @@ public class AdoptionController {
     }
 
     //ADOPT
-  //  @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/adoptPet/{id}")
-    public String adoptPet(@PathVariable int id, Model model) {
+    public String adoptPet(@PathVariable int id,
+                           @RequestParam(required = false) String error,
+                           Model model) {
+        if(error != null && !error.isEmpty()) {
+            model.addAttribute("hasError", true);
+            model.addAttribute("error", error);
+        }
         Pet pet = this.petService.findById(id).orElseThrow();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String todayDate = ZonedDateTime.now().format(formatter);
@@ -53,15 +60,17 @@ public class AdoptionController {
     @PostMapping("/adoptPet")
     public String adoptPet(@RequestParam int id,
                            @RequestParam String dateAdoption,
+                           Model model,
+                           RedirectAttributes redirectAttributes,
                            HttpServletRequest req){
         try {
-            //AppUser user = (AppUser) req.getSession().getAttribute("user");
             String username = req.getRemoteUser();
             AppUser user = appUserService.getByUsername(username).orElseThrow(InvalidUserCredentialsException::new);
             adoptionService.adopt(user,id, dateAdoption);
             return "redirect:/petsList";
-        } catch (RuntimeException exception) {
-            return "redirect:/petsList?error=" + exception.getMessage();
+        } catch (PetAlreadyAdoptedException | InvalidDateOrTimeException | PetNotFoundException exception) {
+            redirectAttributes.addAttribute("id", id);
+            return "redirect:/adopt/adoptPet/{id}?error=" + exception.getMessage();
         }
     }
     //ADOPT
@@ -71,8 +80,8 @@ public class AdoptionController {
         try {
             adoptionService.confirmAdoption(id);
             return "redirect:/petsList/pets-info/adopted";
-        } catch (RuntimeException exception) {
-            return "redirect:/adopt?error=" + exception.getMessage();
+        } catch (InvalidActionException | AdoptionNotFoundException exception) {
+            return "redirect:/petsList/pets-info/adopted?error=" + exception.getMessage();
         }
     }
 
@@ -81,8 +90,8 @@ public class AdoptionController {
         try {
             adoptionService.cancelAdoption(id);
             return "redirect:/petsList/pets-info/adopted";
-        } catch (RuntimeException exception) {
-            return "redirect:/adopt?error=" + exception.getMessage();
+        } catch (InvalidActionException | PetNotFoundException | AdoptionNotFoundException exception) {
+            return "redirect:/petsList/pets-info/adopted?error=" + exception.getMessage();
         }
     }
 

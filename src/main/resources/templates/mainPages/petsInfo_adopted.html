@@ -43,10 +43,15 @@
                     <!-------------------------------------TITLE------------------------------------->
 
 
+                    <div class="errorMessage">
+                        <p class="errorMessageText" style="color: red;" th:if="${hasError}" th:text="${error}"></p>
+                    </div>
+
+
                     <!-------------------------------------TABLE ADOPTED PETS------------------------------------->
                     <div class="row adoptedPetsMainDiv">
                         <!--CHECK IF TABLE IS EMPTY-->
-                        <div class="col-12 tableCheckIfPetlistNull" th:if="${adoptions.size() > 0}">
+                        <div class="col-12 tableCheckIfPetlistNull">
                             <div class="table-responsive">
                                 <!--TABLE-->
                                 <table class="table table-striped">
@@ -69,7 +74,7 @@
                                                     <form class="adoptedPetsTableSearchForm" id="filter-form">
 
                                                         <label class="adoptedPetsTableSearchIdLabel" for="petSearch">Pet ID:</label>
-                                                        <input class="adoptedPetsTableSearchIdInput" id="petSearch" type="text" name="petSearch"/>
+                                                        <input class="adoptedPetsTableSearchIdInput" id="petSearch" type="number" name="petSearch"/>
                                                             <br>
                                                         <label class="adoptedPetsTableSearchIdLabel" for="userSearch">Username:</label>
                                                         <input class="adoptedPetsTableSearchIdInput" id="userSearch" type="text" name="userSearch"/>

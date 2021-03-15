@@ -43,7 +43,7 @@ public class DonateController {
     @GetMapping("/donate")
     public String getDonatePage(@RequestParam(required = false) String error, Model model) {
 
-        List<DonationCause> donationCauses = this.donationCauseService.listAll();
+        List<DonationCause> donationCauses = this.donationCauseService.listAllActiveCauses();
         List<Valute> valutes = this.valuteService.listAll();
         List<PaymentMethod> paymentMethods = Arrays.asList(PaymentMethod.values());
 

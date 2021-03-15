@@ -5,7 +5,7 @@
 - ~~fix date in adopt~~
 - ~~fix page adopted pets~~
 - ~~fix complete~~
-- handle exceptions
+- ~~handle exceptions~~
 - ###### _transfer money in donation cause_
 - refactor 
 - refactor variable names
@@ -21,3 +21,6 @@
 - fix search for adopted pets by petid
 - ~~change adoption controller paths~~
 - view user profile
+- adopt authorize
+- change user in service instead of controller
+- make donations only avaliable for active causes

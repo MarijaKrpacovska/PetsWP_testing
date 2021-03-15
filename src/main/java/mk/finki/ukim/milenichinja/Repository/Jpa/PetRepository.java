@@ -1,5 +1,6 @@
 package mk.finki.ukim.milenichinja.Repository.Jpa;
 
+import mk.finki.ukim.milenichinja.Models.Center;
 import mk.finki.ukim.milenichinja.Models.Enums.AgeGroup;
 import mk.finki.ukim.milenichinja.Models.Enums.Gender;
 import mk.finki.ukim.milenichinja.Models.Enums.Type;
@@ -66,6 +67,8 @@ public interface PetRepository extends JpaRepository<Pet,Integer> {
 
 
     List<Pet> findAllByAdoptedAndId(Boolean adopted, Integer id);
+
+    List<Pet> findAllByCenter(Center center);
 
 
 }

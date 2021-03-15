@@ -35,8 +35,12 @@ public class DonationCauseServiceImpl implements DonationCauseService {
 
     @Override
     public List<DonationCause> listAll() {
-
         return donationCauseRepository.findAll();
+    }
+
+    @Override
+    public List<DonationCause> listAllActiveCauses() {
+        return donationCauseRepository.findAllByStatus(Status.ACTIVE);
     }
 
     @Override

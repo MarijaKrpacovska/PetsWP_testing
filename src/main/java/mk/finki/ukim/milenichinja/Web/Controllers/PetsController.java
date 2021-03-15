@@ -5,7 +5,10 @@ import mk.finki.ukim.milenichinja.Models.AppUser;
 import mk.finki.ukim.milenichinja.Models.Center;
 import mk.finki.ukim.milenichinja.Models.Enums.AgeGroup;
 import mk.finki.ukim.milenichinja.Models.Enums.Gender;
+import mk.finki.ukim.milenichinja.Models.Exceptions.AdoptionNotFoundException;
+import mk.finki.ukim.milenichinja.Models.Exceptions.InvalidActionException;
 import mk.finki.ukim.milenichinja.Models.Exceptions.InvalidUserCredentialsException;
+import mk.finki.ukim.milenichinja.Models.Exceptions.PetNotFoundException;
 import mk.finki.ukim.milenichinja.Models.Pet;
 import mk.finki.ukim.milenichinja.Models.Enums.Type;
 import mk.finki.ukim.milenichinja.Service.AdoptionService;
@@ -13,6 +16,7 @@ import mk.finki.ukim.milenichinja.Service.AppUserService;
 import mk.finki.ukim.milenichinja.Service.CenterService;
 import mk.finki.ukim.milenichinja.Service.PetService;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -84,20 +88,31 @@ public class PetsController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getInfoAdoptedPets(@RequestParam(required = false) Integer petSearch,
                                      @RequestParam(required = false) String userSearch,
+                                     @RequestParam(required = false) String error,
                                      Model model){
 
-        List<Adoption> adoptions = this.adoptionService.listAll();
-
-        if( petSearch != null || userSearch != null ) {
-            adoptions = this.adoptionService.search(userSearch,petSearch);
-        }
-        else{
-            adoptions = this.adoptionService.listAll();
+        if(error != null && !error.isEmpty()) {
+            model.addAttribute("hasError", true);
+            model.addAttribute("error", error);
         }
 
-        model.addAttribute("adoptions", adoptions);
+        try {
+            List<Adoption> adoptions;
 
-        return "mainPages/petsInfo_adopted.html";
+            if( petSearch != null || userSearch != null ) {
+                adoptions = this.adoptionService.search(userSearch,petSearch);
+            }
+            else{
+                adoptions = this.adoptionService.listAll();
+            }
+
+            model.addAttribute("adoptions", adoptions);
+
+            return "mainPages/petsInfo_adopted.html";
+        } catch (AdoptionNotFoundException | UsernameNotFoundException exception) {
+            return "redirect:/petsList/pets-info/adopted?error=" + exception.getMessage();
+        }
+
     }
 
     @GetMapping("/pets-info/avaliable")

@@ -64,6 +64,9 @@ public class AppUserServiceImpl implements AppUserService {
     @Override
     public Optional<AppUser> addAdmin(String username, List<Integer> worksAt) {
 
+        if(username.equals(""))
+            throw new InvalidUserCredentialsException();
+
         if(!username.equals("")) {
             AppUser user = this.getByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
             user.setRole(Role.ROLE_ADMIN);
@@ -82,6 +85,10 @@ public class AppUserServiceImpl implements AppUserService {
 
     @Override
     public Optional<AppUser> removeAdmin(String username) {
+
+        if(username.equals(""))
+            throw new InvalidUserCredentialsException();
+
         if(!username.equals("")) {
 
             AppUser user = this.getByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
@@ -107,7 +114,7 @@ public class AppUserServiceImpl implements AppUserService {
         if(this.appUserRepository.findByUsername(username).isPresent())
             throw new ClientAlreadyExistsException(username);
 
-        ZonedDateTime date1= ZonedDateTime.now();
+        ZonedDateTime date1 = ZonedDateTime.now();
 
         AppUser user = new AppUser(username,ime,prezime,email,passwordEncoder.encode(password),date1,role,city);
         return appUserRepository.save(user);

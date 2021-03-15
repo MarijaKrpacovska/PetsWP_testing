@@ -3,12 +3,17 @@ package mk.finki.ukim.milenichinja.Web.Controllers;
 
 import mk.finki.ukim.milenichinja.Models.Center;
 import mk.finki.ukim.milenichinja.Models.Enums.City;
+import mk.finki.ukim.milenichinja.Models.Exceptions.CenterNotFoundException;
+import mk.finki.ukim.milenichinja.Models.Exceptions.DeleteConstraintViolationException;
+import mk.finki.ukim.milenichinja.Models.Exceptions.InvalidUsernameOrPasswordException;
 import mk.finki.ukim.milenichinja.Models.Pet;
 import mk.finki.ukim.milenichinja.Service.CenterService;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,7 +30,12 @@ public class CentersController {
 
     //MAIN GET PAGE
     @GetMapping
-    public String getCenters(Model model){
+    public String getCenters(@RequestParam(required = false) String error,
+                             Model model){
+        if(error != null && !error.isEmpty()) {
+            model.addAttribute("hasError", true);
+            model.addAttribute("error", error);
+        }
         List<Center> centri = this.centerService.listAll();
         model.addAttribute("centerList",centri);
         return "mainPages/centers";
@@ -45,48 +55,59 @@ public class CentersController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/edit-form/{id}")
     public String editPetPage(@PathVariable int id, Model model) {
-        if (this.centerService.findById(id).isPresent()) {
-            Center center = this.centerService.findById(id).get();
-            //List<City> cities = this.cityService.listAll();
-            List<City> cities = Arrays.asList(City.values());
-            model.addAttribute("center", center);
-            model.addAttribute("cityList",cities);
-            return "posts/addCenter";
-        }
-        return "redirect:/products?error=ProductNotFound";
+        Center center = this.centerService.findById(id).get();
+        List<City> cities = Arrays.asList(City.values());
+        model.addAttribute("center", center);
+        model.addAttribute("cityList",cities);
+        return "posts/addCenter";
     }
 
     @PostMapping("/add")
-    public String addNewCenter(
-            @RequestParam(required = false) Integer id,
-            @RequestParam String address,
-            @RequestParam City city,
-            @RequestParam String url) {
-        if(id != null){
-            this.centerService.edit(id, address,city,url);
-        }else{
-            this.centerService.save(address,city, url);
+    public String addNewCenter(@RequestParam(required = false) Integer id,
+                               @RequestParam String address,
+                               @RequestParam City city,
+                               @RequestParam String url,
+                               RedirectAttributes redirectAttributes) {
+        try {
+            if (id != null) {
+                this.centerService.edit(id, address, city, url);
+            } else {
+                this.centerService.save(address, city, url);
+            }
+            return "redirect:/centers";
         }
-        return "redirect:/centers";
+        catch (CenterNotFoundException exception) {
+            redirectAttributes.addAttribute("id", id);
+            return "redirect:/edit-form/{id}?error=" + exception.getMessage();
+        }
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/deleteCenter/{id}")
     public String deleteCenter(@PathVariable int id){
-        centerService.delete(id);
-        return "redirect:/centers";
+        try {
+            centerService.delete(id);
+            return "redirect:/centers";
+        }
+        catch (CenterNotFoundException | DeleteConstraintViolationException exception) {
+            return "redirect:/centers?error=" + exception.getMessage();
+        }
     }
     //ADD EDIT DELETE
 
     //DETAILS
     @GetMapping("/details/{id}")
     public String detailsPage(@PathVariable int id, Model model) {
-        if (this.centerService.findById(id).isPresent()) {
-            Center center = this.centerService.findById(id).get();
-            model.addAttribute("center", center);
+        //
+        try {
+            if (this.centerService.findById(id).isPresent()) {
+                Center center = this.centerService.findById(id).get();
+                model.addAttribute("center", center);
+            }
             return "details/center.html";
+        }catch (CenterNotFoundException exception) {
+            return "redirect:/centers?error=" + exception.getMessage();
         }
-        return "redirect:/petsList?error=PetNotFound";
     }
     //DETAILS
 

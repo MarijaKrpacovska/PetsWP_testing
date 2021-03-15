@@ -3,6 +3,7 @@ package mk.finki.ukim.milenichinja.Web.Controllers;
 import mk.finki.ukim.milenichinja.Models.AppUser;
 import mk.finki.ukim.milenichinja.Models.Center;
 import mk.finki.ukim.milenichinja.Models.Enums.City;
+import mk.finki.ukim.milenichinja.Models.Exceptions.ClientAlreadyExistsException;
 import mk.finki.ukim.milenichinja.Models.Exceptions.InvalidUsernameOrPasswordException;
 import mk.finki.ukim.milenichinja.Models.Exceptions.PasswordsDoNotMatchException;
 import mk.finki.ukim.milenichinja.Models.Role;
@@ -72,7 +73,7 @@ public class LoginController {
             Role role = Role.ROLE_USER;
             this.appUserService.registerUser(username,ime,prezime,city,email,password,repeatPass, role);
             return "redirect:/petsList";
-        } catch (InvalidUsernameOrPasswordException | PasswordsDoNotMatchException exception) {
+        } catch (InvalidUsernameOrPasswordException | ClientAlreadyExistsException | PasswordsDoNotMatchException exception) {
             return "redirect:/register?error=" + exception.getMessage();
         }
     }
@@ -108,7 +109,7 @@ public class LoginController {
                 this.appUserService.removeAdmin(allAdmins);
 
             return "redirect:/manage-roles";
-        } catch (InvalidUsernameOrPasswordException | PasswordsDoNotMatchException exception) {
+        } catch (InvalidUsernameOrPasswordException exception) {
             return "redirect:/register?error=" + exception.getMessage();
         }
     }

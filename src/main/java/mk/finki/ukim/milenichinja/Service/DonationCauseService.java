@@ -9,6 +9,8 @@ public interface DonationCauseService {
 
     List<DonationCause> listAll();
 
+    List<DonationCause> listAllActiveCauses();
+
     Optional<DonationCause> findById(int id);
 
     double currentState(DonationCause donationCause);
@@ -26,5 +28,7 @@ public interface DonationCauseService {
     Optional<DonationCause> cancelCause(int id, int idTransfer);
 
     Optional<DonationCause> finishCause(int id);
+
+
 
 }
