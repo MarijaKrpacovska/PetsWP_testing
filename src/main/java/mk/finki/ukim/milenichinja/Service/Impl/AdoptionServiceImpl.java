@@ -30,10 +30,8 @@ public class AdoptionServiceImpl implements AdoptionService {
 
     @Override
     public Optional<Adoption> adopt(AppUser user, int petId, String realTimeDate) {
-
-
+        
         ZonedDateTime currentDateTime = ZonedDateTime.now();
-
         String realTimeDateNew = realTimeDate + ":00+00:00";
         ZonedDateTime rtd = ZonedDateTime.parse(realTimeDateNew);
 
@@ -42,7 +40,7 @@ public class AdoptionServiceImpl implements AdoptionService {
         if(pet.isAdopted())
             throw new PetAlreadyAdoptedException(petId);
 
-        if(rtd.isBefore(ZonedDateTime.now()))
+        if(rtd.isBefore(currentDateTime))
             throw new InvalidDateOrTimeException();
 
         pet.setAdopted(true);
