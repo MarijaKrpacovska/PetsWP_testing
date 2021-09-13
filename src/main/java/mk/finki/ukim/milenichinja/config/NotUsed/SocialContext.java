@@ -1,21 +1,5 @@
 package mk.finki.ukim.milenichinja.config.NotUsed;
 
-import mk.finki.ukim.milenichinja.Service.Impl.FacebookConnectionSignup;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.core.env.Environment;
-import org.springframework.social.UserIdSource;
-import org.springframework.social.config.annotation.ConnectionFactoryConfigurer;
-import org.springframework.social.config.annotation.SocialConfigurer;
-import org.springframework.social.connect.ConnectionFactoryLocator;
-import org.springframework.social.connect.ConnectionRepository;
-import org.springframework.social.connect.UsersConnectionRepository;
-import org.springframework.social.connect.mem.InMemoryUsersConnectionRepository;
-import org.springframework.social.connect.support.ConnectionFactoryRegistry;
-import org.springframework.social.connect.web.ConnectController;
-import org.springframework.social.facebook.connect.FacebookConnectionFactory;
-
 /*
 public class SocialContext implements SocialConfigurer {
 

@@ -47,16 +47,16 @@
                             <!--GENDER SEARCH-->
                             <select id="genderSearch" name="genderSearch">
                                 <option value="">Gender</option>
-                                <option value="FEMALE">FEMALE</option>
-                                <option value="MALE">MALE</option>
+                                <option id="femaleFilter" value="FEMALE">FEMALE</option>
+                                <option id="maleFilter" value="MALE">MALE</option>
                             </select>
                             <!--GENDER SEARCH-->
 
                             <!--TYPE SEARCH-->
                             <select id="typeSearch" name="typeSearch">
                                 <option value="">Type</option>
-                                <option value="DOG">DOG</option>
-                                <option value="CAT">CAT</option>
+                                <option id="dogFilter" value="DOG">DOG</option>
+                                <option id="catFilter" value="CAT">CAT</option>
                             </select>
                             <!--TYPE SEARCH-->
                             <br/>
@@ -78,7 +78,7 @@
                             <div class="card-wrapper">
                                 <!--PET PICTURE-->
                                 <div class="card-img">
-                                    <a th:href="@{'/petsList/details/{id}' (id=${petList.getId()})}">
+                                    <a class="petAnchor" th:href="@{'/petsList/details/{id}' (id=${petList.getId()})}">
                                         <div class="pet_img_div">
                                             <img class="pet_img" th:src="${petList.getUrl()}" alt="Pet image" media-simple="true">
                                         </div>
@@ -120,7 +120,7 @@
                                 <!--DELETE PET-->
 
                                 <!--EDIT PET-->
-                                <a th:href="@{'/petsList/edit-form/{id}' (id=${petList.getId()})}" sec:authorize="hasRole('ROLE_ADMIN')">
+                                <a class="editPet" th:href="@{'/petsList/edit-form/{id}' (id=${petList.getId()})}" sec:authorize="hasRole('ROLE_ADMIN')">
                                     <i>Edit</i>
                                 </a>
                                 <!--EDIT PET-->

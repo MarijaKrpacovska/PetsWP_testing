@@ -18,6 +18,9 @@ public class LoginPage extends BasePage {
     @FindBy(css = "#submit")
     private WebElement signIn;
 
+    @FindBy(css = ".text-danger")
+    private WebElement errorMessage;
+
     public LoginPage(WebDriver driver) {
         super(driver);
     }
@@ -39,6 +42,10 @@ public class LoginPage extends BasePage {
     public static LoginPage logout(WebDriver driver) {
         get(driver, "/logout");
         return PageFactory.initElements(driver, LoginPage.class);
+    }
+
+    public static String successUsername(WebDriver driver, PetsPage petsPage) {
+        return petsPage.getLoginUsername().getText();
     }
 
 }

@@ -29,29 +29,19 @@
                         </div>
                         <div class="form-group">
                             <label>City</label>
-                            <select name="city" class="form-control">
-                               <!-- <option th:if="${pet} != null"
-                                        th:selected="${pet.getCenter() != null &&
-                                    pet.getCenter().getId() == center.getId()}"
-                                        th:each="center : ${centerList}"
-                                        th:value="${center.getId()}"
-                                        th:text="${center.getAddress()}">
-                                </option>-->
-                               <!-- <option
-                                        th:each="city : ${cityList}"
-                                        th:value="${city.getId()}"
-                                        th:text="${city.getName()}">
-                                </option>-->
+                            <select name="city" class="form-control city">
                                 <option th:if="${center} != null"
                                         th:selected="${center.getCity() != null &&
                                     center.getCity().name() == city.name()}"
                                         th:each="city : ${cityList}"
+                                        th:class="${city.name()}"
                                         th:value="${city.name()}"
                                         th:text="${city.name()}">
                                 </option>
                                 <option th:if="${center} == null"
                                         th:each="city : ${cityList}"
                                         th:value="${city.name()}"
+                                        th:class="${city.name()}"
                                         th:text="${city.name()}">
                                 </option>
 

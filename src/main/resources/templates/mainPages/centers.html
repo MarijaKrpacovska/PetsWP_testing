@@ -35,7 +35,7 @@
                             <form th:method="DELETE" th:action="@{'/centers/deleteCenter/{id}' (id=${center.getId()})}">
                                 <button class="delete_button"  type="submit" sec:authorize="hasRole('ROLE_ADMIN')">DELETE</button>
                             </form>
-                            <a th:href="@{'/centers/edit-form/{id}' (id=${center.getId()})}" sec:authorize="hasRole('ROLE_ADMIN')">
+                            <a class="editCenter" th:href="@{'/centers/edit-form/{id}' (id=${center.getId()})}" sec:authorize="hasRole('ROLE_ADMIN')">
                                 <i>Edit</i>
                             </a>
                         </div>

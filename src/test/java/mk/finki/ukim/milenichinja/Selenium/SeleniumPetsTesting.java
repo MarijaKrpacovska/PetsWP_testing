@@ -1,5 +1,6 @@
 package mk.finki.ukim.milenichinja.Selenium;
 
+import lombok.extern.java.Log;
 import mk.finki.ukim.milenichinja.Models.AppUser;
 import mk.finki.ukim.milenichinja.Models.Center;
 import mk.finki.ukim.milenichinja.Models.Enums.City;
@@ -9,12 +10,14 @@ import mk.finki.ukim.milenichinja.Models.Pet;
 import mk.finki.ukim.milenichinja.Models.Role;
 import mk.finki.ukim.milenichinja.Selenium.Pages.AddOrEditPetPage;
 import mk.finki.ukim.milenichinja.Selenium.Pages.LoginPage;
+import mk.finki.ukim.milenichinja.Selenium.Pages.PetsDetailsPage;
 import mk.finki.ukim.milenichinja.Selenium.Pages.PetsPage;
 import mk.finki.ukim.milenichinja.Service.AdoptionService;
 import mk.finki.ukim.milenichinja.Service.AppUserService;
 import mk.finki.ukim.milenichinja.Service.CenterService;
 import mk.finki.ukim.milenichinja.Service.PetService;
 
+import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,6 +25,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.sql.Date;
@@ -50,6 +54,7 @@ public class SeleniumPetsTesting {
     private static Pet p1;
     private static Pet p2;
     private static Pet p3;
+    private static Pet p4;
     private static AppUser regularUser;
     private static AppUser adminUser;
 
@@ -71,6 +76,7 @@ public class SeleniumPetsTesting {
         if (this.driver != null) {
             this.driver.close();
         }
+
     }
 
     private void initData() {
@@ -82,31 +88,93 @@ public class SeleniumPetsTesting {
             adminUser = appUserService.registerUser("u2","user2","user2",
                     City.Bitola,"u2@gmail.com","pass","pass", Role.ROLE_ADMIN);
 
-            p1 = petService.save("pet1", Type.DOG,"rasa1", Gender.FEMALE,"opis1",
-                    c1.getId(),"url",adminUser, "2020-04-04").get();
-            p1 = petService.save("pet2", Type.CAT,"rasa2", Gender.FEMALE,"opis2",
-                    c1.getId(),"url",adminUser, "2020-04-04").get();
-            p1 = petService.save("pet3", Type.DOG,"rasa3", Gender.MALE,"opis3",
-                    c1.getId(),"url",adminUser, "2020-04-04").get();
+            p1 = petService.save("p1",Type.DOG,"p1",Gender.FEMALE,"descr",c1.getId(),"url",adminUser,"2020-04-04").get();
+            p2 = petService.save("p2",Type.CAT,"p1",Gender.FEMALE,"descr",c1.getId(),"url",adminUser,"2020-04-04").get();
+            p3 = petService.save("p3",Type.DOG,"p1",Gender.MALE,"descr",c1.getId(),"url",adminUser,"2020-04-04").get();
+            p4 = petService.save("p4",Type.CAT,"p1",Gender.MALE,"descr",c1.getId(),"url",adminUser,"2020-04-04").get();
+
 
             dataInitialized = true;
         }
     }
 
-
     @Test
-    public void startingTest() {
-        PetsPage petsPage = PetsPage.to(this.driver);
-        petsPage.assertElemts(0, 0, 0, 0, 0);
+    public void petsNumberTest() throws Exception {
+        PetsPage petsPage = PetsPage.to(driver);
+        Thread.sleep(2000);
+        Assert.assertEquals("Number of pets wrong",4,petsPage.getPets().size());
     }
 
     @Test
-    public void adminButtonsTest() {
+    public void petsFilteredNumberTest() throws Exception {
+        PetsPage petsPage = PetsPage.to(driver);
+        petsPage = PetsPage.filterPetsByGender(driver,petsPage,Gender.FEMALE);
+        Thread.sleep(2000);
+        Assert.assertEquals("Number of pets wrong",2,petsPage.getPets().size());
+    }
+
+    @Test
+    public void adminDeleteButtonsTest() throws Exception {
         LoginPage loginPage = LoginPage.openLoginPage(this.driver);
         PetsPage petsPage = LoginPage.login(driver,loginPage,"u2","pass");
-        petsPage = AddOrEditPetPage.addPet(this.driver,"p1",Type.DOG, "2020-04-04","breed1",
-                                                Gender.MALE,"descr",c1.getId(),"url");
-        petsPage.assertElemts(1, 1, 1, 0, 1);
+        Thread.sleep(2000);
+        Assert.assertEquals("Number of delete buttons wrong",4,petsPage.getDeleteButtons().size());
+        LoginPage.logout(driver);
+    }
+
+    @Test
+    public void adminEditButtonsTest() throws Exception {
+        LoginPage loginPage = LoginPage.openLoginPage(this.driver);
+        PetsPage petsPage = LoginPage.login(driver,loginPage,"u2","pass");
+        Thread.sleep(2000);
+        Assert.assertEquals("Number of edit buttons wrong",4,petsPage.getEditButtons().size());
+        LoginPage.logout(driver);
+    }
+
+    @Test
+    public void adminAddButtonTest() throws Exception {
+        LoginPage loginPage = LoginPage.openLoginPage(this.driver);
+        PetsPage petsPage = LoginPage.login(driver,loginPage,"u2","pass");
+        Thread.sleep(2000);
+        Assert.assertEquals("Number of add buttons wrong",1,petsPage.getAddPetButton().size());
+        LoginPage.logout(driver);
+    }
+
+    @Test
+    public void userDeleteButtonsTest() throws Exception {
+        LoginPage loginPage = LoginPage.openLoginPage(this.driver);
+        PetsPage petsPage = LoginPage.login(driver,loginPage,"u1","pass");
+        Thread.sleep(2000);
+        Assert.assertEquals("Number of delete buttons wrong",0,petsPage.getDeleteButtons().size());
+        LoginPage.logout(driver);
+    }
+
+    @Test
+    public void userEditButtonsTest() throws Exception {
+        LoginPage loginPage = LoginPage.openLoginPage(this.driver);
+        PetsPage petsPage = LoginPage.login(driver,loginPage,"u1","pass");
+        Thread.sleep(2000);
+        Assert.assertEquals("Number of edit buttons wrong",0,petsPage.getEditButtons().size());
+        LoginPage.logout(driver);
+    }
+
+    @Test
+    public void userAddButtonTest() throws Exception {
+        LoginPage loginPage = LoginPage.openLoginPage(this.driver);
+        PetsPage petsPage = LoginPage.login(driver,loginPage,"u1","pass");
+        Thread.sleep(2000);
+        Assert.assertEquals("Number of add buttons wrong",0,petsPage.getAddPetButton().size());
+        LoginPage.logout(driver);
+    }
+
+    @Test
+    public void petDetailsPageTest() throws Exception {
+        LoginPage loginPage = LoginPage.openLoginPage(this.driver);
+        PetsPage petsPage = LoginPage.login(driver,loginPage,"u1","pass");
+        Thread.sleep(2000);
+        PetsDetailsPage petsDetailsPage = petsPage.clickOnPet(driver);
+        Thread.sleep(2000);
+        petsDetailsPage.petsInfoMatch(p1.getName(),p1.getDescription(),p1.getType().toString(),p1.getGender().toString(),p1.getBreed());
     }
 
 }

@@ -49,10 +49,10 @@ public class AddOrEditPetPage extends BasePage{
     private WebElement saveButton;
 
 
-    public static PetsPage addPet(WebDriver driver, String name, Type type, String date, String breed,
+    public static PetsPage addPet(WebDriver driver, AddOrEditPetPage addOrEditPetPage, String name, Type type, String date, String breed,
                                       Gender gender, String description, Integer centerId, String url) {
-        get(driver, "/petsList/add-form");
-        AddOrEditPetPage addOrEditPetPage = PageFactory.initElements(driver, AddOrEditPetPage.class);
+       // get(driver, "/petsList/add-form");
+        // AddOrEditPetPage addOrEditPetPage = PageFactory.initElements(driver, AddOrEditPetPage.class);
 
         addOrEditPetPage.name.sendKeys(name);
 
@@ -72,8 +72,8 @@ public class AddOrEditPetPage extends BasePage{
 
         addOrEditPetPage.description.sendKeys(description);
 
-        addOrEditPetPage.center.click();
-        addOrEditPetPage.center.findElement(By.xpath("option[@value = '" + centerId + "']")).click();
+    //    addOrEditPetPage.center.click();
+    //    addOrEditPetPage.center.findElement(By.xpath("option[@value = '" + centerId + "']")).click();
 
         addOrEditPetPage.url.sendKeys(url);
 
