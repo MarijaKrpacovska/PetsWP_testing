@@ -112,7 +112,7 @@ public class AdoptionServiceImpl implements AdoptionService {
 
         adoption.setStatus(Status.CLOSED);
 
-        Pet pet = this.petRepository.findById(adoption.getPet().getId()).orElseThrow( () -> new PetNotFoundException(id) );
+        Pet pet = this.petRepository.findById(adoption.getPet().getId()).orElseThrow( () -> new PetNotFoundException(adoption.getPet().getId()) );
         pet.setAdopted(false);
         petRepository.save(pet);
 
