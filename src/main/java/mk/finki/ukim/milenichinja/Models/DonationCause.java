@@ -47,4 +47,15 @@ public class DonationCause {
         this.status = status;
         this.importance = importance;
     }
+
+    public DonationCause(String name, String description, String imageUrl, double goal, double currentSum, List<Pet> pets, Status status, int importance) {
+        this.name = name;
+        this.currentSum = currentSum;
+        this.description = description;
+        this.imageUrl = imageUrl;
+        this.goal = goal;
+        this.pets = pets;
+        this.status = status;
+        this.importance = importance;
+    }
 }
