@@ -20,6 +20,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.anyInt;
 
@@ -41,6 +43,7 @@ public class AdoptionServiceTests {
     private Adoption adoption3;
 
     private AppUser user;
+    private AppUser user2;
     private Pet pet;
     private Pet petAlteadyAdopted;
 
@@ -48,13 +51,14 @@ public class AdoptionServiceTests {
     public void init() {
         MockitoAnnotations.initMocks(this);
         user = new AppUser("username","name","lastname","email@gmail.com","pass",ZonedDateTime.now(), Role.ROLE_USER, City.Skopje);
+
         Center center = new Center("a", City.Bitola,"url");
         pet = new Pet("p", Type.DOG,"b", Gender.FEMALE,"d",center, ZonedDateTime.now(),"url",null,false,ZonedDateTime.now());
         petAlteadyAdopted = new Pet("p", Type.DOG,"b", Gender.FEMALE,"d",center, ZonedDateTime.now(),"url",null,true,ZonedDateTime.now());
 
         adoption1 = new Adoption(ZonedDateTime.now(),ZonedDateTime.now(),Status.ACTIVE,user,pet);
         adoption2 = new Adoption(ZonedDateTime.now(),ZonedDateTime.now(),Status.CLOSED,user,pet);
-        adoption3 = new Adoption(ZonedDateTime.now(),ZonedDateTime.now(),Status.CLOSED,user,new Pet());
+        adoption3 = new Adoption(ZonedDateTime.now(),ZonedDateTime.now(),Status.CLOSED,user2,new Pet());
 
         Mockito.when(this.adoptionRepository.findById(0)).thenReturn(java.util.Optional.of(adoption1));
         Mockito.when(this.adoptionRepository.findById(1)).thenReturn(java.util.Optional.of(adoption2));
@@ -143,13 +147,27 @@ public class AdoptionServiceTests {
         String todayTime = ZonedDateTime.now().format(formatterTime);
         String tomorrow = todayDate + "T" + todayTime;
 
+        Assert.assertThrows("Pet with id: 3 is not found",
+                PetNotFoundException.class,
+                () -> this.service.adopt(user,3,tomorrow).get()
+        );
+    }
+    @Test
+    public void adoptTest3() { //	1 2 3 5 6
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String todayDate = ZonedDateTime.now().plusDays(1).format(formatter);
+
+        DateTimeFormatter formatterTime = DateTimeFormatter.ofPattern("HH:mm");
+        String todayTime = ZonedDateTime.now().format(formatterTime);
+        String tomorrow = todayDate + "T" + todayTime;
+
         Assert.assertThrows("Pet with id 1 is already adopted. Please choose a different pet.",
                 PetAlreadyAdoptedException.class,
                 () -> this.service.adopt(user,1,tomorrow).get()
         );
     }
     @Test
-    public void adoptTest3() { //	1 2 3 5 7 8
+    public void adoptTest4() { //	1 2 3 5 7 8
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String todayDate = ZonedDateTime.now().minusDays(2).format(formatter);
 
@@ -162,4 +180,5 @@ public class AdoptionServiceTests {
                 () -> this.service.adopt(user,0,twoDaysAgo).get()
         );
     }
+
 }

@@ -64,10 +64,10 @@ public class AppUserServiceImpl implements AppUserService {
     @Override
     public Optional<AppUser> addAdmin(String username, List<Integer> worksAt) {
 
-        if(username.equals(""))
+        if(username.equals("")) {
             throw new InvalidUserCredentialsException();
-
-        if(!username.equals("")) {
+        }
+        else {
             AppUser user = this.getByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
             user.setRole(Role.ROLE_ADMIN);
 
@@ -79,8 +79,7 @@ public class AppUserServiceImpl implements AppUserService {
             this.appUserRepository.save(user);
             return Optional.of(user);
         }
-        else
-            return Optional.empty();
+
     }
 
     @Override
@@ -88,9 +87,7 @@ public class AppUserServiceImpl implements AppUserService {
 
         if(username.equals(""))
             throw new InvalidUserCredentialsException();
-
-        if(!username.equals("")) {
-
+        else {
             AppUser user = this.getByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
 
             user.setRole(Role.ROLE_USER);
@@ -98,8 +95,6 @@ public class AppUserServiceImpl implements AppUserService {
             this.appUserRepository.save(user);
             return Optional.of(user);
         }
-        else
-            return Optional.empty();
     }
 
     @Override
