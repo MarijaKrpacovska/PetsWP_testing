@@ -61,7 +61,7 @@ public class AppUserServiceTests {
         Mockito.when(this.appUserRepository.findByUsername("username")).thenReturn(java.util.Optional.of(user));
         Mockito.when(this.appUserRepository.findByUsername("admin")).thenReturn(java.util.Optional.of(admin));
 
-        Mockito.when(this.centerRepository.findById(0)).thenReturn(java.util.Optional.of(center));
+//        Mockito.when(this.centerRepository.findById(0)).thenReturn(java.util.Optional.of(center));
         Mockito.when(this.centerRepository.findAllById(centers)).thenReturn(centersList);
 
 

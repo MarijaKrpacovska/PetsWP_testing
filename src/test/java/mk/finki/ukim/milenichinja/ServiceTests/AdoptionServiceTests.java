@@ -66,6 +66,8 @@ public class AdoptionServiceTests {
         Mockito.when(this.petRepository.findById(0)).thenReturn(java.util.Optional.of(pet));
         Mockito.when(this.petRepository.findById(1)).thenReturn(java.util.Optional.of(petAlteadyAdopted));
 
+        Mockito.when(this.petRepository.save(pet)).thenReturn(pet);
+
         Mockito.when(this.adoptionRepository.save(Mockito.any(Adoption.class))).thenReturn(adoption1);
 
         this.service = Mockito.spy(new AdoptionServiceImpl(this.adoptionRepository, this.petRepository,this.appUserRepository));

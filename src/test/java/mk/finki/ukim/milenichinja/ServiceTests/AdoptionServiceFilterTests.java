@@ -61,6 +61,8 @@ public class AdoptionServiceFilterTests {
         pet = new Pet("p", Type.DOG,"b", Gender.FEMALE,"d",center, ZonedDateTime.now(),"url",null,false,ZonedDateTime.now());
         petAlteadyAdopted = new Pet("p", Type.DOG,"b", Gender.FEMALE,"d",center, ZonedDateTime.now(),"url",null,true,ZonedDateTime.now());
 
+        pet.setId(0);
+        petAlteadyAdopted.setId(1);
         adoption1 = new Adoption(ZonedDateTime.now(),ZonedDateTime.now(),Status.ACTIVE,user,pet);
         adoption2 = new Adoption(ZonedDateTime.now(),ZonedDateTime.now(),Status.CLOSED,user,pet);
         adoption3 = new Adoption(ZonedDateTime.now(),ZonedDateTime.now(),Status.CLOSED,user2,new Pet());
@@ -105,7 +107,7 @@ public class AdoptionServiceFilterTests {
     }
     @Test
     public void searchTest2() { //	[1,2,8,9,10,12]
-        List<Adoption> adoptionList = this.service.search("",1);
+        List<Adoption> adoptionList = this.service.search("",0);
         Assert.assertEquals(petFilteredAdoptions,adoptionList);
     }
     @Test
